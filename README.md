@@ -8,12 +8,16 @@ Textbook Price Aggregator
 3. Sort the books based on quality and price (which will hopefully include shipping)
 4. Could augment prices by a small amount ($0.50 maybe) and have the application purchase the books from the original seller in order to monetize the service
 
+---
+
 Using github:
 =============
 1. create a github account and let Andre know your username and he will add you as a collaborator
 2. fork the project from Andre's project page (https://github.com/andrewiggins/Textbook-Price-Aggregator). You know have a copy of the repository in your repositories. Any changes you make will not be automatically added to the main repository (which is Andre's as he created it)
 3. clone, edit, commit, push at will
 4. when you want to combine with main repository, submit a pull request from Andre's project page and he'll combine it.
+
+---
 
 Using git:
 ==========
