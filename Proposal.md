@@ -18,7 +18,7 @@ for their classes.
  
 Executive Summary
 =================
-Our product – a web-technology -- will search a number of websites for the 
+Our product -- a web-technology -- will search a number of websites for the 
 inputed textbooks, and display a list that is sorted by price in hopes of 
 providing easier access to the cheaper alternatives available. 
 
