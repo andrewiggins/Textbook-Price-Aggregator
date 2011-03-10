@@ -15,6 +15,13 @@ So the guide below outlines the Fork + Pull Model but we can use the Shared Repo
 
 ---
 
+Setup Git:
+========
+
+Follow [this guide](http://help.github.com/set-up-git-redirect) to setup git on your computer.
+
+---
+
 Using GitHub:
 =============
   1. create a GitHub account and let me know your user name and I will add you as a collaborator
