@@ -57,12 +57,58 @@ Using Git:
   1. [pull] to update your local repository from the GitHub repository
      - `$ git pull`
      - `$ git pull origin master`
-  2. do what ever changes you want
+  2. Do what ever changes you want
+  3. [add] any new files you created and any files you want to commit.
+    - In git, you have [add] newly created files.
+    - Also, you have to [add] any modified file to the commit. For example, if
+    you have modified files `file1` and `file2`, you could [add] `file1` to the
+    commit and commit the changes to `file1`, then [add] `file2` to the commit 
+    and then commit the changes to `file2`. Each of these is a separate commit.
+    You can add multiple file to a commit as well.
+    - If you want to commit all changes as one commit, just add the `-a` option
+    to [commit] and it will add all modified files to the commit.  
   3. [commit] the changes
+     - `$ git commit -m "insert commit message here about what you did"`
+       - This command will commit any changes you have already added.
      - `$ git commit -am "insert commit message here about what you did"`
-  4. when you want to [push] your commits to GitHub use the command [push]
+       - This command has the `-a` option meaning it will automatically add any
+       changes to the commit.
+  4. When you want to [push] your commits to GitHub use the command [push]
      - `$ git push`
 
+---
+
+Useful Git Commands:
+====================
+
+1. [status]
+   - `git status`
+   - `git staus -s`
+     - `-s` option means short, so it is one line per file.
+   - This command shows you the status of your current working directory. It
+   will display which files are modified, new and added, etc. It will also
+   display which files git is not tracking. 
+   - It will also display which changes have been added to the current commit
+   and which ones haven't. 
+   - See the following `git status -s` example:
+      
+      <pre>
+      $git status -s       
+      $ M UsingGit.md     
+      $M  src/main.py     
+      $?? src/retailers/  
+      $?? src/schools/     
+      $?? src/util/
+      </pre>
+   
+   - The letters on the left are changes added to the current commit. The
+   letters on the right are changes not added to the current commit. The question
+   marks mean that the file is not tracked by git. 
+   - 'M' means modified, 'A' means added, and '?' means not tracked. See 
+   [status] for a more indepth review. 
+
+[add]: http://gitref.org/basic/#add "Add Reference"
+[status]: http://gitref.org/basic/#status "Status Reference"
 [pull request]: http://help.github.com/pull-requests/ "Pull Request Guide"
 [project page]: https://github.com/andrewiggins/Textbook-Price-Aggregator "Project Page"
 [pull]: http://gitref.org/remotes/#pull "Pull Reference"
