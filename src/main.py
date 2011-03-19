@@ -7,7 +7,7 @@
 # Author:      Andre Wiggins
 #
 # Created:     02/02/2011
-# Copyright:   (c) Andre Wiggins 2011
+# Copyright:   (c) Andre Wiggins, Jacob Marsh, Andrew Stewart 2011
 # License:
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
