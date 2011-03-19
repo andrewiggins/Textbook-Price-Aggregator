@@ -93,11 +93,11 @@ Useful Git Commands:
    - See the following `git status -s` example:
       
       <pre>
-      $git status -s       
-      $ M UsingGit.md     
-      $M  src/main.py     
-      $?? src/retailers/  
-      $?? src/schools/     
+      $git status -s
+      $ M UsingGit.md
+      $M  src/main.py
+      $?? src/retailers/
+      $?? src/schools/
       $?? src/util/
       </pre>
    
