@@ -44,7 +44,7 @@ To [clone] our repository to your local machine for editing, follow these steps:
   by step guide
   2. Change your working directory to the directory you want to have your
   local repository.
-  2. [clone] my GitHub repository using the SSH link in my [project page].
+  3. [clone] my GitHub repository using the SSH link in my [project page].
      - `$ git clone git@github.com:andrewiggins/Textbook-Price-Aggregator.git`
 
 ---
@@ -67,13 +67,13 @@ Using Git:
     You can add multiple file to a commit as well.
     - If you want to commit all changes as one commit, just add the `-a` option
     to [commit] and it will add all modified files to the commit.  
-  3. [commit] the changes
+  4. [commit] the changes
      - `$ git commit -m "insert commit message here about what you did"`
        - This command will commit any changes you have already added.
      - `$ git commit -am "insert commit message here about what you did"`
        - This command has the `-a` option meaning it will automatically add any
        changes to the commit.
-  4. When you want to [push] your commits to GitHub use the command [push]
+  5. When you want to [push] your commits to GitHub use the command [push]
      - `$ git push`
 
 ---
@@ -104,8 +104,8 @@ Useful Git Commands:
    - The letters on the left are changes added to the current commit. The
    letters on the right are changes not added to the current commit. The question
    marks mean that the file is not tracked by git. 
-   - 'M' means modified, 'A' means added, and '?' means not tracked. See 
-   [status] for a more indepth review. 
+   - 'M' means modified, 'A' means added, 'R' means renamed, 'C' means copied 
+   and '?' means not tracked. See [status] for a more indepth review. 
 
 [add]: http://gitref.org/basic/#add "Add Reference"
 [status]: http://gitref.org/basic/#status "Status Reference"
