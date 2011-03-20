@@ -23,28 +23,11 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
-import urllib2
-import BeautifulSoup
-
-def getTextbookSearchPage():
-    url = r"http://lsu.bncollege.com/webapp/wcs/stores/servlet/BNCBHomePage?storeId=19057&catalogId=10001"
-    data = ''
-    headers = {'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT ' + 
-                         '6.0; en-US; rv:1.9.0.11) Gecko/2009060215 ' + 
-                         'Firefox/3.0.11 (.NET CLR 3.5.30729)'
-                         }
-    req = urllib2.Request(url, data, headers)
-    
-    res = urllib2.urlopen(req)
-    html = res.read()
-    print html
-    print res.getcode(), res.geturl()
-    soup = BeautifulSoup.BeautifulSoup(html)
-    linkTags = soup.findAll('a')
-    return linkTags
+def getTextbooks(courses):
+    pass
 
 def main():
-    print getTextbookSearchPage()
+    print getTextbooks()
 
 if __name__ == '__main__':
     main()
