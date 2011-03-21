@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 #-------------------------------------------------------------------------------
-# Name:        interpreter.py
-# Purpose:     Runs a WSGI server that allows the user to run Python code in
-#              in their browser.
+# Name:        main.py
+# Purpose:     
 #
 # Author:      Andre Wiggins
 #
