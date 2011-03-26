@@ -23,55 +23,23 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
-import urllib
 import urllib2
-import cookielib
 import BeautifulSoup
 from pprint import pprint
 
 
-def getAvailableClasses(path=None, data=None, cj=None, recursive=0):
-    if not cj:
-        cj = cookielib.CookieJar()
-    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+def getTermID(season, year):
+    url = 'http://lsu.bncollege.com/webapp/wcs/stores/servlet/TBWizardView?catalogId=10001&storeId=19057&langId=-1'
+    soup = BeautifulSoup.BeautifulSoup(urllib2.urlopen(url))
+    select = soup.find('select')
     
-    domain = r'http://lsu.bncollege.com'
-    if not path:
-        path = r'/webapp/wcs/stores/servlet/TBWizardView?catalogId=10001&storeId=19057&langId=-1'
-    if not data:
-        data = ''
-    headers = {'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.0.11) Gecko/2009060215 Firefox/3.0.11 (.NET CLR 3.5.30729)'}
-    req = urllib2.Request(domain + path, data, headers)
+    options = {}
+    for option in select.findAll('option'):
+        if option['value']:
+            options[option.string.lower()] = option['value']
     
-    res = opener.open(req)
-    html = res.read()
-    
-    soup = BeautifulSoup.BeautifulSoup(html)
-    select = soup.find('select', title="Select Term")
-    if select:
-        print select
-        
-    else:
-        if recursive > 3:
-            print 'Recursive Inf Loop'
-            return None
-        
-        script = soup.find('script').string
-        print script
-        
-        path = soup.find('form')['action']
-        data = build_post_string(soup)
-        print data
-        
-        return getAvailableClasses(path, data, cj, recursive+1)
-
-
-def build_post_string(soup):
-    postdata = {}
-    inputs = soup.findAll('input')
-    for input in inputs:
-        postdata[input['name']] = input['value']
-    return urllib.urlencode(postdata)
+    term = str(season.lower())+' '+str(year).lower()
+    return options.get(term, None)
 
 
 def getTextbooks(courses):
@@ -79,7 +47,7 @@ def getTextbooks(courses):
 
 
 def main():
-    getAvailableClasses()
+    print getTermID('Fall', 2011)
 
 
 if __name__ == '__main__':
