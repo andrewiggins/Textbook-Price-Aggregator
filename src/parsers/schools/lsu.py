@@ -23,31 +23,43 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
+
 import urllib2
 import BeautifulSoup
 from pprint import pprint
 
 
-def getTermID(season, year):
+def get_terms():
     url = 'http://lsu.bncollege.com/webapp/wcs/stores/servlet/TBWizardView?catalogId=10001&storeId=19057&langId=-1'
     soup = BeautifulSoup.BeautifulSoup(urllib2.urlopen(url))
-    select = soup.find('select')
     
     options = {}
-    for option in select.findAll('option'):
+    for option in soup.find('select').findAll('option'):
         if option['value']:
             options[option.string.lower()] = option['value']
     
-    term = str(season.lower())+' '+str(year).lower()
-    return options.get(term, None)
+    return options
 
 
-def getTextbooks(courses):
-    pass
+def get_options(term='', dept='', course=''):
+    url = 'http://lsu.bncollege.com/webapp/wcs/stores/servlet/TextBookProcessDropdownsCmd?campusId=17548053&termId=%s&deptId=%s&courseId=%s&sectionId=&storeId=19057&catalogId=10001&langId=-1&dojo.transport=xmlhttp&dojo.preventCache=1301120964177'
+    url = url % (term, dept, course)
+    
+    soup = BeautifulSoup.BeautifulSoup(urllib2.urlopen(url).read())
+    
+    options = {}
+    for option in soup.find('select').findAll('option'):
+        if option['value']:
+            options[option.string] = option['value']
+    
+    return options
 
 
 def main():
-    print getTermID('Fall', 2011)
+    term = get_terms().values()[0]
+    dept = get_options(term=term).values()[0]
+    course = get_options(term=term, dept=dept).values()[0]
+    print get_options(term=term, dept=dept, course=course)
 
 
 if __name__ == '__main__':
