@@ -27,36 +27,55 @@ import json
 class Textbook(object):
     
     
-    def __init__(self, isbn, isbn13, title='', author='', publisher='', date='',
-                 edition='', imageurl='', synopsis='', language='', format=''):
+    attrs = ['title', 'author', 'publisher', 'date', 'edition', 'imageurl', 
+             'synopsis', 'language', 'format']
+    
+    
+    def __init__(self, isbn, isbn13, **kwargs):
         self.isbn = isbn
         self.isbn13 = isbn13
-        self.title = title
-        self.author = author
-        self.publisher = publisher
-        self.date = date
-        self.edition = edition
-        self.imageurl = imageurl
-        self.synopsis = synopsis
-        self.language = language
-        self.format = format
-    
-    
-    @staticmethod
-    def from_dict(d):
-        pass
-    
+        
+        unusedattrs = Textbook.attrs[:]
+        for key in kwargs:
+            setattr(self, key, kwargs[key])
+            if key in unusedattrs:
+                unusedattrs.remove(key)
+            
+        for attr in unusedattrs:
+            setattr(self, attr, '')
+        
 
 class TextbookListing(object):
-    pass
-
+    
+    
+    attrs = ['retailer', 'price', 'condition']
+    
+    
+    def __init__(self, isbn, isbn13, url, **kwargs):
+        self.isbn = isbn
+        self.isbn13 = isbn13
+        self.url = url
+        
+        unusedattrs = Textbook.attrs[:]
+        for key in kwargs:
+            setattr(self, key, kwargs[key])
+            if key in unusedattrs:
+                unusedattrs.remove(key)
+        
 
 def main():
-    pass
+    from pprint import pprint
+    
+    tb_dict = {'title': 'Title','author': 'Author', 'publisher': 'Publisher', 
+          'date': 'Date', 'edition': 'Edition', 'imageurl': 'ImageURL', 
+          'synopsis': 'Synopsis', 'language': 'Language', 'format': 'Format'}
+    tb = Textbook(123456, 7890, **tb_dict)
+    print json.dumps(tb.__dict__, sort_keys=True, indent=4)
+    
+    tl_dict = {'retailer': 'Retailer', 'price': 11.09, 'condition': 'Condition'}
+    tl = TextbookListing(12345, 67890, 'url', **tl_dict)
+    pprint(tl.__dict__)
 
 
 if __name__ == '__main__':
-    from pprint import pprint
-    
-    t = Textbook(123456,7890,'Title','Author','Publisher','Date','Edition','ImageURL','Synopsis','Language','Format')
-    pprint(t.__dict__)
+    main()
