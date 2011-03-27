@@ -25,6 +25,7 @@
 
 
 import string
+import urllib
 import urllib2
 import BeautifulSoup
 
@@ -41,7 +42,7 @@ def get_terms():
     return options
 
 
-def get_options(term='', dept='', course=''):
+def get_options(term, dept='', course=''):
     url = 'http://lsu.bncollege.com/webapp/wcs/stores/servlet/TextBookProcessDropdownsCmd?campusId=17548053&termId=%s&deptId=%s&courseId=%s&sectionId=&storeId=19057&catalogId=10001&langId=-1&dojo.transport=xmlhttp&dojo.preventCache=1301120964177'
     url = url % (term, dept, course)
     soup = BeautifulSoup.BeautifulSoup(urllib2.urlopen(url).read())
@@ -62,6 +63,36 @@ def prepare_value(value):
     return value.translate(removechars_table)
 
 
+def get_textbooks(sectionids):
+    url = 'http://lsu.bncollege.com/webapp/wcs/stores/servlet/TBListView'
+    data = {'storeId': 19057,
+            'langId': -1,
+            'catalogId': 10001,
+            'savedListAdded': True,
+            'viewName': 'TBWizardView',
+            'mcEnabled': 'N',
+            'numberOfCourseAlready': 0,
+            'viewTextbooks.x': 62,
+            'viewTextbooks.y': 18,
+            'sectionList': 'newSectionNumber'}
+    for i in xrange(len(sectionids)):
+        data['section_'+str(i+1)] = sectionids[i]
+    
+    data = urllib.urlencode(data)
+    req = urllib2.Request(url, data)
+    
+    soup = BeautifulSoup.BeautifulSoup(urllib2.urlopen(req).read())
+    #find courseListForm
+    #find div section heading -> tells class book goes with
+    #if nextSibling div has no class, it is textbook div
+    #    each tbListHolding is a textbook
+    #elif nextSibling div has class tbListHolding, it is
+    #    parse special data
+    #else
+    #    not sure, leave
+    return soup.findAll('div', {'class': 'tbListHolding'})   
+    
+
 def main():
     terms = get_terms()
     term = terms.values()[0]
@@ -76,7 +107,12 @@ def main():
     print courses
     
     print term, dept, course
-    print get_options(term=term, dept=dept, course=course)
+    
+    sections = get_options(term=term, dept=dept, course=course)
+    print sections
+    
+    sectionids = [sections.values()[0], 46758415]
+    print get_textbooks(sectionids)
 
 
 if __name__ == '__main__':
