@@ -3,7 +3,7 @@
 # Name:        main.py
 # Purpose:     
 #
-# Author:      Andre Wiggins
+# Author(s):   Andre Wiggins
 #
 # Created:     02/02/2011
 # Copyright:   (c) Jacob Marsh, Andrew Stewart, Andre Wiggins 2011

@@ -3,7 +3,7 @@
 # Name:        __init__.py (for src/parser/ directory)
 # Purpose:     Contains general use parsing functions.
 #
-# Author:      Andre Wiggins
+# Author(s):   Andre Wiggins
 #
 # Created:     03/21/2011
 # Copyright:   (c) Jacob Marsh, Andrew Stewart, Andre Wiggins 2011

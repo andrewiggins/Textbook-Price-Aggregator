@@ -3,7 +3,7 @@
 # Name:        halfdotcom.py
 # Purpose:     Contains all parsing functions for half.com website
 #
-# Author:      Andrew Stewart
+# Author(s):   Andrew Stewart
 #
 # Created:     03/19/2011
 # Copyright:   (c) Jacob Marsh, Andrew Stewart, Andre Wiggins 2011

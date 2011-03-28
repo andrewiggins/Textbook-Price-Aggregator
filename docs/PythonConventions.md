@@ -32,7 +32,7 @@ Example Header:
     # Name:        __init__.py (for src/data/ package)
     # Purpose:     Contains all data classes
     #
-    # Author:      Andre Wiggins, Andrew Stewart
+    # Author(s):   Andre Wiggins, Andrew Stewart
     #
     # Created:     03/27/2011
     # Copyright:   (c) Jacob Marsh, Andrew Stewart, Andre Wiggins 2011

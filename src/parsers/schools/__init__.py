@@ -3,7 +3,7 @@
 # Name:        __init__.py (for src/parsers/schools directory)
 # Purpose:     Contains useful classes and functions for all schools.
 #
-# Author:      Andre Wiggins
+# Author(s):   Andre Wiggins
 #
 # Created:     02/02/2011
 # Copyright:   (c) Jacob Marsh, Andrew Stewart, Andre Wiggins 2011

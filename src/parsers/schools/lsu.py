@@ -4,7 +4,7 @@
 # Purpose:     Contains all parsing functions for Louisiana State University
 #              Bookstore
 #
-# Author:      Andre Wiggins
+# Author(s):   Andre Wiggins
 #
 # Created:     03/19/2011
 # Copyright:   (c) Jacob Marsh, Andrew Stewart, Andre Wiggins 2011
