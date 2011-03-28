@@ -60,12 +60,14 @@ def main():
     
     tb_dict = {'title': 'Title','author': 'Author', 'publisher': 'Publisher', 
           'date': 'Date', 'edition': 'Edition', 'imageurl': 'ImageURL', 
-          'synopsis': 'Synopsis', 'language': 'Language', 'format': 'Format'}
-    tb = Textbook(123456, 7890, **tb_dict)
+          'synopsis': 'Synopsis', 'language': 'Language', 'format': 'Format',
+          'isbn': '123456', 'isbn13': '7890'}
+    tb = Textbook('url', **tb_dict)
     print json.dumps(tb.__dict__, sort_keys=True, indent=4)
     
-    tl_dict = {'retailer': 'Retailer', 'price': 11.09, 'condition': 'Condition'}
-    tl = TextbookListing(12345, 67890, 'url', **tl_dict)
+    tl_dict = {'retailer': 'Retailer', 'price': 11.09, 'condition': 'Condition',
+               'isbn': '12345', 'isbn13': '67890'}
+    tl = TextbookListing('url', **tl_dict)
     pprint(tl.__dict__)
 
 
