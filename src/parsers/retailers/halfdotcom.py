@@ -10,7 +10,7 @@
 #-------------------------------------------------------------------------------
 #!/usr/bin/env python
 
-import BeautifulSoup,urllib2,parsers,traceback,data,time
+import BeautifulSoup,urllib2,parsers,traceback,data,time,string
 
 def parse_book_page_listing(html):
     soup = BeautifulSoup.BeautifulSoup(html)
@@ -47,9 +47,12 @@ def parse_book_page_textbook(html):
 
 def parse_search_page(html):
     soup=BeautifulSoup.BeautifulSoup(html)
-    info=soup.findAll('table',{"width":"100%","border":"0","cellpadding":"4","cellspacing":"0"})
-    bookInfo=info[0].findAll("td",{"valign":"top","width":"100%"})
+    info=soup.find('table',{"width":"100%","border":"0","cellpadding":"4","cellspacing":"0"})
+    bookInfo=info.findAll("td",{"valign":"top","width":"100%"})
+    numMatches = soup.find("span",{"class":"PageTitleRefresh"}).find(text=True)
+    numMatches = map(string.strip,str(numMatches).splitlines())[2].split(' ')[0][1:]
     textbooks=[]
+    if numMatches == "0":return textbooks
     for book in bookInfo:
         titleTag,authorTag = book.findAll("a",{"class":"ProductInfo"})[:2]
         title = str(titleTag.find(text=True))
@@ -60,6 +63,12 @@ def parse_search_page(html):
         textbooks.append(data.Textbook(url,kwargs={'title':title,'author':author,'date':pubdate,'format':form}))
     return textbooks
 
+def search(title,param=1):
+    url="http://search.half.ebay.com/?m=books&sby=%s&query=%s"%(param,urllib2.quote(title))
+    html=urllib2.urlopen(url).read()
+    return parse_search_page(html)
+
+
 t=time.clock()
 a=urllib2.urlopen("http://search.half.ebay.com/?m=books&sby=1&query=%09Galois%27+Theory+of+Algebraic+Equations")
 parse_search_page(a.read())
@@ -68,4 +77,5 @@ for isbn in isbns:
     c=urllib2.urlopen("http://books.half.ebay.com/ws/web/HalfISBNSearch?isbn=%s"%isbn).read()
     parse_book_page_listing(c)
     parse_book_page_textbook(c)
+search(urllib2.quote("asdfasdfasd"))
 print time.clock()-t
