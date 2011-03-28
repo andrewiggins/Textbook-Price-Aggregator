@@ -6,7 +6,7 @@
 # Author:      Andrew Stewart
 #
 # Created:     03/19/2011
-# Copyright:   (c) Andre Wiggins, Jacob Marsh, Andrew Stewart 2011
+# Copyright:   (c) Jacob Marsh, Andrew Stewart, Andre Wiggins 2011
 # License:
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
