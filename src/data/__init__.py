@@ -3,7 +3,7 @@
 # Name:        __init__.py (for src/data/ package)
 # Purpose:     Contains all data classes
 #
-# Author:      Andre Wiggins
+# Author:      Andre Wiggins, Andrew Stewart
 #
 # Created:     03/27/2011
 # Copyright:   (c) Andre Wiggins, Jacob Marsh, Andrew Stewart 2011
