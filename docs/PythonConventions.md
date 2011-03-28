@@ -22,8 +22,19 @@ Python Naming Conventions
 3. **Function/Method/Variable Names**: lowercase\_with\_underscores (Same as 
    modules, only use underscores if it improves readability)
 
-File Header Conventions
+File Conventions
 -----------------------
+
+### Test Code ###
+
+Put all and any top-level test code under the following block of code:
+
+`if __name__ == '__main__':`
+
+It only runs the test code if the module is run as a top-level module and does
+not run the code if the module is imported.
+
+### Header ###
 
 Example Header:
 
