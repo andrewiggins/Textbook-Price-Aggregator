@@ -3,7 +3,7 @@
 # Name:        __init__.py (for src/data/ package)
 # Purpose:     Contains all data classes
 #
-# Author:      Andre Wiggins
+# Author:      Andre Wiggins, Andrew Stewart
 #
 # Created:     03/27/2011
 # Copyright:   (c) Andre Wiggins, Jacob Marsh, Andrew Stewart 2011
@@ -26,10 +26,8 @@ import json
 
 class Textbook(object):
     
-    
     attrs = ['title', 'author', 'publisher', 'date', 'edition', 'imageurl', 
              'synopsis', 'language', 'format','isbn', 'isbn13']
-    
     
     def __init__(self, url, **kwargs):     
         self.url = url
@@ -45,9 +43,7 @@ class Textbook(object):
 
 class TextbookListing(object):
     
-    
     attrs = ['retailer', 'price', 'condition', 'isbn', 'isbn13']
-    
     
     def __init__(self, url, **kwargs):
         self.url = url
