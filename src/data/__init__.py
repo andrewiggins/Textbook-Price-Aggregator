@@ -28,13 +28,11 @@ class Textbook(object):
     
     
     attrs = ['title', 'author', 'publisher', 'date', 'edition', 'imageurl', 
-             'synopsis', 'language', 'format']
+             'synopsis', 'language', 'format','isbn', 'isbn13']
     
     
-    def __init__(self, isbn, isbn13, **kwargs):
-        self.isbn = isbn
-        self.isbn13 = isbn13
-        
+    def __init__(self, url, **kwargs):     
+        self.url = url
         unusedattrs = Textbook.attrs[:]
         for key in kwargs:
             setattr(self, key, kwargs[key])
@@ -48,12 +46,10 @@ class Textbook(object):
 class TextbookListing(object):
     
     
-    attrs = ['retailer', 'price', 'condition']
+    attrs = ['retailer', 'price', 'condition', 'isbn', 'isbn13']
     
     
-    def __init__(self, isbn, isbn13, url, **kwargs):
-        self.isbn = isbn
-        self.isbn13 = isbn13
+    def __init__(self, url, **kwargs):
         self.url = url
         
         unusedattrs = Textbook.attrs[:]
