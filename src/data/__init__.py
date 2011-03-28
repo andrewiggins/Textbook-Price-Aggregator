@@ -26,10 +26,8 @@ import json
 
 class Textbook(object):
     
-    
     attrs = ['title', 'author', 'publisher', 'date', 'edition', 'imageurl', 
              'synopsis', 'language', 'format','isbn', 'isbn13']
-    
     
     def __init__(self, url, **kwargs):     
         self.url = url
@@ -45,9 +43,7 @@ class Textbook(object):
 
 class TextbookListing(object):
     
-    
     attrs = ['retailer', 'price', 'condition', 'isbn', 'isbn13']
-    
     
     def __init__(self, url, **kwargs):
         self.url = url
