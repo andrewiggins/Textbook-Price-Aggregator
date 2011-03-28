@@ -22,11 +22,11 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
-import BeautifulSoup,urllib2,parsers,traceback,data,time
+import BeautifulSoup,urllib2,data,time
 
 def parse_book_page_listing(html):
     soup = BeautifulSoup.BeautifulSoup(html)
-    info1 = soup.findAll('table',{"border":"0","cellpadding":"0","class":"pdpbg"})[0]
+    #info1 = soup.findAll('table',{"border":"0","cellpadding":"0","class":"pdpbg"})[0]
     otherinfo = [str(a.findAll(text=True)[0]) for a in soup.findAll('td',{'style':'padding-top:10px;white-space:nowrap;'})[0].findAll('span')]
     form,isbn,isbn13,pubdate,publisher,lang = otherinfo[:5]+[otherinfo[-1]]
     bookData = soup.findAll('table',{"border":"0","cellpadding":"12","cellspacing":"0"})[0].findAll("table",{"width":"906","border":"0","cellpadding":"3","cellspacing":"0"})
