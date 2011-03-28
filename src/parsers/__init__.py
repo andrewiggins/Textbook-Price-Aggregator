@@ -21,3 +21,16 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #-------------------------------------------------------------------------------
+
+
+import BeautifulSoup
+
+
+def parselinks(html):
+    soup = BeautifulSoup.BeautifulSoup(html)
+    linkTags = soup.findAll('a')
+    links = {}
+    for linkTag in linkTags:
+        if linkTag.string:
+            links[linkTag.string] = linkTag['href']
+    return links
