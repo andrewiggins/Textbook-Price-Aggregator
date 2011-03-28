@@ -63,7 +63,7 @@ def prepare_value(value):
     return value.translate(removechars_table)
 
 
-def get_textbooks(sectionids):
+def get_textbooks_html(sectionids):
     url = 'http://lsu.bncollege.com/webapp/wcs/stores/servlet/TBListView'
     data = {'storeId': 19057,
             'langId': -1,
@@ -81,19 +81,43 @@ def get_textbooks(sectionids):
     data = urllib.urlencode(data)
     req = urllib2.Request(url, data)
     
-    soup = BeautifulSoup.BeautifulSoup(urllib2.urlopen(req).read())
-    #find courseListForm
-    #find div section heading -> tells class book goes with
+    return urllib2.urlopen(req).read()
+
+
+def get_textbooks(sectionids):
+    
     #if nextSibling div has no class, it is textbook div
     #    each tbListHolding is a textbook
     #elif nextSibling div has class tbListHolding, it is
     #    parse special data
     #else
     #    not sure, leave
-    return soup.findAll('div', {'class': 'tbListHolding'})   
+    soup = BeautifulSoup.BeautifulSoup(get_textbooks_html(sectionids))
+    form = soup.find('form', {'name': 'courseListForm'})
+    class_tags = form.findAll('div', {'class': 'sectionHeading'})  
+    
+    for class_tag in class_tags:
+        class_info = parse_class(str(class_tag))
+        if class_info:
+            print class_info
+        
+        
+def parse_class(html):
+    soup = BeautifulSoup.BeautifulSoup(html)
+    
+    if soup.find('div', {'class': 'optAccessories'}):
+        return None
+    
+    li_tags = soup.find('ul').findAll('li')
+    data_keys = ['semester', 'dept', 'course', 'section']
+    class_info = {}
+    for i in xrange(4):
+        class_info[data_keys[i]] = li_tags[i].string
+    
+    return class_info
     
 
-def main():
+def test_classes():
     terms = get_terms()
     term = terms.values()[0]
     print terms
@@ -112,8 +136,11 @@ def main():
     print sections
     
     sectionids = [sections.values()[0], 46758415]
-    print get_textbooks(sectionids)
 
+
+def main():
+    sectionids = [46997808, 46758415]
+    get_textbooks(sectionids)
 
 if __name__ == '__main__':
     main()
