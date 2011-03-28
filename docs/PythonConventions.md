@@ -22,6 +22,52 @@ Python Naming Conventions
 3. **Function/Method/Variable Names**: lowercase\_with\_underscores (Same as 
    modules, only use underscores if it improves readability)
 
+File Header Conventions
+-----------------------
+
+Example Header:
+
+    #!/usr/bin/env python
+    #-------------------------------------------------------------------------------
+    # Name:        __init__.py (for src/data/ package)
+    # Purpose:     Contains all data classes
+    #
+    # Author:      Andre Wiggins, Andrew Stewart
+    #
+    # Created:     03/27/2011
+    # Copyright:   (c) Jacob Marsh, Andrew Stewart, Andre Wiggins 2011
+    # License:
+    #
+    #  Licensed under the Apache License, Version 2.0 (the "License");
+    #  you may not use this file except in compliance with the License.
+    #  You may obtain a copy of the License at
+    #
+    #     http://www.apache.org/licenses/LICENSE-2.0
+    #
+    #  Unless required by applicable law or agreed to in writing, software
+    #  distributed under the License is distributed on an "AS IS" BASIS,
+    #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    #  See the License for the specific language governing permissions and
+    #  limitations under the License.
+    #-------------------------------------------------------------------------------
+
+Notes:
+
+1. First line is the shebang.
+2. Put the name of the file for "Name".
+3. For "Purpose", put a one sentence description of the purpose of the module.
+4. For "Author(s)" list anyone who has edited the file. So if you have not 
+   edited a file e.g. file1, your name will not be listed in file1's header. 
+   Andrew helped me with the above file so I put his name in the header, this 
+   way we know who has done what, etc.
+5. Put the date the file was created for "Created".
+6. For copyright, we will list everyone's name in alphabetical order and the 
+   year (2011)
+7. For license, just copy and paste the above.
+
+Please fill out what you can of the header. I'll keep an eye out and try to 
+make all the headers consistent.
+
 You can develop using whatever you want, but once you are done working on the 
 module, if we could all have our files following the conventions we agree upon,
 that would be great!
