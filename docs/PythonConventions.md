@@ -9,7 +9,7 @@ Python Code Style
 -----------------
 
 1. **Import** - Import modules on separate lines (just like in C/C++ you can't
-   #include multiple things on the same #include statement)
+   \#include multiple things on the same #include statement)
 2. **Indentation** - Use *4 spaces* for indentation (Notepad++ has a really easy
    built-in function that changes all tabs to the specified number of spaces)
 3. **Documentation** - Use standard python docstrings, [PEP 257]
