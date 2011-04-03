@@ -45,7 +45,7 @@ def get_terms():
     options = {}
     for option in soup.find('select').findAll('option'):
         if option['value']:
-            options[option.string.lower()] = int(option['value'])
+            options[option.string] = int(option['value'])
     
     return options
 
