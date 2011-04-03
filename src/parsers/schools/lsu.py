@@ -24,15 +24,23 @@
 #-------------------------------------------------------------------------------
 
 
+import sys
 import string
 import urllib
 import urllib2
+import traceback
 import BeautifulSoup
 
 
 def get_terms():
     url = 'http://lsu.bncollege.com/webapp/wcs/stores/servlet/TBWizardView?catalogId=10001&storeId=19057&langId=-1'
-    soup = BeautifulSoup.BeautifulSoup(urllib2.urlopen(url))
+    try:
+        html = urllib2.urlopen(url).read()
+    except urllib2.HTTPError:
+        traceback.print_exc()
+        print 'URL: %s' % url
+        return {}
+    soup = BeautifulSoup.BeautifulSoup(html)
     
     options = {}
     for option in soup.find('select').findAll('option'):
@@ -45,7 +53,13 @@ def get_terms():
 def get_options(term, dept='', course=''):
     url = 'http://lsu.bncollege.com/webapp/wcs/stores/servlet/TextBookProcessDropdownsCmd?campusId=17548053&termId=%s&deptId=%s&courseId=%s&sectionId=&storeId=19057&catalogId=10001&langId=-1&dojo.transport=xmlhttp&dojo.preventCache=1301120964177'
     url = url % (term, dept, course)
-    soup = BeautifulSoup.BeautifulSoup(urllib2.urlopen(url).read())
+    try:
+        html = urllib2.urlopen(url).read()
+    except urllib2.HTTPError:
+        traceback.print_exc()
+        print 'URL: %s' % url
+        return {}
+    soup = BeautifulSoup.BeautifulSoup(html)
     
     options = {}
     for option in soup.find('select').findAll('option'):
@@ -81,7 +95,14 @@ def get_textbooks_html(sectionids):
     data = urllib.urlencode(data)
     req = urllib2.Request(url, data)
     
-    return urllib2.urlopen(req).read()
+    try:
+        html = urllib2.urlopen(req).read()
+    except urllib2.HTTPError:
+        traceback.print_exc()
+        print 'URL: %s' % url
+        return ''
+    
+    return html 
 
 
 def get_textbooks(sectionids):
