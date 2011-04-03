@@ -23,6 +23,7 @@
 #-------------------------------------------------------------------------------
 
 from textbook import Textbook, TextbookListing
+from course import Course, CourseList
 
 def main():
     pass
