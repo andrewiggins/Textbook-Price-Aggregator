@@ -22,54 +22,10 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
-import json
-
-class Textbook(object):
-    
-    attrs = ['title', 'author', 'publisher', 'date', 'edition', 'imageurl', 
-             'synopsis', 'language', 'format','isbn', 'isbn13']
-    
-    def __init__(self, url, **kwargs):     
-        self.url = url
-        unusedattrs = Textbook.attrs[:]
-        for key in kwargs:
-            setattr(self, key, kwargs[key])
-            if key in unusedattrs:
-                unusedattrs.remove(key)
-            
-        for attr in unusedattrs:
-            setattr(self, attr, '')
-        
-
-class TextbookListing(object):
-    
-    attrs = ['retailer', 'price', 'condition', 'isbn', 'isbn13']
-    
-    def __init__(self, url, **kwargs):
-        self.url = url
-        
-        unusedattrs = Textbook.attrs[:]
-        for key in kwargs:
-            setattr(self, key, kwargs[key])
-            if key in unusedattrs:
-                unusedattrs.remove(key)
-        
+from textbook import Textbook, TextbookListing
 
 def main():
-    from pprint import pprint
-    
-    tb_dict = {'title': 'Title','author': 'Author', 'publisher': 'Publisher', 
-          'date': 'Date', 'edition': 'Edition', 'imageurl': 'ImageURL', 
-          'synopsis': 'Synopsis', 'language': 'Language', 'format': 'Format',
-          'isbn': '123456', 'isbn13': '7890'}
-    tb = Textbook('url', **tb_dict)
-    print json.dumps(tb.__dict__, sort_keys=True, indent=4)
-    
-    tl_dict = {'retailer': 'Retailer', 'price': 11.09, 'condition': 'Condition',
-               'isbn': '12345', 'isbn13': '67890'}
-    tl = TextbookListing('url', **tl_dict)
-    pprint(tl.__dict__)
-
+    pass
 
 if __name__ == '__main__':
     main()
