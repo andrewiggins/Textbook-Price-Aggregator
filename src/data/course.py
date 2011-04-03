@@ -24,11 +24,12 @@
 
 class Course():
 
-    def __init__(self, term, dept, num, section):
+    def __init__(self, term, dept, num, section, id=None):
         self.term = term
         self.dept = dept
         self.num = num
         self.section = section
+        self.id = id
 
         if self.section:
             self.__title = "%s %s%s%s%s" % (term, dept.upper(), num,
