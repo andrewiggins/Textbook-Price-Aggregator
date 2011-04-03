@@ -24,15 +24,14 @@
 
 class Course():
 
-    def __init__(self, year, season, dept, num, section):
-        self.year = year
-        self.season = season
+    def __init__(self, term, dept, num, section):
+        self.term = term
         self.dept = dept
         self.num = num
         self.section = section
 
         if self.section:
-            self.__title = "%s%s %s%s%s%s" % (season, year, dept.upper(), num,
+            self.__title = "%s %s%s%s%s" % (term, dept.upper(), num,
                                               's', section)
         else:
             self.__title = "%s%s" % (dept.upper(),num)
@@ -114,7 +113,7 @@ def main():
     for dept in depts:
         for num in [nums + ii for ii in xrange(i)]:
             for section in [sections + ii for ii in xrange(i)]:
-                courses.append(Course(2011, 'Fall', dept, num, section))
+                courses.append(Course('FALL 2011', dept, num, section))
         i += 1
     
     print_courselist(courses)
