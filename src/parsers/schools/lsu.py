@@ -24,12 +24,12 @@
 #-------------------------------------------------------------------------------
 
 
-import sys
 import string
 import urllib
 import urllib2
 import traceback
 import BeautifulSoup
+import data
 
 
 def get_terms():
@@ -52,7 +52,7 @@ def get_terms():
 
 def get_options(term, dept='', course=''):
     url = 'http://lsu.bncollege.com/webapp/wcs/stores/servlet/TextBookProcessDropdownsCmd?campusId=17548053&termId=%s&deptId=%s&courseId=%s&sectionId=&storeId=19057&catalogId=10001&langId=-1&dojo.transport=xmlhttp&dojo.preventCache=1301120964177'
-    url = url % tuple(map(urllib.quote, [term, dept, course]))
+    url = url % tuple(map(urllib.quote, map(str, [term, dept, course])))
     try:
         html = urllib2.urlopen(url).read()
     except urllib2.HTTPError:
@@ -75,6 +75,20 @@ def prepare_value(value):
     removechars_table = dict((ord(char), None) for char in removechars)
     
     return value.translate(removechars_table)
+
+
+def get_available_courses(term, termid):
+    """Return a list of courses that have textbooks listed for that semester."""
+    courses = data.CourseList()
+    depts = get_options(termid) 
+    for dept, deptid in depts.items():
+        nums = get_options(termid, deptid)
+        for num, numid in nums.items():
+            sections = get_options(termid, deptid, numid)
+            for section, sectionid in sections.items():
+                courses.append(data.Course(term, dept, num, section, sectionid))
+    
+    return courses
 
 
 def get_textbooks_html(sectionids):
@@ -105,6 +119,7 @@ def get_textbooks_html(sectionids):
     return html 
 
 
+#should it take Course objects?
 def get_textbooks(sectionids):
     
     #if nextSibling div has no class, it is textbook div
@@ -135,10 +150,10 @@ def parse_class(html):
     for i in xrange(4):
         class_info[data_keys[i]] = li_tags[i].string
     
-    return class_info
+    return class_info #need Course Object instead
     
 
-def test_classes():
+def test_options():
     terms = get_terms()
     term = terms.values()[0]
     print terms
@@ -155,11 +170,21 @@ def test_classes():
     
     sections = get_options(term=term, dept=dept, course=course)
     print sections
-    
-    sectionids = [sections.values()[0], 46758415]
 
 
 def main():
+    import time
+    
+    term = get_terms().items()[0]
+    
+    start = time.time()
+    courses = get_available_courses(*term)
+    stop = time.time()
+    print "%ss" % (stop - start)
+    
+    courses.sort()
+    data.course.print_courselist(courses)
+    
     sectionids = [46997808, 46758415]
     get_textbooks(sectionids)
 
