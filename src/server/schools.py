@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 #-------------------------------------------------------------------------------
-# Name:        search.py
-# Purpose:     Contains all Request Handlers relating to generic search 
-#              functions
+# Name:        schools.py
+# Purpose:     Contains all Request Handlers that pertain to school information
 #
 # Author:      Andre Wiggins
 #
@@ -25,17 +24,15 @@
 
 from google.appengine.ext import webapp
 
-class SearchPage(webapp.RequestHandler):
-    '''Handles request for the /search path which returns the HTML for
-    a user searching for a textbook by a generic search term'''
+class CourseSearchPage(webapp.RequestHandler):
+    '''Handles request to /coursesearch/school for a search of school courses'''
     
     def get(self):
         pass
     
-    
-class SearchRetailer(webapp.RequestHandler):
-    '''Handles request for the /search/retailer which returns the JSON for 
-    searching a retailer for a generic search term'''
+
+class CourseLookup(webapp.RequestHandler):
+    '''Handles request to /course/school for specified course lookup'''
     
     def get(self):
         pass
