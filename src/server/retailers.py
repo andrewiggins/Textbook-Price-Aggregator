@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 #-------------------------------------------------------------------------------
-# Name:        __init__.py (for src/server/ package)
-# Purpose:     Contains all code for serving webpages to clients
+# Name:        vendors.py
+# Purpose:     Contains all request handlers pertaining to retailers
 #
-# Author(s):   Andre Wiggins
+# Author:      Andre Wiggins, Andrew Stewart
 #
-# Created:     04/02/2011
+# Created:     04/7/2011
 # Copyright:   (c) Jacob Marsh, Andrew Stewart, Andre Wiggins 2011
 # License:
 #
@@ -22,25 +22,18 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
-from retailers import Retailers
+import json
+import pkgutil
+import parsers.retailers
 from google.appengine.ext import webapp
-from google.appengine.ext.webapp.util import run_wsgi_app
 
 
-class MainPage(webapp.RequestHandler):
-
+class Retailers(webapp.RequestHandler):
+    
+    @staticmethod
+    def retailers():
+        packages = pkgutil.walk_packages(parsers.retailers.__path__)
+        return [info[1] for info in packages if not info[2]]
+    
     def get(self):
-        self.response.out.write("HI THERE")
-
-
-application = webapp.WSGIApplication([('/retailers', Retailers),
-                                      ('/.*', MainPage)],
-                                     debug=True)
-
-
-def main():
-    run_wsgi_app(application)
-
-
-if __name__ == "__main__":
-    main()
+        self.response.out.write(json.dumps(Retailers.retailers())) 
