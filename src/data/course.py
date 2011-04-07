@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-------------------------------------------------------------------------------
 # Name:        data.course
-# Purpose:     
+# Purpose:     Represents courses for schools
 #
 # Author(s):   Andre Wiggins
 #
