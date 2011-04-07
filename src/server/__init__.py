@@ -24,6 +24,8 @@
 
 from retailers import Retailers
 from search import SearchPage, SearchRetailer
+from book import BookPage, TextbookLookup, TextbookListingsLookup
+
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
@@ -37,6 +39,10 @@ class MainPage(webapp.RequestHandler):
 application = webapp.WSGIApplication([('/retailers', Retailers),
                                       ('/search', SearchPage),
                                       ('/search/[a-z0-9\-]+', SearchRetailer),
+                                      ('/book', BookPage),
+                                      ('/textbook', TextbookLookup),
+                                      ('/textbooklistings/[a-z0-9\-]+', 
+                                       TextbookListingsLookup),
                                       ('/.*', MainPage)],
                                      debug=True)
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-------------------------------------------------------------------------------
 # Name:        vendors.py
-# Purpose:     Contains all request handlers pertaining to retailers
+# Purpose:     Contains all Request Handlers pertaining to retailers
 #
 # Author:      Andre Wiggins, Andrew Stewart
 #
