@@ -7,7 +7,7 @@ class MainPage(webapp.RequestHandler):
 		
 		
 application = webapp.WSGIApplication(
-                                     [('/',MainPage)],
+                                     [('/.*',MainPage)],
                                      debug=True)
 
 def main():
