@@ -1,0 +1,12 @@
+application: swat-books
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /favicon.ico
+  static_files: staic/images/favicon.ico
+  upload: static/images/favicon.ico
+
+- url: /.*
+  script: server.py
