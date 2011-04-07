@@ -32,13 +32,14 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 
-class MainPage(webapp.RequestHandler):
+class HomePage(webapp.RequestHandler):
 
     def get(self):
-        self.response.out.write("HI THERE")
+        self.response.out.write("HomePage")
 
 
-app = webapp.WSGIApplication([('/retailers', Retailers),
+app = webapp.WSGIApplication([('/?', HomePage),
+                              ('/retailers', Retailers),
                               ('/search', SearchPage),
                               ('/search/[a-z0-9\-]+', SearchRetailer),
                               ('/book', BookPage),
