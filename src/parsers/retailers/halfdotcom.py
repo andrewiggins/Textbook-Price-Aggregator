@@ -22,7 +22,8 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
-import BeautifulSoup,urllib2,data,time
+import urllib2,data,time
+from lib import BeautifulSoup
 
 def parse_book_page_listing(html):
     soup = BeautifulSoup.BeautifulSoup(html)
