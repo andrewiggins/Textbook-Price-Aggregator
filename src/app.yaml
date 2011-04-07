@@ -9,4 +9,4 @@ handlers:
   upload: static/images/favicon.ico
 
 - url: /.*
-  script: server/server.py
+  script: server/__init__.py
