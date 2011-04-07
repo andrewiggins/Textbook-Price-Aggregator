@@ -32,7 +32,7 @@ class SearchPage(webapp.RequestHandler):
         pass
     
     
-class SearchRetailers(webapp.RequestHandler):
+class SearchRetailer(webapp.RequestHandler):
     '''Handles request for the /search/retailer which returns the JSON for 
     searching a retailer for a generic search term'''
     
