@@ -27,16 +27,16 @@ from google.appengine.ext import webapp
 class BookPage(webapp.RequestHandler):
     
     def get(self):
-        pass
+        self.response.out.write("BookPage")
     
 
 class TextbookLookup(webapp.RequestHandler):
     
     def get(self):
-        pass
+        self.response.out.write("TextbookLookup")
     
 
 class TextbookListingsLookup(webapp.RequestHandler):
     
     def get(self):
-        pass
+        self.response.out.write("TextbookListingsLookup")

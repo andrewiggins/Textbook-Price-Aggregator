@@ -30,7 +30,7 @@ class SearchPage(webapp.RequestHandler):
     a user searching for a textbook by a generic search term'''
     
     def get(self):
-        pass
+        self.response.out.write("SearchPage")
     
     
 class SearchRetailer(webapp.RequestHandler):
@@ -38,4 +38,4 @@ class SearchRetailer(webapp.RequestHandler):
     searching a retailer for a generic search term'''
     
     def get(self):
-        pass
+        self.response.out.write("SearchRetailer")

@@ -28,11 +28,11 @@ class CourseSearchPage(webapp.RequestHandler):
     '''Handles request to /coursesearch/school for a search of school courses'''
     
     def get(self):
-        pass
+        self.response.out.write("CourseSearchPage")
     
 
 class CourseLookup(webapp.RequestHandler):
     '''Handles request to /course/school for specified course lookup'''
     
     def get(self):
-        pass
+        self.response.out.write("CourseLookup")
