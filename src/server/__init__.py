@@ -45,6 +45,7 @@ app = webapp.WSGIApplication([('/retailers', Retailers),
                               ('/textbooklistings/[a-z0-9\-]+', 
                                TextbookListingsLookup),
                               ('/coursesearch/[a-z0-9\-]+', CourseSearchPage),
+                              ('/course/[a-z0-9\-]+', CourseLookup),
                               ('/.*', MainPage)],
                               debug=True)
 
