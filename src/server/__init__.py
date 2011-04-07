@@ -22,6 +22,7 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
+from error import ErrorHandler
 from retailers import Retailers
 from search import SearchPage, SearchRetailer
 from schools import CourseSearchPage, CourseLookup
@@ -46,7 +47,7 @@ app = webapp.WSGIApplication([('/retailers', Retailers),
                                TextbookListingsLookup),
                               ('/coursesearch/[a-z0-9\-]+', CourseSearchPage),
                               ('/course/[a-z0-9\-]+', CourseLookup),
-                              ('/.*', MainPage)],
+                              ('/.*', ErrorHandler)],
                               debug=True)
 
 
