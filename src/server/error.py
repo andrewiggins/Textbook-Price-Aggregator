@@ -28,4 +28,4 @@ from google.appengine.ext import webapp
 class ErrorHandler(webapp.RequestHandler):
     
     def get(self):
-        pass
+        self.response.out.write("404 Error: Page does not exist.")
