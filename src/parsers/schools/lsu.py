@@ -50,15 +50,20 @@ def get_terms():
     return options
 
 
-def get_options(term, dept='', course=''):
+def get_options(term, dept='', course='', recur_count=0):
     url = 'http://lsu.bncollege.com/webapp/wcs/stores/servlet/TextBookProcessDropdownsCmd?campusId=17548053&termId=%s&deptId=%s&courseId=%s&sectionId=&storeId=19057&catalogId=10001&langId=-1&dojo.transport=xmlhttp&dojo.preventCache=1301120964177'
     url = url % tuple(map(urllib.quote, map(str, [term, dept, course])))
     try:
         html = urllib2.urlopen(url).read()
-    except urllib2.HTTPError:
-        traceback.print_exc()
-        print 'URL: %s' % url
-        return {}
+    except urllib2.HTTPError as httperr:
+        if httperr.getcode() == 403 and recur_count < 3:
+            print "err: %s \nrecur_count: %s" % (str(httperr), recur_count)
+            return get_options(term, dept, course, recur_count+1)
+        else:
+            print httperr.getcode()
+            traceback.print_exc()
+            print 'URL: %s' % url
+            return {}
     soup = BeautifulSoup.BeautifulSoup(html)
     
     options = {}
@@ -119,8 +124,8 @@ def get_textbooks_html(sectionids):
     return html 
 
 
-#should it take Course objects?
 def get_textbooks(sectionids):
+    #should it take Course objects?
     
     #if nextSibling div has no class, it is textbook div
     #    each tbListHolding is a textbook
@@ -150,6 +155,7 @@ def parse_class(html):
     for i in xrange(4):
         class_info[data_keys[i]] = li_tags[i].string
     
+    print class_info
     return class_info #need Course Object instead
     
 
@@ -170,23 +176,19 @@ def test_options():
     
     sections = get_options(term=term, dept=dept, course=course)
     print sections
+    return sections
 
 
 def main():
-    import time
+    for i in xrange(10):
+        print "%s:" % i
+        try:
+            test_options()
+        except:
+            pass
+        finally:
+            print
     
-    term = get_terms().items()[0]
-    
-    start = time.time()
-    courses = get_available_courses(*term)
-    stop = time.time()
-    print "%ss" % (stop - start)
-    
-    courses.sort()
-    data.course.print_courselist(courses)
-    
-    sectionids = [46997808, 46758415]
-    get_textbooks(sectionids)
 
 if __name__ == '__main__':
     main()
