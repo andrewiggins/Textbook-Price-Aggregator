@@ -82,20 +82,6 @@ def prepare_value(value):
     return value.translate(removechars_table)
 
 
-def get_available_courses(term, termid):
-    """Return a list of courses that have textbooks listed for that semester."""
-    courses = data.CourseList()
-    depts = get_options(termid) 
-    for dept, deptid in depts.items():
-        nums = get_options(termid, deptid)
-        for num, numid in nums.items():
-            sections = get_options(termid, deptid, numid)
-            for section, sectionid in sections.items():
-                courses.append(data.Course(term, dept, num, section, sectionid))
-    
-    return courses
-
-
 def get_textbooks_html(sectionids):
     url = 'http://lsu.bncollege.com/webapp/wcs/stores/servlet/TBListView'
     data = {'storeId': 19057,
@@ -177,6 +163,20 @@ def test_options():
     sections = get_options(term=term, dept=dept, course=course)
     print sections
     return sections
+
+
+def test_get_available_courses(term, termid):
+    """Return a list of courses that have textbooks listed for that semester."""
+    courses = data.CourseList()
+    depts = get_options(termid) 
+    for dept, deptid in depts.items():
+        nums = get_options(termid, deptid)
+        for num, numid in nums.items():
+            sections = get_options(termid, deptid, numid)
+            for section, sectionid in sections.items():
+                courses.append(data.Course(term, dept, num, section, sectionid))
+    
+    return courses
 
 
 def main():
