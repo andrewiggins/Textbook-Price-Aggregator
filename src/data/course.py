@@ -24,18 +24,15 @@
 
 class Course():
 
-    def __init__(self, term, dept, num, section, id=None):
+    def __init__(self, term, dept, num, section, request_id=None):
         self.term = term
         self.dept = dept
         self.num = num
         self.section = section
-        self.id = id
+        self.request_id = id
 
-        if self.section:
-            self.__title = "%s %s%s%s%s" % (term, dept.upper(), num,
+        self.__title = "%s %s %s%s%s" % (term, dept.upper(), num,
                                               's', section)
-        else:
-            self.__title = "%s%s" % (dept.upper(),num)
 
     def __cmp__(self, other):
         if self.dept.upper() < other.dept.upper():
@@ -65,34 +62,15 @@ class Course():
             return 1;
         else:
             return 0;
-                        
+
+    @staticmethod
+    def cmp_factory(attr):
+        '''Return a function that compares two Course objects on attr'''
+        f = lambda obj1, obj2: getattr(obj1, attr).__cmp__(getattr(obj2, attr))
+        return f  
+
     def __str__(self):
         return self.__title
-
-
-class CourseList(list):    
-    
-    def sort_courses(self, attr):
-        for i in xrange(1, len(self)):
-            for k in xrange(i, 0, -1):
-                if self[k].compare_attr(self[k-1], attr) < 0:
-                    self[k], self[k-1] = self[k-1], self[k]
-                else:
-                    break
-    
-    def find_class(self, **kwargs):
-        toremove = CourseList()
-        for course in self:
-            for key, value in kwargs.items():
-                if getattr(course, key) != value:
-                    toremove.append(course)
-        
-        results = CourseList()
-        for course in self:
-            if course not in toremove:
-                results.append(course)
-        
-        return results
 
 
 def print_courselist(courses, indent=0):
@@ -109,7 +87,7 @@ def main():
     depts = ['PHYS', 'ENGL']
     nums = 1201
     sections = 1
-    courses = CourseList()
+    courses = []
     i = 2
     for dept in depts:
         for num in [nums + ii for ii in xrange(i)]:
@@ -117,12 +95,13 @@ def main():
                 courses.append(Course('FALL 2011', dept, num, section))
         i += 1
     
+    print 'Courses:'
     print_courselist(courses)
-    print
-    courses.sort_courses('num')
+    print '\nSorted by num:'
+    courses.sort(Course.cmp_factory('num'))
     print_courselist(courses)
-    print
-    courses.sort_courses('section')
+    print '\nSorted by section'
+    courses.sort(Course.cmp_factory('section'))
     print_courselist(courses)
 
 
