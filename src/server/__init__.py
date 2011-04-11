@@ -24,7 +24,7 @@
 
 from error import ErrorHandler
 from retailers import Retailers
-from search import SearchPage, SearchRetailer
+from search import SearchResultsPage, SearchRetailer
 from schools import CourseSearchPage, CourseLookup
 from book import BookPage, TextbookLookup, TextbookListingsLookup
 
@@ -40,7 +40,7 @@ class HomePage(webapp.RequestHandler):
 
 app = webapp.WSGIApplication([('/?', HomePage),
                               ('/retailers', Retailers),
-                              ('/search', SearchPage),
+                              ('/search', SearchResultsPage),
                               ('/search/[a-z0-9\-]+', SearchRetailer),
                               ('/book/[0-9Xx]+', BookPage),
                               ('/textbook/[0-9Xx]+', TextbookLookup),

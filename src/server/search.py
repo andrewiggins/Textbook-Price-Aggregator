@@ -25,7 +25,7 @@
 
 from google.appengine.ext import webapp
 
-class SearchPage(webapp.RequestHandler):
+class SearchResultsPage(webapp.RequestHandler):
     '''Handles request for the /search path which returns the HTML for
     a user searching for a textbook by a generic search term'''
     
