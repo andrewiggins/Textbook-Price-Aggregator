@@ -7,7 +7,7 @@ URLs
 ----
 
 - User URLs  
-  *(Returns HTML)*  
+  *(Return HTML)*  
   *(Asterisks signify path parameter)*
 
   1. `/`
@@ -17,7 +17,7 @@ URLs
   5. `/error/*error_code*`
 
 - API URLs  
-  *(Returns API Data, usually [JSON] objects)*  
+  *(Return API Data, usually [JSON] objects)*  
   *(Asterisks signify path parameter)*
 
   1. `/textbook/*isbn*`
