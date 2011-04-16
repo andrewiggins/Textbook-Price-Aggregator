@@ -90,9 +90,9 @@ import types
 import re
 import sgmllib
 try:
-  from htmlentitydefs import name2codepoint
+    from htmlentitydefs import name2codepoint
 except ImportError:
-  name2codepoint = {}
+    name2codepoint = {}
 try:
     set
 except NameError:
@@ -480,6 +480,7 @@ class Tag(PageElement):
 
     """Represents a found HTML tag with its attributes and contents."""
 
+    @staticmethod
     def _invert(h):
         "Cheap function to invert a hash."
         i = {}
@@ -927,9 +928,9 @@ class SoupStrainer:
                 markupAttrMap = None
                 for attr, matchAgainst in self.attrs.items():
                     if not markupAttrMap:
-                         if hasattr(markupAttrs, 'get'):
+                        if hasattr(markupAttrs, 'get'):
                             markupAttrMap = markupAttrs
-                         else:
+                        else:
                             markupAttrMap = {}
                             for k,v in markupAttrs:
                                 markupAttrMap[k] = v
@@ -1449,12 +1450,12 @@ class BeautifulStoneSoup(Tag, SGMLParser):
         declaration as a CData object."""
         j = None
         if self.rawdata[i:i+9] == '<![CDATA[':
-             k = self.rawdata.find(']]>', i)
-             if k == -1:
-                 k = len(self.rawdata)
-             data = self.rawdata[i+9:k]
-             j = k+3
-             self._toStringSubclass(data, CData)
+            k = self.rawdata.find(']]>', i)
+            if k == -1:
+                k = len(self.rawdata)
+            data = self.rawdata[i+9:k]
+            j = k+3
+            self._toStringSubclass(data, CData)
         else:
             try:
                 j = SGMLParser.parse_declaration(self, i)
