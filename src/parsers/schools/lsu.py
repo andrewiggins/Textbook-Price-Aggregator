@@ -167,7 +167,7 @@ def test_options():
 
 def test_get_available_courses(term, termid):
     """Return a list of courses that have textbooks listed for that semester."""
-    courses = data.CourseList()
+    courses = []
     depts = get_options(termid) 
     for dept, deptid in depts.items():
         nums = get_options(termid, deptid)

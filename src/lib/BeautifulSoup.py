@@ -480,7 +480,6 @@ class Tag(PageElement):
 
     """Represents a found HTML tag with its attributes and contents."""
 
-    @staticmethod
     def _invert(h):
         "Cheap function to invert a hash."
         i = {}

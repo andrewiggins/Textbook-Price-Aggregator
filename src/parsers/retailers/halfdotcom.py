@@ -29,7 +29,7 @@ def parse_book_page_listing(html):
     soup = BeautifulSoup.BeautifulSoup(html)
     #info1 = soup.findAll('table',{"border":"0","cellpadding":"0","class":"pdpbg"})[0]
     otherinfo = [str(a.findAll(text=True)[0]) for a in soup.findAll('td',{'style':'padding-top:10px;white-space:nowrap;'})[0].findAll('span')]
-    form,isbn,isbn13,pubdate,publisher,lang = otherinfo[:5]+[otherinfo[-1]]
+    isbn,isbn13 = (otherinfo[:5]+[otherinfo[-1]])[1:3]
     bookData = soup.findAll('table',{"border":"0","cellpadding":"12","cellspacing":"0"})[0].findAll("table",{"width":"906","border":"0","cellpadding":"3","cellspacing":"0"})
     listings = []
     quality = map(str,[a.findAll(text=True)[0] for a in soup.findAll('span',{"class":"Header"})])

@@ -22,6 +22,8 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
+import data
+
 class Course():
 
     def __init__(self, term, dept, num, section, request_id=None):
@@ -92,10 +94,10 @@ def main():
     print 'Courses:'
     print_courselist(courses)
     print '\nSorted by num:'
-    courses.sort(Course.cmp_factory('num'))
+    courses.sort(data.cmp_factory('num'))
     print_courselist(courses)
     print '\nSorted by section'
-    courses.sort(Course.cmp_factory('section'))
+    courses.sort(data.cmp_factory('section'))
     print_courselist(courses)
 
 
