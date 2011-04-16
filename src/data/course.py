@@ -63,12 +63,6 @@ class Course():
         else:
             return 0;
 
-    @staticmethod
-    def cmp_factory(attr):
-        '''Return a function that compares two Course objects on attr'''
-        f = lambda obj1, obj2: getattr(obj1, attr).__cmp__(getattr(obj2, attr))
-        return f  
-
     def __str__(self):
         return self.__title
 

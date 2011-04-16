@@ -23,7 +23,14 @@
 #-------------------------------------------------------------------------------
 
 from textbook import Textbook, TextbookListing
-from course import Course, CourseList
+from course import Course
+
+
+def cmp_factory(attr):
+    '''Return a function that compares two objects on attr'''
+    f = lambda obj1, obj2: getattr(obj1, attr).__cmp__(getattr(obj2, attr))
+    return f  
+
 
 def main():
     pass
