@@ -83,6 +83,8 @@ def prepare_value(value):
 
 
 def get_textbooks_html(sectionids):
+    #return open(r"C:\Users\Andre\Downloads\TBListView.htm").read()
+    
     url = 'http://lsu.bncollege.com/webapp/wcs/stores/servlet/TBListView'
     data = {'storeId': 19057,
             'langId': -1,
@@ -121,13 +123,42 @@ def get_textbooks(sectionids):
     #    not sure, leave
     soup = BeautifulSoup.BeautifulSoup(get_textbooks_html(sectionids))
     form = soup.find('form', {'name': 'courseListForm'})
-    class_tags = form.findAll('div', {'class': 'sectionHeading'})  
+    course_tags = form.findAll('div', {'class': 'sectionHeading'}) 
     
-    for class_tag in class_tags:
-        class_info = parse_class(str(class_tag))
-        if class_info:
-            print class_info
+    for course_tag in course_tags:
+        course_info = parse_class(str(course_tag))
+        if course_info:
+            print course_info
+            
+            book_tags = course_tag.nextSibling
+            while str(type(book_tags)) != str(BeautifulSoup.Tag):
+                book_tags = book_tags.nextSibling
+            
+            course_info.textbooks = []
+            for book_tag in book_tags.findAll('div', {'class':'tbListHolding'}):
+                course_info.textbooks.append(parse_book(str(book_tag)))
+            
         
+def parse_book(html):
+    #FALL 2011 BIOL 1001s001
+    #FALL 2011 AAAS 2000s001
+    #SPRING 2011 ENGL 2025s002
+    soup = BeautifulSoup.BeautifulSoup(html)
+    book_info = {}
+    
+    heading, content = soup.findAll('div')[1:3]
+    title, status = [li.findAll(text=True)[0] for li in heading.findAll('li')[1:]]
+    book_info['title'] = urllib.unquote(title.strip())
+    book_info['status'] = urllib.unquote(status.strip())
+    print book_info['title'], book_info['status'] 
+        
+    text = [s.strip() for s in content.findAll(text=True) if s.strip() and s.find(':') == -1]
+    book_info.update(zip(('author', 'edition', 'publisher', 'isbn13'), text[:4]))
+    book_info['year'] = book_info['edition']
+    print book_info['author'], book_info['edition'], book_info['publisher'], book_info['isbn13']
+    
+    listings = [s for s in text[6:] if s != 'if available']
+    print listings
         
 def parse_class(html):
     soup = BeautifulSoup.BeautifulSoup(html)
@@ -141,8 +172,8 @@ def parse_class(html):
     for i in xrange(4):
         class_info[data_keys[i]] = li_tags[i].string
     
-    print class_info
-    return class_info #need Course Object instead
+    ci = class_info
+    return data.Course(ci['semester'], ci['dept'], ci['course'], ci['section'])
     
 
 def test_options():
@@ -180,14 +211,8 @@ def test_get_available_courses(term, termid):
 
 
 def main():
-    for i in xrange(10):
-        print "%s:" % i
-        try:
-            test_options()
-        except:
-            pass
-        finally:
-            print
+    sectionids = [46997808, 47221180, 45123192]
+    get_textbooks(sectionids)
     
 
 if __name__ == '__main__':
