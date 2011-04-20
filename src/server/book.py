@@ -22,7 +22,9 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
+import json
 from google.appengine.ext import webapp
+import parsers.retailers.halfdotcom as halfdotcom
 
 class BookPage(webapp.RequestHandler):
     
@@ -33,7 +35,10 @@ class BookPage(webapp.RequestHandler):
 class TextbookLookup(webapp.RequestHandler):
     
     def get(self):
-        self.response.out.write("TextbookLookup")
+        isbn = self.request.path.split('/')[-1]
+        textbook = halfdotcom.lookup_isbn(isbn)
+        
+        self.response.out.write(json.dumps(textbook.__dict__, indent=2, sort_keys=True))
     
 
 class TextbookListingsLookup(webapp.RequestHandler):

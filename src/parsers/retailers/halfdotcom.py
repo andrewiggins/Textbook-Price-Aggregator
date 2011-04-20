@@ -37,19 +37,19 @@ def parse_book_page_listing(html):
         for info in bookData2.findAll("tr",{"class":"tr-border"}):
             price = float(info.findAll("span",{"class":"ItemPrice"})[0].findAll(text=True)[0].replace("$",""))
             url = info.find("a",{"class":"MoreInfo"})["href"]
-            listings.append(data.TextbookListing(url,kwargs={'retailer':'HalfDotCom','price':price,'condition':quality[i],'isbn':isbn,'isbn13':isbn13}))
+            listings.append(data.TextbookListing(url, **{'retailer':'HalfDotCom','price':price,'condition':quality[i],'isbn':isbn,'isbn13':isbn13}))
     return listings
 
 def parse_book_page_textbook(html):
     soup = BeautifulSoup.BeautifulSoup(html)
-    imgURL = soup.findAll("img",{"border":"0","class":"imageborder"})
+    imgURL = soup.findAll("img",{"border":"0","class":"imageborder"})[0]['src']
     info1 = soup.findAll('table',{"border":"0","cellpadding":"0","class":"pdpbg"})[0]
     title = str(info1.findAll('h1',{"class":"pdppagetitle"})[0].findAll(text=True)[0])
     authors = [str(a.findAll(text=True)[0]) for a in info1.findAll('span',{"class":"pdplinks"})[0].findAll("a")]
     url = info1.find('a',{"class":"pdplinks"})["href"]
     otherinfo = [str(a.findAll(text=True)[0]) for a in soup.findAll('td',{'style':'padding-top:10px;white-space:nowrap;'})[0].findAll('span')]
     form,isbn,isbn13,pubdate,publisher,lang = otherinfo[:5]+[otherinfo[-1]]
-    return data.Textbook(url,kwargs={'title':title,'author':','.join(authors),'publisher':publisher,'date':pubdate,'imageurl':imgURL,'language':lang,'format':form,'isbn':isbn,'isbn13':isbn13})
+    return data.Textbook(url, **{'title':title,'author':','.join(authors),'publisher':publisher,'date':pubdate,'imageurl':imgURL,'language':lang,'format':form,'isbn':isbn,'isbn13':isbn13})
 
 
 def parse_search_page(html):
@@ -67,20 +67,25 @@ def parse_search_page(html):
         author = str(authorTag.find(text=True))
         formatTag = book.find("a",{"class":"ProductFormatYear"})
         form,pubdate = formatTag.find(text=True).split(', ')
-        textbooks.append(data.Textbook(url,kwargs={'title':title,'author':author,'date':pubdate,'format':form}))
+        textbooks.append(data.Textbook(url, **{'title':title,'author':author,'date':pubdate,'format':form}))
     return textbooks
 
 
-def search(title,param=1):
-    url = "http://search.half.ebay.com/?m=books&sby=%s&query=%s"%(param,urllib2.quote(title))
+def search(term,param=1):
+    url = "http://search.half.ebay.com/?m=books&sby=%s&query=%s"%(param,urllib2.quote(term))
     html = urllib2.urlopen(url).read()
     return parse_search_page(html)
 
-def lookup(string):
+
+def lookup_listings(string):
     if "http://" in string:
         return parse_book_page_listing(urllib2.urlopen(string).read())
     else:
         return parse_book_page_listing(urllib2.urlopen("http://books.half.ebay.com/ws/web/HalfISBNSearch?isbn=%s"%urllib2.quote(string)).read())
+
+
+def lookup_isbn(isbn):
+    return parse_book_page_textbook(urllib2.urlopen("http://books.half.ebay.com/ws/web/HalfISBNSearch?isbn=%s"%urllib2.quote(str(isbn))).read())
 
 
 if __name__=="__main__":
@@ -94,3 +99,7 @@ if __name__=="__main__":
         parse_book_page_textbook(c)
     search(urllib2.quote("asdfasdfasd"))
     print time.clock()-t
+    
+    #tried on isbn 9780553212587, got error
+    print
+    print lookup_isbn(isbns[0])
