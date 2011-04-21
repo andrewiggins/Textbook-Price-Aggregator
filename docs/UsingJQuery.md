@@ -6,6 +6,7 @@ The following outlines the information learned by going through the
 
 Day 1 and 2
 -----------
+*Watch [Day 1] and [Day 2]*
 
 Embed code into the following to ensure it does not run until the page is 
 completely loaded. See official documentation [here][jquery function 3]
@@ -70,6 +71,7 @@ Day 13 code for example*
     
 Day 3
 -----
+*Watch [Day 3]*
 
 Use the [`.animate(attributes, speed)`][animate] function to animate a change in css 
 attributes over a time. 
@@ -96,6 +98,7 @@ a tag's event.
     
 Day 4
 -----
+*Watch [Day 4]*
 
 Use the [`addClass('cssclass')`][addClass] and [`removeClass('cssclass')`][removeClass] 
 functions to change a tag's css.
@@ -113,6 +116,7 @@ functions to change a tag's css.
 
 Day 5
 -----
+*Watch [Day 5]*
 
 To create tags, or just add any html to a tag, [pass the desired html to the `$` function][jquery function 2] 
 and call the [`.appendTo('tagselector')`][appendTo] passing in the tag you want to append the html to.
@@ -138,6 +142,7 @@ To remove an tag, call [`.remove()`][remove] on the tag.
     
 Day 6
 -----
+*Watch [Day 6]*
 
 To have an event toggle a css class change call the [`.toggleClass('classname')`][toggleClass]
 within the event you want to toggle. See the example below.
@@ -236,6 +241,7 @@ Check the [exmaple code][Day 9] for a simple example using these functions
     
 Day 10
 ------ 
+*Watch [Day 10]*
 
 Use the [`.load(url, callback)`][load] function to load the whole or part of a webpage into
 a tag. See the example code below which loads `#movies` part of a webpage `data.html`
@@ -274,6 +280,8 @@ Day 12
 
 Good review of how to do a hovering tooltip. Notable new things:
 
+- Use the [Google Libraries API] to get jQuery. Faster load times and could possibly be cached from another
+  website using it.
 - Use the [`.append(html)`][append] function to append html to a tag.
 - Use the [`.children(selector)`][children] function to select a child tag of a parent tag
 
@@ -519,14 +527,21 @@ Useful Functions
 [class selector]: http://api.jquery.com/class-selector/ "jQuery Class Selector"
 [click]: http://api.jquery.com/click "jQuery click"
 [css]: http://api.jquery.com/css/ "jQuery css"
+[Day 1]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-video-series/ "Day 1"
+[Day 2]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-2/ "Day 2"
+[Day 3]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-3/ "Day 3"
+[Day 4]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-4/ "Day 4"
+[Day 5]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-5/ "Day 5"
+[Day 6]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-6/ "Day 6"
+[Day 7]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-7/ "Day 7"
+[Day 8]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-8/ "Day 8"
+[Day 9]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-9/ "Day 9"
+[Day 10]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-10/ "Day 10"
 [Day 11]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-11/ "Day 11"
 [Day 12]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-12/ "Day 12"
 [Day 13]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-13/ "Day 13"
 [Day 14]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-14/ "Day 14"
 [Day 15]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-15/ "Day 15"
-[Day 7]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-7/ "Day 7"
-[Day 8]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-8/ "Day 8"
-[Day 9]: http://blog.themeforest.net/tutorials/jquery-for-absolute-beginners-day-9/ "Day 9"
 [descendant selector]: http://api.jquery.com/descendant-selector/ "jQuery Descendant Selector"
 [each]: http://api.jquery.com/each/ "jQuery each"
 [element selector]: http://api.jquery.com/element-selector/ "jQuery Element Selector" 
@@ -536,6 +551,7 @@ Useful Functions
 [first]: http://api.jquery.com/first-selector/ "jQuery first Selector"
 [get]: http://api.jquery.com/jQuery.get/ "jQuery AJAX get"
 [getJSON]: http://api.jquery.com/jQuery.getJSON/ "jQuery getJSON"
+[Google Libraries API]: http://code.google.com/apis/libraries/ "Google Libraries API"
 [hover]: http://api.jquery.com/hover "jQuery hover"
 [id selector]: http://api.jquery.com/id-selector/ "jQuery ID Selector"
 [jquery function 1]: http://api.jquery.com/jQuery/#jQuery1 "Main jQuery Function 1"
