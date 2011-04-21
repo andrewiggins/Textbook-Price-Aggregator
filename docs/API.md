@@ -21,7 +21,7 @@ URLs
   *(Asterisks signify path parameter)*
 
   1. `/textbook/*isbn*`
-  2. `/testbooklistings/*retailer*`
+  2. `/textbooklistings/*retailer*/*isbn*`
   3. `/search/*retailer*`
   4. `/course/*school*`
   5. `/retailers`
@@ -72,7 +72,7 @@ URL Definitions
   - `url` - specifies url of a book whose isbn can be extracted from
   - `url-retailer` - specifies which retailer the url is to
 - Calls
-  - `/textbooklistings/*retailer*` - to get textbook listings from specified *retailer*
+  - `/textbooklistings/*retailer*/*isbn*` - to get textbook listings from specified *retailer*
   - `/retailers` - to get a list of available retailers to get textbook listings from
   - `/textbook/*isbn*` - to get textbook details on the specified isbn
 - Action
@@ -99,11 +99,11 @@ URL Definitions
 - Action
   - Return Textbook Object as JSON
 
-`/testbooklistings/*retailer*`
+`/textbooklistings/*retailer*/*isbn*`
 
 - Parameters
   - `*retailer*` - (path parameter) retailer to get textbook listings from
-  - `isbn` - (**Consistency Issue - Path Parameter in other URLs**) book to get textbook listings on
+  - `*isbn*` - book to get textbook listings on
 - Called By
   - `/book/*isbn*` - to get textbook listings for specified retailer
 - Action

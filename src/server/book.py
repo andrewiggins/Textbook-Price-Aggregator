@@ -23,6 +23,7 @@
 #-------------------------------------------------------------------------------
 
 import json
+from importlib import import_module
 from google.appengine.ext import webapp
 import parsers.retailers.halfdotcom as halfdotcom
 
@@ -44,4 +45,16 @@ class TextbookLookup(webapp.RequestHandler):
 class TextbookListingsLookup(webapp.RequestHandler):
     
     def get(self):
-        self.response.out.write("TextbookListingsLookup")
+        retailer_name, isbn = self.request.path.split('/')[-2:]
+        pkgpath = 'parsers.retailers.'
+        retailer = import_module(pkgpath + retailer_name)
+        
+        listings = retailer.lookup_listings(isbn)
+        jsonlistings = '['
+        for listing in listings:
+            jsonlistings += json.dumps(listing.__dict__, sort_keys=True)
+            jsonlistings += ', '
+        jsonlistings = jsonlistings[:-2] + ']'
+        
+        self.response.out.write(jsonlistings)
+        
