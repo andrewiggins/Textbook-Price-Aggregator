@@ -420,12 +420,91 @@ AJAX Overview
   the required file
 - Call [`.ajax`][ajax] to make a AJAX request
 
+The following example uses [`getJSON()`][getJSON] to load a file `listings` and
+output to the page. It uses [`each(data, function)`][each] to loop through both
+the JSON array and JSON mapping.
+
+###Example
+
+Javascript:
+
+    $(function () {
+        $('#load').click(function() {
+            $('<div id=overlay />').appendTo('body').hide().fadeIn(500);
+            
+            $.getJSON('listings', function(data) {
+                output_json(data, 'div#json');
+                
+                $('#overlay').fadeOut(500, function() {
+                    $(this).remove()
+                });
+            });
+            
+        }); // click
+    }); // document ready
+    
+    function output_json(data, selector)
+    {
+        $(selector).append('<hr />');
+        
+        $.each(data, function(index, value) { // loop through array of mappings
+            $('<dl id=' + index.toString() + ' />').appendTo(selector);
+            
+            $.each(value, function(key, value) { // loop through mapping
+                var termhtml = '<dt>' + key + '</dt>\n';
+                var defhtml = '<dd>' + value + '</dd>\n';
+                $('dl#'+index).append(termhtml+defhtml);
+            }); 
+            
+            $(selector).append('<hr/>');
+        });
+    }
+    
+JSON Data (`listings`):
+
+    [{
+        "condition": "Brand New",
+        "isbn": "1584883936",
+        "isbn13": "9781584883937",
+        "price": 59.73,
+        "retailer": "HalfDotCom",
+        "url": "http://product.half.ebay.com/Galois-Theory-by-Ian-Stewart-2003-Paperback/2428211&tg=videtails&item=342098337890"
+    }, {
+        "condition": "Brand New",
+        "isbn": "1584883936",
+        "isbn13": "9781584883937",
+        "price": 59.73,
+        "retailer": "HalfDotCom",
+        "url": "http://product.half.ebay.com/Galois-Theory-by-Ian-Stewart-2003-Paperback/2428211&tg=videtails&item=342097216122"
+    }, {
+        "condition": "Brand New",
+        "isbn": "1584883936",
+        "isbn13": "9781584883937",
+        "price": 59.74,
+        "retailer": "HalfDotCom",
+        "url": "http://product.half.ebay.com/Galois-Theory-by-Ian-Stewart-2003-Paperback/2428211&tg=videtails&item=341567096920"
+    }, {
+        "condition": "Brand New",
+        "isbn": "1584883936",
+        "isbn13": "9781584883937",
+        "price": 63.8,
+        "retailer": "HalfDotCom",
+        "url": "http://product.half.ebay.com/Galois-Theory-by-Ian-Stewart-2003-Paperback/2428211&tg=videtails&item=342072497170"
+    }, {
+        "condition": "Like New",
+        "isbn": "1584883936",
+        "isbn13": "9781584883937",
+        "price": 55.25,
+        "retailer": "HalfDotCom",
+        "url": "http://product.half.ebay.com/Galois-Theory-by-Ian-Stewart-2003-Paperback/2428211&tg=videtails&item=341055437931"
+    }]
+
 Useful Functions
 ----------------
 
 - [Ajax Helper Functions][ajax helpers]
 - [Main AJAX Functions][ajax functions]. We will most likely use [`getJSON()`][getJSON].
-- [`.each(function)`][each]
+- [`.each(data, function)`][each]
 
 [addClass]: http://api.jquery.com/addClass "jQuery addClass"
 [ajax functions]: http://api.jquery.com/category/ajax/shorthand-methods/ "jQuery AJAX Functions"
