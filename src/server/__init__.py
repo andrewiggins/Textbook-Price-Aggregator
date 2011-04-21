@@ -22,11 +22,11 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
+from book import BookPage, TextbookListingsLookup, TextbookLookup
 from error import ErrorHandler
-from retailers import Retailers
+from retailers import available_retailers, Retailers
+from schools import available_schools, CourseLookup, CourseSearchPage
 from search import SearchResultsPage, SearchRetailer
-from schools import CourseSearchPage, CourseLookup
-from book import BookPage, TextbookLookup, TextbookListingsLookup
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
@@ -36,6 +36,15 @@ class HomePage(webapp.RequestHandler):
 
     def get(self):
         self.response.out.write("HomePage")
+
+
+def import_parser(module_name):
+    if module_name in available_schools():
+        return __import__('parsers.schools.' + module_name, fromlist=[module_name])
+    elif module_name in available_retailers():
+        return __import__('parsers.retailers.' + module_name, fromlist=[module_name])
+    else:
+        return None
 
 
 app = webapp.WSGIApplication([('/?', HomePage),

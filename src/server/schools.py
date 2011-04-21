@@ -22,7 +22,15 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
+import pkgutil
+import parsers.schools
 from google.appengine.ext import webapp
+
+
+def available_schools():
+    packages = pkgutil.walk_packages(parsers.schools.__path__)
+    return [info[1] for info in packages if not info[2]]
+
 
 class CourseSearchPage(webapp.RequestHandler):
     '''Handles request to /coursesearch/school for a search of school courses'''

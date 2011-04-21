@@ -23,7 +23,7 @@
 #-------------------------------------------------------------------------------
 
 import json
-from importlib import import_module
+import server
 from google.appengine.ext import webapp
 import parsers.retailers.halfdotcom as halfdotcom
 
@@ -39,6 +39,7 @@ class TextbookLookup(webapp.RequestHandler):
         isbn = self.request.path.split('/')[-1]
         textbook = halfdotcom.lookup_isbn(isbn)
         
+        self.response.headers['Content-Type'] = 'text/plain'
         self.response.out.write(json.dumps(textbook.__dict__, indent=2, sort_keys=True))
     
 
@@ -46,15 +47,18 @@ class TextbookListingsLookup(webapp.RequestHandler):
     
     def get(self):
         retailer_name, isbn = self.request.path.split('/')[-2:]
-        pkgpath = 'parsers.retailers.'
-        retailer = import_module(pkgpath + retailer_name)
+        retailer = server.import_parser(retailer_name)
         
-        listings = retailer.lookup_listings(isbn)
-        jsonlistings = '['
-        for listing in listings:
-            jsonlistings += json.dumps(listing.__dict__, sort_keys=True)
-            jsonlistings += ', '
-        jsonlistings = jsonlistings[:-2] + ']'
+        jsonlistings = ''
+        if retailer:
+            listings = retailer.lookup_listings(isbn)
+                 
+            jsonlistings = '['
+            for listing in listings:
+                jsonlistings += json.dumps(listing.__dict__, indent=2, sort_keys=True)
+                jsonlistings += ', '
+            jsonlistings = jsonlistings[:-2] + ']'
         
+        self.response.headers['Content-Type'] = 'text/plain'
         self.response.out.write(jsonlistings)
         

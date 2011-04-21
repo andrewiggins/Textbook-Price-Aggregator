@@ -28,12 +28,13 @@ import parsers.retailers
 from google.appengine.ext import webapp
 
 
+def available_retailers():
+    packages = pkgutil.walk_packages(parsers.retailers.__path__)
+    return [info[1] for info in packages if not info[2]]
+
+
 class Retailers(webapp.RequestHandler):
     
-    @staticmethod
-    def retailers():
-        packages = pkgutil.walk_packages(parsers.retailers.__path__)
-        return [info[1] for info in packages if not info[2]]
-    
     def get(self):
-        self.response.out.write(json.dumps(Retailers.retailers())) 
+        self.response.headers['Content-Type'] = 'text/plain'
+        self.response.out.write(json.dumps(available_retailers(), indent=2, sort_keys=True)) 
