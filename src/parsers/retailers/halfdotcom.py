@@ -77,15 +77,14 @@ def search(term, param=1):
 
 
 def lookup_listings(s):
-    s = str(s)
-    if "http://" in s:
-        return parse_book_page_listing(urllib2.urlopen(s).read())
-    else:
-        return parse_book_page_listing(urllib2.urlopen("http://books.half.ebay.com/ws/web/HalfISBNSearch?isbn=%s"%urllib2.quote(s)).read())
+    return parse_book_page_listing(urllib2.urlopen("http://books.half.ebay.com/ws/web/HalfISBNSearch?isbn=%s"%urllib2.quote(s)).read())
 
 
 def lookup_isbn(isbn):
-    return parse_book_page_textbook(urllib2.urlopen("http://books.half.ebay.com/ws/web/HalfISBNSearch?isbn=%s"%urllib2.quote(str(isbn))).read())
+    if "http://" in isbn:
+        return parse_book_page_textbook(urllib2.urlopen(isbn).read())
+    else:
+        return parse_book_page_textbook(urllib2.urlopen("http://books.half.ebay.com/ws/web/HalfISBNSearch?isbn=%s"%urllib2.quote(str(isbn))).read())
 
 
 if __name__=="__main__":

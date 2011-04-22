@@ -41,7 +41,7 @@ class SearchRetailer(webapp.RequestHandler):
     searching a retailer for a generic search term'''
     
     def get(self):
-        retailer_name = self.request.path.split('/')[-1]
+        retailer_name = self.request.path.rstrip('/').split('/')[-1]
         retailer = parsers.import_parser(retailer_name)
         
         query = self.request.get('q')

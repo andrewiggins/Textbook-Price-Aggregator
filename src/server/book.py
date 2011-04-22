@@ -30,13 +30,38 @@ import parsers.retailers.halfdotcom as halfdotcom
 class BookPage(webapp.RequestHandler):
     
     def get(self):
-        self.response.out.write("BookPage")
+        url = self.request.get('url')
+        retailer_name = self.request.get('url-retailer')
+        
+        if url and retailer_name:
+            retailer = parsers.import_parser(retailer_name)
+            isbn = retailer.lookup_isbn(url).isbn13
+            
+            requrl = self.request.url
+            newurl = requrl[:requrl.find('/')] + '/book/%s' % isbn
+            self.response.set_status(303)
+            self.response.headers['Location'] = newurl
+            return
+        elif url or retailer_name:
+            #redirect user to error page stating malformed request
+            self.response.set_status(404)
+            return
+
+        isbn = self.request.path.rstrip('/').split('/')[-1]
+        if isbn == 'book':
+            #page was requested w/o a url or isbn
+            #redirect user to error page stating malformed request
+            self.response.set_status(404)
+            return
+        
+        self.response.out.write('BookPage of %s' % isbn)
+            
     
 
 class TextbookLookup(webapp.RequestHandler):
     
     def get(self):
-        isbn = self.request.path.split('/')[-1]
+        isbn = self.request.path.rstrip('/').split('/')[-1]
         textbook = server.getjson(halfdotcom.lookup_isbn(isbn))
         
         self.response.headers['Content-Type'] = 'text/plain'
@@ -46,7 +71,7 @@ class TextbookLookup(webapp.RequestHandler):
 class TextbookListingsLookup(webapp.RequestHandler):
     
     def get(self):
-        retailer_name, isbn = self.request.path.split('/')[-2:]
+        retailer_name, isbn = self.request.path.rstrip('/').split('/')[-2:]
         retailer = parsers.import_parser(retailer_name)
         
         listings = ''

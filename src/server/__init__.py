@@ -52,17 +52,19 @@ def getjson(obj):
 def main():
     run_wsgi_app(app)
 
-
+isbn = '(?:[0-9Xx]+)'
+opt_isbn = '(?:/'+isbn+')*' #optional ISBN
+name = '(?:[a-z0-9\-]+)'
 app = webapp.WSGIApplication([('/?', HomePage),
                               ('/retailers/?', Retailers),
                               ('/searchresults/?', SearchResultsPage),
-                              ('/search/[a-z0-9\-]+/?', SearchRetailer),
-                              ('/book/?[0-9Xx]*/?', BookPage),
-                              ('/textbook/[0-9Xx]+/?', TextbookLookup),
-                              ('/textbooklistings/[a-z0-9\-]+/[0-9Xx]+/?', 
+                              ('/search/'+name, SearchRetailer),
+                              ('/book'+opt_isbn+'/?', BookPage),
+                              ('/textbook/'+isbn+'/?', TextbookLookup),
+                              ('/textbooklistings/'+name+'/'+isbn+'/?', 
                                TextbookListingsLookup),
-                              ('/coursesearch/[a-z0-9\-]+/?', CourseSearchPage),
-                              ('/course/[a-z0-9\-]+/?', CourseLookup),
+                              ('/coursesearch/'+name+'/?', CourseSearchPage),
+                              ('/course/'+name+'/?', CourseLookup),
                               ('/.*', ErrorHandler)],
                               debug=True)
 
