@@ -90,14 +90,18 @@ def main():
             for section in [sections + ii for ii in xrange(i)]:
                 courses.append(Course('FALL 2011', dept, num, section))
         i += 1
+    courses.append(Course('Fall 2011', depts[0], nums, sections))
     
     print 'Courses:'
     print_courselist(courses)
+    print '\nSorted by section, dept'
+    courses.sort(data.cmp_factory('section', 'dept'))
+    print_courselist(courses)
+    print '\nSorted by dept:'
+    courses.sort(data.cmp_factory('dept'))
+    print_courselist(courses)
     print '\nSorted by num:'
     courses.sort(data.cmp_factory('num'))
-    print_courselist(courses)
-    print '\nSorted by section'
-    courses.sort(data.cmp_factory('section'))
     print_courselist(courses)
 
 

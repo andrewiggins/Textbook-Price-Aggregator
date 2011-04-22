@@ -26,9 +26,24 @@ from textbook import Textbook, TextbookListing
 from course import Course
 
 
-def cmp_factory(attr):
+def cmp(obj1, obj2, *attrs):
+    n = len(attrs)
+    for i in xrange(n):
+        a1 = getattr(obj1, attrs[i])
+        a2 = getattr(obj2, attrs[i])
+        if a1 > a2:
+            return 1
+        elif a1 < a2:
+            return -1
+        elif i == n-1:
+            return 0
+        else:
+            continue
+
+
+def cmp_factory(*attrs):
     '''Return a function that compares two objects on attr'''
-    f = lambda obj1, obj2: getattr(obj1, attr).__cmp__(getattr(obj2, attr))
+    f = lambda obj1, obj2: cmp(obj1, obj2, *attrs)
     return f  
 
 
