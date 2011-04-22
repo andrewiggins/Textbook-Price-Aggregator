@@ -23,6 +23,9 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
+import parsers
+import server
+
 from google.appengine.ext import webapp
 
 class SearchResultsPage(webapp.RequestHandler):
@@ -38,4 +41,13 @@ class SearchRetailer(webapp.RequestHandler):
     searching a retailer for a generic search term'''
     
     def get(self):
-        self.response.out.write("SearchRetailer")
+        retailer_name = self.request.path.split('/')[-1]
+        retailer = parsers.import_parser(retailer_name)
+        
+        query = self.request.get('q')
+        type = self.request.get('type')
+        textbooks = server.getjson(retailer.search(query, type))
+        
+        self.response.headers['Content-Type'] = 'text/plain'
+        self.response.out.write(textbooks)
+        

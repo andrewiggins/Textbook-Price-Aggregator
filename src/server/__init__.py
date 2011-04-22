@@ -45,7 +45,8 @@ class HomePage(webapp.RequestHandler):
 
 
 def getjson(obj):
-    return simplejson.dumps(obj, indent=2, sort_keys=True, default=lambda obj1: obj1.__dict__)
+    return simplejson.dumps(obj, indent=2, sort_keys=True, 
+                            default=lambda obj1: obj1.__dict__)
 
 
 def main():
@@ -53,15 +54,15 @@ def main():
 
 
 app = webapp.WSGIApplication([('/?', HomePage),
-                              ('/retailers', Retailers),
-                              ('/search', SearchResultsPage),
-                              ('/search/[a-z0-9\-]+', SearchRetailer),
-                              ('/book/?[0-9Xx]*', BookPage),
-                              ('/textbook/[0-9Xx]+', TextbookLookup),
-                              ('/textbooklistings/[a-z0-9\-]+/[0-9Xx]+', 
+                              ('/retailers/?', Retailers),
+                              ('/searchresults/?', SearchResultsPage),
+                              ('/search/[a-z0-9\-]+/?', SearchRetailer),
+                              ('/book/?[0-9Xx]*/?', BookPage),
+                              ('/textbook/[0-9Xx]+/?', TextbookLookup),
+                              ('/textbooklistings/[a-z0-9\-]+/[0-9Xx]+/?', 
                                TextbookListingsLookup),
-                              ('/coursesearch/[a-z0-9\-]+', CourseSearchPage),
-                              ('/course/[a-z0-9\-]+', CourseLookup),
+                              ('/coursesearch/[a-z0-9\-]+/?', CourseSearchPage),
+                              ('/course/[a-z0-9\-]+/?', CourseLookup),
                               ('/.*', ErrorHandler)],
                               debug=True)
 

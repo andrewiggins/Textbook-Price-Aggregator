@@ -11,7 +11,7 @@ URLs
   *(Asterisks signify path parameter)*
 
   1. `/`
-  2. `/search`
+  2. `/searchresults`
   3. `/coursesearch/*school*`
   4. `/book/*isbn*`
   5. `/error/*error_code*`
@@ -45,7 +45,7 @@ URL Definitions
 - Action
   - Return the HTML of the home page of the website
 
-`/search`
+`/searchresults`
 
 - Parameters
   - `q` - search term
@@ -114,7 +114,7 @@ URL Definitions
 - Parameters
   - `*retailer*` - (path parameter) retailer to search for textbooks matching search term
   - `q` - search term
-  - 'type' - search type
+  - `type` - search type
 - Called By
   - `/search` - to get textbooks matching search term
 - Action
