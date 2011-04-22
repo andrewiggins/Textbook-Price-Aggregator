@@ -22,8 +22,8 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
-import json
 import server
+import parsers
 from google.appengine.ext import webapp
 import parsers.retailers.halfdotcom as halfdotcom
 
@@ -37,28 +37,22 @@ class TextbookLookup(webapp.RequestHandler):
     
     def get(self):
         isbn = self.request.path.split('/')[-1]
-        textbook = halfdotcom.lookup_isbn(isbn)
+        textbook = server.getjson(halfdotcom.lookup_isbn(isbn))
         
         self.response.headers['Content-Type'] = 'text/plain'
-        self.response.out.write(json.dumps(textbook.__dict__, indent=2, sort_keys=True))
+        self.response.out.write(textbook)
     
 
 class TextbookListingsLookup(webapp.RequestHandler):
     
     def get(self):
         retailer_name, isbn = self.request.path.split('/')[-2:]
-        retailer = server.import_parser(retailer_name)
+        retailer = parsers.import_parser(retailer_name)
         
-        jsonlistings = ''
+        listings = ''
         if retailer:
-            listings = retailer.lookup_listings(isbn)
-                 
-            jsonlistings = '['
-            for listing in listings:
-                jsonlistings += json.dumps(listing.__dict__, indent=2, sort_keys=True)
-                jsonlistings += ', '
-            jsonlistings = jsonlistings[:-2] + ']'
+            listings = server.getjson(retailer.lookup_listings(isbn))
         
         self.response.headers['Content-Type'] = 'text/plain'
-        self.response.out.write(jsonlistings)
+        self.response.out.write(listings)
         

@@ -22,19 +22,13 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
-import json
-import pkgutil
-import parsers.retailers
+import server
 from google.appengine.ext import webapp
-
-
-def available_retailers():
-    packages = pkgutil.walk_packages(parsers.retailers.__path__)
-    return [info[1] for info in packages if not info[2]]
+from parsers.retailers import available_retailers
 
 
 class Retailers(webapp.RequestHandler):
     
     def get(self):
         self.response.headers['Content-Type'] = 'text/plain'
-        self.response.out.write(json.dumps(available_retailers(), indent=2, sort_keys=True)) 
+        self.response.out.write(server.getjson(available_retailers()))

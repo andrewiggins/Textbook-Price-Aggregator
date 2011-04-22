@@ -22,3 +22,32 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
+import os
+import pkgutil
+import schools
+import logging
+import retailers
+
+
+def available_parsers():
+    packages = pkgutil.walk_packages([__file__[:__file__.rfind(os.sep)]])
+    return [pkginfo[1] for pkginfo in packages if not pkginfo[2]]
+
+
+def import_parser(module_name):
+    if module_name in schools.available_schools():
+        return __import__('parsers.schools.' + module_name, fromlist=[module_name])
+    elif module_name in retailers.available_retailers():
+        return __import__('parsers.retailers.' + module_name, fromlist=[module_name])
+    else:
+        logging.error('Module "%s" does not exist.' % module_name)
+        return None
+
+
+def main():
+    print __file__[:__file__.rfind(os.sep)]
+    print available_parsers()
+    
+    
+if __name__ == '__main__':
+    main()

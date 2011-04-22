@@ -22,8 +22,6 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
-import json
-
 class Textbook(object):
     
     attrs = ['title', 'author', 'publisher', 'date', 'edition', 'imageurl', 
@@ -63,7 +61,12 @@ def main():
           'synopsis': 'Synopsis', 'language': 'Language', 'format': 'Format',
           'isbn': '123456', 'isbn13': '7890'}
     tb = Textbook('url', **tb_dict)
-    print json.dumps(tb.__dict__, sort_keys=True, indent=4)
+    try:
+        import json
+    except ImportError:
+        pass
+    else:
+        print json.dumps(tb.__dict__, sort_keys=True, indent=4)
     
     tl_dict = {'retailer': 'Retailer', 'price': 11.09, 'condition': 'Condition',
                'isbn': '12345', 'isbn13': '67890'}

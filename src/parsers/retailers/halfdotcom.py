@@ -27,7 +27,6 @@ from lib import BeautifulSoup
 
 def parse_book_page_listing(html):
     soup = BeautifulSoup.BeautifulSoup(html)
-    #info1 = soup.findAll('table',{"border":"0","cellpadding":"0","class":"pdpbg"})[0]
     otherinfo = [str(a.findAll(text=True)[0]) for a in soup.findAll('td',{'style':'padding-top:10px;white-space:nowrap;'})[0].findAll('span')]
     isbn,isbn13 = (otherinfo[:5]+[otherinfo[-1]])[1:3]
     bookData = soup.findAll('table',{"border":"0","cellpadding":"12","cellspacing":"0"})[0].findAll("table",{"width":"906","border":"0","cellpadding":"3","cellspacing":"0"})
@@ -71,17 +70,18 @@ def parse_search_page(html):
     return textbooks
 
 
-def search(term,param=1):
+def search(term, param=1):
     url = "http://search.half.ebay.com/?m=books&sby=%s&query=%s"%(param,urllib2.quote(term))
     html = urllib2.urlopen(url).read()
     return parse_search_page(html)
 
 
-def lookup_listings(string):
-    if "http://" in string:
-        return parse_book_page_listing(urllib2.urlopen(string).read())
+def lookup_listings(s):
+    s = str(s)
+    if "http://" in s:
+        return parse_book_page_listing(urllib2.urlopen(s).read())
     else:
-        return parse_book_page_listing(urllib2.urlopen("http://books.half.ebay.com/ws/web/HalfISBNSearch?isbn=%s"%urllib2.quote(string)).read())
+        return parse_book_page_listing(urllib2.urlopen("http://books.half.ebay.com/ws/web/HalfISBNSearch?isbn=%s"%urllib2.quote(s)).read())
 
 
 def lookup_isbn(isbn):

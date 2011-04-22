@@ -22,15 +22,21 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
+from google.appengine.dist import use_library
+use_library('django', '1.2')
+
 from book import BookPage, TextbookListingsLookup, TextbookLookup
 from error import ErrorHandler
-from retailers import available_retailers, Retailers
-from schools import available_schools, CourseLookup, CourseSearchPage
+from retailers import Retailers
+from schools import CourseLookup, CourseSearchPage
 from search import SearchResultsPage, SearchRetailer
 
+from django.utils import simplejson
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
+import parsers.schools
+import parsers.retailers
 
 class HomePage(webapp.RequestHandler):
 
@@ -38,13 +44,12 @@ class HomePage(webapp.RequestHandler):
         self.response.out.write("HomePage")
 
 
-def import_parser(module_name):
-    if module_name in available_schools():
-        return __import__('parsers.schools.' + module_name, fromlist=[module_name])
-    elif module_name in available_retailers():
-        return __import__('parsers.retailers.' + module_name, fromlist=[module_name])
-    else:
-        return None
+def getjson(obj):
+    return simplejson.dumps(obj, indent=2, sort_keys=True, default=lambda obj1: obj1.__dict__)
+
+
+def main():
+    run_wsgi_app(app)
 
 
 app = webapp.WSGIApplication([('/?', HomePage),
@@ -59,10 +64,6 @@ app = webapp.WSGIApplication([('/?', HomePage),
                               ('/course/[a-z0-9\-]+', CourseLookup),
                               ('/.*', ErrorHandler)],
                               debug=True)
-
-
-def main():
-    run_wsgi_app(app)
 
 
 if __name__ == "__main__":

@@ -28,7 +28,7 @@ import string
 import urllib
 import urllib2
 import traceback
-import BeautifulSoup
+from lib import BeautifulSoup
 import data
 
 
