@@ -29,7 +29,7 @@ from course import Course
 def cmp(obj1, obj2, *attrs):
     n = len(attrs) if len(attrs) > 0 else 1
     for i in xrange(n):
-        if n: 
+        if len(attrs): 
             a1, a2 = [getattr(obj, attrs[i], None) for obj in [obj1, obj2]]
         else:
             a1, a2 = obj1, obj2
