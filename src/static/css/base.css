@@ -1,3 +1,18 @@
+body { 
+  text-align:center; /* for IE */ 
+}
+
+#site-wrapper { 
+  position: relative;
+  text-align:left; /* reset text alignment */ 
+  width: 760px; /* so our website will display nicely on 800x600 screens */ 
+  margin:0 auto; /* to center */ 
+}
+
+#header {
+  height: 66px;
+}
+
 ul.tabs {
   list-style: none;
   padding: 0;
@@ -5,5 +20,50 @@ ul.tabs {
 }
 
 ul.tabs li {
-  float: left; 
+  float: left;
+  height: 66px;
+  padding-right: 1em;
+}
+
+ul.tabs li:last-child {
+  padding-right: 0em;
+}
+
+#logo-link {
+  position: absolute;
+  text-indent: -9999px;
+  background: transparent url("/img/logo.jpg") no-repeat;
+  height: 66px;
+  width: 73px;
+}
+
+#tab-links h1 {
+  position: absolute;
+  padding-left: 1em;
+  left: 73px;  
+  top: 4px; 
+}
+
+#header-link:link, #header-link:visited {
+  color: black;
+  text-decoration: none;
+}
+
+ul.tabs li #search {
+  position: relative;
+  top: 45px;
+}
+
+#tab-search {
+  float: right;
+}
+
+#content {
+  clear:both;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+#footer p {
+  text-align: center;
 }

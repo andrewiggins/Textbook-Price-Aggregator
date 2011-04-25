@@ -11,22 +11,26 @@
 </head>
 
 <body>
+<div id="site-wrapper">
   <div id="header">
     {% block header %}
 	<ul class="tabs">
-	   <li>
-	     <div class="logo"> <img src="/img/logo.jpg" /> </div> 
+	   <li id="tab-logo">
+	     <a id="logo-link" href="/" title="S.W.A.T. Textbooks">S.W.A.T. Textbooks</a> 
 	   </li>
-	   <li>
-	     <div class="links"> 
-	       <a href="/" title="Home">Home</a>
-	     </div> 
+	   <li id="tab-links">
+	       <!-- <a href="/" title="Home">Home</a> -->
+	       <a id="header-link" href="/"><h1>S.W.A.T. Textbooks</h1></a>
 	   </li>
-	   <li>
-	     <form action="/searchresults" method="post" id="search">
+	   <li id="tab-search">
+	     <form id="search" action="/searchresults" method="post">
 	       <select name="type">
+	         <option value="isbn">ISBN</option>
+	         <option value="title">Title</option>
+	         <option value="author">Author</option>
+	         <option value="keyword">Keyword</option>
 	       </select>
-	       <input type="text" name="q" id="q" />
+	       <input id="q" type="text" name="q" />
 	     </form>
 	   </li>
 	</ul>
@@ -38,8 +42,11 @@
   </div>
 
   <div id="footer">
-    {% block footer %}{% endblock %}    
-  </div>		
+    {% block footer %}
+    <p>Copyright | Contact | Sitemap</p>
+    {% endblock %}    
+  </div>
+</div>
 </body>
 
 </html>
