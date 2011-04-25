@@ -19,11 +19,10 @@
 	     <a id="logo-link" href="/" title="S.W.A.T. Textbooks">S.W.A.T. Textbooks</a> 
 	   </li>
 	   <li id="tab-links">
-	       <!-- <a href="/" title="Home">Home</a> -->
 	       <a id="header-link" href="/"><h1>S.W.A.T. Textbooks</h1></a>
 	   </li>
 	   <li id="tab-search">
-	     <form id="search" action="/searchresults" method="post">
+	     <form id="search" action="/searchresults" method="get">
 	       <select name="type">
 	         <option value="isbn">ISBN</option>
 	         <option value="title">Title</option>
@@ -31,9 +30,11 @@
 	         <option value="keyword">Keyword</option>
 	       </select>
 	       <input id="q" type="text" name="q" />
+	       <input type="submit" value="Search" />
 	     </form>
 	   </li>
 	</ul>
+	<hr class="bottom" />
 	{% endblock %}
   </div>
 	
@@ -43,7 +44,12 @@
 
   <div id="footer">
     {% block footer %}
-    <p>Copyright | Contact | Sitemap</p>
+    <hr class="top" />
+    <p>
+	  Copyright © 2011 | 
+	  <a href="/contact">Contact Us</a> | 
+	  <a href="/sitemap">Sitemap</a>
+    </p>
     {% endblock %}    
   </div>
 </div>

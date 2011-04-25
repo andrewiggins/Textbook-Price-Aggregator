@@ -51,11 +51,15 @@ ul.tabs li:last-child {
 
 ul.tabs li #search {
   position: relative;
-  top: 45px;
+  top: 40px;
 }
 
 #tab-search {
   float: right;
+}
+
+hr {
+  width: 100%;
 }
 
 #content {
@@ -64,6 +68,9 @@ ul.tabs li #search {
   padding-bottom: 1em;
 }
 
-#footer p {
+#footer p, #footer a {
+  margin: 0.5em 1px;
   text-align: center;
+  color: gray;
+  text-decoration: none;
 }
