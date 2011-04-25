@@ -5,11 +5,17 @@ api_version: 1
 
 handlers:
 - url: /favicon.ico
-  static_files: static/images/favicon.ico
-  upload: static/images/favicon.ico
+  static_files: static/img/favicon.ico
+  upload: static/img/favicon.ico
 
-- url: /static
-  static_dir: static
+- url: /js
+  static_dir: static/js
+  
+- url: /css
+  static_dir: static/css
+
+- url: /img
+  static_dir: static/img
 
 - url: /.*
   script: server/__init__.py

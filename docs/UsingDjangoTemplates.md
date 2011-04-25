@@ -1,9 +1,15 @@
 Django Templates
 ================
 
-Google App Engine [comes with][Google App Engine Templates] the [Django 1.2 Template Engine][Template Reference] built-in. 
+Google App Engine [comes with][Google App Engine Templates] the [Django 1.2 Template Engine][Template Builtin Reference] built-in.
+([Template API]) 
 
-Django Templates allows us to write HTML files that include special tags that allow us to apply logic to the html tags that we evaluate before sending to the user. So we can design HTML files with loops, if else blocks, and inheritance very easily. Also, we can apply filters to text we output into the HTML such as `escape` which escapes the code before writing it. Use the [template reference] page to see the available tags and filters.
+Django Templates allows us to write HTML files that include special tags that 
+allow us to apply logic to the html tags that we evaluate before sending to the 
+user. So we can design HTML files with loops, if else blocks, and inheritance 
+very easily. Also, we can apply filters to text we output into the HTML such as 
+`escape` which escapes the code before writing it. Use the [template reference] 
+page to see the available tags and filters.
 
 Two parts of the reference to take note of:
 
@@ -111,6 +117,7 @@ Here is an example Django Template:
     </html>
 
 [Google App Engine Templates]: http://code.google.com/appengine/docs/python/gettingstarted/templates.html "Google App Engine Templates"
-[Template Reference]: http://docs.djangoproject.com/en/1.2/ref/templates/builtins/ "Django 1.2 Template Reference"
+[Template API]: http://docs.djangoproject.com/en/1.2/ref/templates/api/ "Template API"
+[Template Builtin Reference]: http://docs.djangoproject.com/en/1.2/ref/templates/builtins/ "Django 1.2 Template Reference"
 [Template Inheritance]: http://docs.djangoproject.com/en/1.2/topics/templates/#template-inheritance "Django 1.2 Template Inheritance"
 [Automatic HTML Escaping]: http://docs.djangoproject.com/en/1.2/topics/templates/#automatic-html-escaping "Django 1.2 Automatic HTML Escaping"

@@ -33,6 +33,7 @@ from search import SearchResultsPage, SearchRetailer
 
 from django.utils import simplejson
 from google.appengine.ext import webapp
+from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 import parsers.schools
@@ -41,7 +42,9 @@ import parsers.retailers
 class HomePage(webapp.RequestHandler):
 
     def get(self):
-        self.response.out.write("HomePage")
+        path = '../static/templates/base.html'
+        template_values = {}
+        self.response.out.write(template.render(path, template_values, True))
 
 
 def getjson(obj):
