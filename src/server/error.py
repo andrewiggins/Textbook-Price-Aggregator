@@ -38,10 +38,16 @@ class ErrorHandler(webapp.RequestHandler):
     
     def get(self):
         requrl = self.request.url.rstrip('/')
-        start = requrl.rfind('/error/') + len('/error/')
-        code = int(requrl[start:start+3])
-        msg = self.request.get('msg', default_msgs.get(code, "Error"))
-        title = status_codes.get(code, "Error")
+        
+        if 'error' in requrl:
+            start = requrl.rfind('/error/') + len('/error/')
+            code = int(requrl[start:start+3])
+            msg = self.request.get('msg', default_msgs.get(code, "Error"))
+            title = status_codes.get(code, "Error")
+        else:
+            code = 404
+            msg = 'The request path "%s" does not exist' % (self.request.path)
+            title = status_codes.get(code, "Error")
         
         values = {'title': title, 'msg': msg, 'code': code}
         html = template.render('../static/templates/error.html', values)
