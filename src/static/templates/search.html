@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+<link rel="stylesheet" href="/css/default.css" />
+{% block content %}
+<div id="container">
+<div id="json">
+</div>
+</div>
+    <script type="text/javascript">
+       $(function () {
+       
+       $.getJSON('{{url}}', function(data) {
+       output_json(data,'div#json');
+       });       
+       
+       });
+       
+           function output_json(data, selector)
+    {
+              
+        $.each(data, function(index, value) {
+            var container_id = 'book'+index;
+            var container_sel = '#' + container_id;
+            $('<div id="'+container_id+'" />').hover(function() {
+                $('div.header[num="'+index+'"]').addClass('highlight');
+            }, function() {
+                $('div.header[num="'+index+'"]').removeClass('highlight');
+            }).addClass('listing').appendTo(selector);
+            
+            $('<div num="'+index+'" />').click(function() {
+                $('dl#' + $(this).attr('num')).slideToggle();
+            }).addClass('header').appendTo(container_sel);
+            
+            $('<img src="' + value.imageurl +'"></img><a href="' + value.url +'">' + value.title + '<a>').appendTo('div.header[num="'+index+'"]')
+            
+            $('<dl id="' + index.toString() + '" />').appendTo(container_sel)
+                                                     .slideUp();
+            
+            $.each(value, function(key, value) {
+                var termhtml = '<dt>' + key + '</dt>\n';
+                var defhtml = '<dd>' + value + '</dd>\n';
+                $('dl#'+index).append(termhtml+defhtml);
+            }); // map each
+            
+            $('<hr />').appendTo(container_sel);
+            
+        }); // array each
+    }
+       
+    </script>
+
+
+{% endblock %}
+
