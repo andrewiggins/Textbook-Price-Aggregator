@@ -59,14 +59,16 @@ def parse_search_page(html):
     numMatches = str(numMatches).splitlines()[2].split(' ')[0][1:]
     textbooks=[]
     if numMatches == "0":return textbooks
-    for book in bookInfo:
+    images=info.findAll('img',{"class":"imageborder"})
+    for i,book in enumerate(bookInfo):
         titleTag,authorTag = book.findAll("a",{"class":"ProductInfo"})[:2]
         title = str(titleTag.find(text=True))
         url = titleTag["href"]
+        imageURL=images[i]["src"]
         author = str(authorTag.find(text=True))
         formatTag = book.find("a",{"class":"ProductFormatYear"})
         form,pubdate = formatTag.find(text=True).split(', ')
-        textbooks.append(data.Textbook(url, **{'title':title,'author':author,'date':pubdate,'format':form}))
+        textbooks.append(data.Textbook(url, **{'imageurl':imageURL,'title':title,'author':author,'date':pubdate,'format':form}))
     return textbooks
 
 
@@ -89,16 +91,17 @@ def lookup_isbn(isbn):
 
 if __name__=="__main__":
     t=time.clock()
-    a=urllib2.urlopen("http://search.half.ebay.com/?m=books&sby=1&query=%09Galois%27+Theory+of+Algebraic+Equations")
-    parse_search_page(a.read())
-    isbns=[9781584883937,9780201633610,9780136021827]
-    for isbn in isbns:
-        c=urllib2.urlopen("http://books.half.ebay.com/ws/web/HalfISBNSearch?isbn=%s"%isbn).read()
-        parse_book_page_listing(c)
-        parse_book_page_textbook(c)
-    search(urllib2.quote("asdfasdfasd"))
-    print time.clock()-t
+#    a=urllib2.urlopen("http://search.half.ebay.com/?m=books&sby=1&query=%09Galois%27+Theory+of+Algebraic+Equations")
+#    parse_search_page(a.read())
+#    isbns=[9781584883937,9780201633610,9780136021827]
+#    for isbn in isbns:
+#        c=urllib2.urlopen("http://books.half.ebay.com/ws/web/HalfISBNSearch?isbn=%s"%isbn).read()
+#        parse_book_page_listing(c)
+#        parse_book_page_textbook(c)
+#    search(urllib2.quote("asdfasdfasd"))
+#    print time.clock()-t
+    a = search('abstract algebra')
+    print "hi"
     
     #tried on isbn 9780553212587, got error
     print
-    print lookup_isbn(isbns[0])

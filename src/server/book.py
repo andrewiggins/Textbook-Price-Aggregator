@@ -53,7 +53,6 @@ class BookPage(webapp.RequestHandler):
             #redirect user to error page stating malformed request
             self.response.set_status(404)
             return
-        
         self.response.out.write('BookPage of %s' % isbn)
             
     

@@ -25,6 +25,7 @@
 
 import parsers
 import server
+import urllib
 
 from google.appengine.ext import webapp
 
@@ -33,6 +34,21 @@ class SearchResultsPage(webapp.RequestHandler):
     a user searching for a textbook by a generic search term'''
     
     def get(self):
+        query = self.request.get('q')
+        type = self.request.get('type')
+        requrl=self.request.uri
+        if type=="isbn":
+            newurl=requrl[:requrl.find('/')] + '/book/%s' % query
+            self.response.set_status(303)
+            self.response.headers['Location'] = newurl
+            return
+        
+        retailer = parsers.retailers.available_retailers()[0]
+        
+        newurl = requrl[:requrl.find('/')]+"/search/%s?%s"%(retailer,urllib.urlencode({"q":query,"type":type}))
+        
+        
+        
         self.response.out.write("SearchPage")
     
     
