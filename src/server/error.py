@@ -26,10 +26,12 @@
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 
-status_codes = {404: 'Not Found',
+status_codes = {400: 'Bad Request',
+                404: 'Not Found',
                 500: 'Internal Server Error'} 
 
-default_msgs = {404: 'The requested page could not be found.',
+default_msgs = {400: 'The request has a syntax error. Please try again with correct syntax.',
+                404: 'The requested page could not be found.',
                 500: 'Sorry, an error occurred. Please try again later.'}
 
 class ErrorHandler(webapp.RequestHandler):

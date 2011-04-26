@@ -32,7 +32,6 @@ class BookPage(webapp.RequestHandler):
     def get(self):
         url = self.request.get('url')
         retailer_name = self.request.get('retailer')
-        #self.response.out.write("%s %s"%(url,retailer_name))
         
         if url and retailer_name:
             retailer = parsers.import_parser(retailer_name)
@@ -44,18 +43,18 @@ class BookPage(webapp.RequestHandler):
             self.redirect(newurl)
             
         elif url or retailer_name:
-            #redirect user to error page stating malformed request
-            self.response.set_status(404)
+            msg = "Incorrect syntax: /book a valid url and url-retailer."
+            url = "/error/400?msg=%s" % msg
+            self.redirect(url)
 
         else:
             isbn = self.request.path.rstrip('/').split('/')[-1]
             if isbn == 'book':
-                #page was requested w/o a url or isbn
-                #redirect user to error page stating malformed request
-                self.response.set_status(404)
+                msg = "Incorrect syntax: /book requires an isbn."
+                url = "/error/400?msg=%s" % msg
+                self.redirect(url)
             else:        
-                self.response.out.write('BookPage of %s' % isbn)
-            
+                self.response.out.write('BookPage of %s' % isbn)          
     
 
 class TextbookLookup(webapp.RequestHandler):
