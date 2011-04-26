@@ -42,13 +42,11 @@ class SearchResultsPage(webapp.RequestHandler):
             if type=="isbn":
                 newurl += "book/%s"%query
                 self.redirect(newurl)
-                return
         
             else:
-                retailer = parsers.retailers.available_retailers()[0]
+                retailer = "halfdotcom"
                 newurl += "search/%s?%s"%(retailer,urllib.urlencode({"q":query,"type":type}))
-                self.redirect(newurl)
-                
+                self.redirect(newurl)                
             
         else:
             self.redirect(requrl.replace("searchresults",""))    

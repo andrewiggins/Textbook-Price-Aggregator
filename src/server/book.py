@@ -35,12 +35,13 @@ class BookPage(webapp.RequestHandler):
         
         if url and retailer_name:
             retailer = parsers.import_parser(retailer_name)
-            isbn = retailer.lookup_isbn(url).isbn13
+            isbn = 3#retailer.lookup_isbn(url).isbn13
             
             requrl = self.request.url
             newurl = requrl[:requrl.find('/')] + '/book/%s' % isbn
-            self.response.set_status(303)
-            self.response.headers['Location'] = newurl
+            self.response.out.write(newurl)
+#            self.response.set_status(303)
+#            self.response.headers['Location'] = newurl
             return
         elif url or retailer_name:
             #redirect user to error page stating malformed request
