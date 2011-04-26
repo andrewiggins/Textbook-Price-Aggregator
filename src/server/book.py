@@ -47,15 +47,15 @@ class BookPage(webapp.RequestHandler):
         elif url or retailer_name:
             #redirect user to error page stating malformed request
             self.response.set_status(404)
-            return
 
-        isbn = self.request.path.rstrip('/').split('/')[-1]
-        if isbn == 'book':
-            #page was requested w/o a url or isbn
-            #redirect user to error page stating malformed request
-            self.response.set_status(404)
-            return
-        self.response.out.write('BookPage of %s' % isbn)
+        else:
+            isbn = self.request.path.rstrip('/').split('/')[-1]
+            if isbn == 'book':
+                #page was requested w/o a url or isbn
+                #redirect user to error page stating malformed request
+                self.response.set_status(404)
+            else:        
+                self.response.out.write('BookPage of %s' % isbn)
             
     
 
