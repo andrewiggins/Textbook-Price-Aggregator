@@ -41,7 +41,8 @@ class BookPage(webapp.RequestHandler):
             requrl = self.request.url
             newurl = requrl[:requrl.find('book')] + 'book/%s' % isbn
             self.response.out.write(newurl)
-            #self.redirect(newurl)
+            self.redirect(newurl)
+            return
             
         elif url or retailer_name:
             #redirect user to error page stating malformed request
