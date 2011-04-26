@@ -24,7 +24,7 @@
 #-------------------------------------------------------------------------------
 
 import parsers
-import server,urllib
+import server,urllib,urllib2
 from google.appengine.ext.webapp import template
 
 from google.appengine.ext import webapp
@@ -44,11 +44,14 @@ class SearchResultsPage(webapp.RequestHandler):
                 self.redirect(newurl)
         
             else:
+                path = '../static/templates/search.html'                
                 retailer = "halfdotcom"
-                newurl += "search/%s?%s"%(retailer,urllib.urlencode({"q":query,"type":type}))
-                self.redirect(newurl)                
+                newurl += "search/%s?q=%s&type=%s"%(retailer,query,type)
+                template_values={"url":newurl}
+                self.response.out.write(template.render(path, template_values, True))             
             
         else:
+            
             self.redirect(requrl.replace("searchresults",""))    
     
 class SearchRetailer(webapp.RequestHandler):
