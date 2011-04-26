@@ -39,7 +39,9 @@ class BookPage(webapp.RequestHandler):
             
             requrl = self.request.url
             newurl = requrl[:requrl.find('/')] + '/book/%s' % isbn
+            newurl2 = requrl[:requrl.find('book')] + 'book/%s' % isbn
             self.response.out.write(newurl)
+            self.response.out.write(newurl2) #I think this is what you wanted
 #            self.response.set_status(303)
 #            self.response.headers['Location'] = newurl
             return
