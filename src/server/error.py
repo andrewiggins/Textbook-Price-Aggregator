@@ -24,8 +24,25 @@
 #-------------------------------------------------------------------------------
 
 from google.appengine.ext import webapp
+from google.appengine.ext.webapp import template
+
+status_codes = {404: 'Not Found',
+                500: 'Internal Server Error'} 
+
+default_msgs = {404: 'The requested page could not be found.',
+                500: 'Sorry, an error occurred. Please try again later.'}
 
 class ErrorHandler(webapp.RequestHandler):
     
     def get(self):
-        self.response.out.write("404 Error: Page does not exist.")
+        requrl = self.request.url.rstrip('/')
+        start = requrl.rfind('/error/') + len('/error/')
+        code = int(requrl[start:start+3])
+        msg = self.request.get('msg', default_msgs.get(code, "Error"))
+        title = status_codes.get(code, "Error")
+        
+        values = {'title': title, 'msg': msg, 'code': code}
+        html = template.render('../static/templates/error.html', values)
+        
+        self.error(code)
+        self.response.out.write(html)
