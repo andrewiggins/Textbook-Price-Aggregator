@@ -72,8 +72,8 @@ def parse_search_page(html):
     return textbooks
 
 
-def search(term, param=1):
-    url = "http://search.half.ebay.com/?m=books&sby=%s&query=%s"%(param,urllib2.quote(term))
+def search(term, param="Title"):
+    url = "http://search.half.ebay.com/?m=books&sby=%s&query=%s"%({"Author":2,"Title":1,"Keyword":""}[param],urllib2.quote(term))
     html = urllib2.urlopen(url).read()
     return parse_search_page(html)
 
