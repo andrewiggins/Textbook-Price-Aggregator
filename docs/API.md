@@ -15,6 +15,8 @@ URLs
   3. `/coursesearch/*school*`
   4. `/book/*isbn*`
   5. `/error/*error_code*`
+  6. `/contact`
+  7. `/sitemap`
 
 - API URLs  
   *(Return API Data, usually [JSON] objects)*  
@@ -28,7 +30,7 @@ URLs
 
 - Web Data URLs
 
-  1. `/static/*`
+  1. `/js/*`, `/css/*`, `/img/*`
 
 URL Definitions
 ---------------
@@ -82,11 +84,30 @@ URL Definitions
 `/error/*error_code*`
 
 - Parameters
-  - None
+  - `*error_code*` - the HTTP Status Error code that occurred
+  - `msg` - a message describing what happened. e.g. for 404, it could be the path that was requested
 - Calls
   - None
 - Action
   - Return HTML for the specified HTTP `error_code`
+
+`/contact`
+
+- Parameters
+  - None
+- Calls
+  - None
+- Action
+  - Return HTML for the Contact Page
+
+`/sitemap`
+
+- Parameters
+  - None
+- Calls
+  - None
+- Action
+  - Return HTML for the Site Map
 
 ### API URLs
 
@@ -145,7 +166,7 @@ URL Definitions
 
 ### Web Data URLs
 
-`/static/*`
+`/js/*`, `/css/*`, `/img/*`
 
 - Parameters  
   - None
