@@ -24,7 +24,7 @@
 #-------------------------------------------------------------------------------
 
 import parsers
-import server
+import server,urllib
 from google.appengine.ext.webapp import template
 
 from google.appengine.ext import webapp
@@ -36,25 +36,22 @@ class SearchResultsPage(webapp.RequestHandler):
     def get(self):
         query = self.request.get('q')
         type = self.request.get('type')
-        self.response.out.write("%s %s"%(query,type))
         requrl=self.request.uri
         if type and query:
+            newurl = requrl.split("searchresults")[0]
             if type=="isbn":
-                newurl = requrl.split("searchresults")[0]+"book/%s"%query
+                newurl += "book/%s"%query
                 self.redirect(newurl)
                 return
         
             else:
                 retailer = parsers.retailers.available_retailers()[0]
+                newurl += "search/%s?%s"%(retailer,urllib.urlencode({"q":query,"type":type}))
+                self.redirect(newurl)
+                
             
         else:
-            self.redirect(requrl.replace("searchresults",""))
-            
-        
-        path = '../static/templates/base.html'
-        
-        self.response.out.write(template.render(path,{},True))
-    
+            self.redirect(requrl.replace("searchresults",""))    
     
 class SearchRetailer(webapp.RequestHandler):
     '''Handles request for the /search/retailer which returns the JSON for 
