@@ -20,30 +20,27 @@
         $.each(data, function(index, value) {
             var container_id = 'book'+index;
             var container_sel = '#' + container_id;
+            var url = '{{url2}}' + '?url='+value.url+'&retailer='+'{{retailer}}';
             $('<div id="'+container_id+'" />').hover(function() {
                 $('div.header[num="'+index+'"]').addClass('highlight');
             }, function() {
                 $('div.header[num="'+index+'"]').removeClass('highlight');
             }).addClass('listing').appendTo(selector);
             
-            $('<div num="'+index+'" />').click(function() {
-                $('dl#' + $(this).attr('num')).slideToggle();
-            }).addClass('header').appendTo(container_sel);
+            $('<div num="'+index+'" />').addClass('header').appendTo(container_sel).addClass('clickable').attr('url',url);
             
-            $('<img src="' + value.imageurl +'"></img><a href="' + value.url +'">' + value.title + '<a>').appendTo('div.header[num="'+index+'"]')
+            $('<img src="' + value.imageurl +'"></img><a href="' + url +'">' + value.title + '</a>').appendTo('div.header[num="'+index+'"]')
             
-            $('<dl id="' + index.toString() + '" />').appendTo(container_sel)
-                                                     .slideUp();
-            
-            $.each(value, function(key, value) {
-                var termhtml = '<dt>' + key + '</dt>\n';
-                var defhtml = '<dd>' + value + '</dd>\n';
-                $('dl#'+index).append(termhtml+defhtml);
-            }); // map each
+            $('<dl id="' + index.toString() + '" />').appendTo(container_sel);
+                                                     
             
             $('<hr />').appendTo(container_sel);
             
         }); // array each
+        $("div.clickable").click( function() {
+    window.location = $(this).attr("url");
+    return false;
+});
     }
        
     </script>

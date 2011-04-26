@@ -31,15 +31,17 @@ class BookPage(webapp.RequestHandler):
     
     def get(self):
         url = self.request.get('url')
-        retailer_name = self.request.get('url-retailer')
+        retailer_name = self.request.get('retailer')
+        #self.response.out.write("%s %s"%(url,retailer_name))
         
         if url and retailer_name:
             retailer = parsers.import_parser(retailer_name)
-            isbn = 3#retailer.lookup_isbn(url).isbn13
+            isbn = retailer.lookup_isbn(url).isbn13
             
             requrl = self.request.url
             newurl = requrl[:requrl.find('book')] + 'book/%s' % isbn
-            self.redirect(newurl)
+            self.response.out.write(newurl)
+            #self.redirect(newurl)
             
         elif url or retailer_name:
             #redirect user to error page stating malformed request
