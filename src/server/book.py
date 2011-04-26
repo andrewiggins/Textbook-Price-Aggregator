@@ -33,6 +33,8 @@ class BookPage(webapp.RequestHandler):
         url = self.request.get('url')
         retailer_name = self.request.get('url-retailer')
         
+        print url,retailer_name
+        
         if url and retailer_name:
             retailer = parsers.import_parser(retailer_name)
             isbn = retailer.lookup_isbn(url).isbn13
