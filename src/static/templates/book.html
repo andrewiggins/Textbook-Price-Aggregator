@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="container">
+<div id="textbook"></div>
+<div id="listings"></div>
+</div>
+    <script type="text/javascript">
+       $(function () { $.ajax
+	   ({
+	   
+	   url:'{{url}}',
+	   success: function(data) { output_textbook(data,'div#textbook'); },
+	   dataType: 'json'
+	   
+	   }); 
+	   
+	   });       
+       
+       
+    function output_textbook(data, selector)   {
+            var url = data.url;
+			var index=0			
+			var container_id = 'book'+index;
+            var container_sel = '#' + container_id;
+			alert(url);
+            $('<div id="'+container_id+'" />').hover(function() {
+                $('div.header[num="'+index+'"]').addClass('highlight');
+            }, function() {
+                $('div.header[num="'+index+'"]').removeClass('highlight');
+            }).addClass('listing').appendTo(selector);
+            
+            $('<div num="'+index+'" />').addClass('header').appendTo(container_sel).addClass('clickable').attr('url',url);
+            
+            $('<img src="' + data.imageurl +'"></img><a href="' + url +'">' + value.title + '</a>').appendTo('div.header[num="'+index+'"]');
+            
+            $('<dl id="' + index.toString() + '" />').appendTo(container_sel);                                                     
+            
+            $('<hr />').appendTo(container_sel);	
+    }
+    
+//     function output_listings(data, selector)   {
+              
+  //      $.each(data, function(index, value) {
+    //        var container_id = 'book'+index;
+      //      var container_sel = '#' + container_id;
+        //    var url = '{{url2}}' + '?url='+value.url+'&retailer='+'{{retailer}}';
+          //  $('<div id="'+container_id+'" />').hover(function() {
+            //    $('div.header[num="'+index+'"]').addClass('highlight');
+//            }, function() {
+  //              $('div.header[num="'+index+'"]').removeClass('highlight');
+    //        }).addClass('listing').appendTo(selector);
+      //      
+        //    $('<div num="'+index+'" />').addClass('header').appendTo(container_sel).addClass('clickable').attr('url',url);
+            
+          //  $('<img src="' + value.imageurl +'"></img><a href="' + url +'">' + value.title + '</a>').appendTo('div.header[num="'+index+'"]')
+            
+            //$('<dl id="' + index.toString() + '" />').appendTo(container_sel);
+                                                     
+            
+            //$('<hr />').appendTo(container_sel);
+            
+       // }); // array each
+        //$("div.clickable").click( function() {
+    //window.location = $(this).attr("url");
+    //return false;
+//});
+  //  }
+       
+    </script>
+
+
+{% endblock %}
+
