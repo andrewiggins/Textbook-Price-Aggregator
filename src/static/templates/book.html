@@ -5,6 +5,22 @@
 .book_data {
   min-height: 150px;
 }
+
+.highlight {
+  background: orange;
+}
+
+.textbook_overlay {
+    filter: alpha(opacity=70); /* for IE */
+    opacity: .7;
+    min-width: 760px; 
+    min-height: 150px;
+    width: 100%;
+    height: 100%;
+    position: absolute; 
+    top: 0; left: 0;
+    z-index: 1000;
+}
 </style>
 
 <script type="text/javascript">
@@ -16,14 +32,17 @@ $(function () {
            output_textbook(data,'div#textbook'); 
        },
        beforeSend: function(jpXHR, settings) {
-           $('<div class="overlay" />').appendTo('div#content').hide();
-           $('div#content').css('min-height', '300px');
+    	   $('#textbook').addClass('book_data');
+           $('<div class="textbook_overlay loader_img" />').appendTo('div#textbook');
            $('.overlay').fadeIn();
        },
        complete: function(jqXHR, textStatus) {
-           $('.overlay').fadeOut('slow', function() {
-               $('.overlay').remove()
-           });
+    	   $('#textbook_info').slideDown('slow', function () { // doesn't work as expected b/c height of div is not full height of image.
+    		   $(this).addClass('book_data');
+    		   $('.loader_img').fadeOut('slow', function() {
+                   $('.loader_img').remove()
+               });
+    	   });
        }
    });
 });
@@ -34,14 +53,12 @@ function output_textbook(data, selector)
         var container_sel = '#' + container_id;
 
         $('<div id="'+container_id+'" />').hover(function() {
-            $(this).addClass('highlight').css('background','orange');
+            $(this).addClass('highlight');
         }, function() {
-            $(this).removeClass('highlight').css('background','');
+            $(this).removeClass('highlight');
         }).addClass('clickable')
-          .addClass('book_data')
           .appendTo(selector)
-          .hide()
-          .slideDown();
+          .hide();
 
         var imghtml = '<img class="bookimage" src="' + data.imageurl +'"></img>';
         var linkhtml = '<a href="' + data.url +'">' + data.title + '</a>';
@@ -52,6 +69,7 @@ function output_textbook(data, selector)
             window.location = $(this).children('a').attr('href');
             return false;
         });
+      
 }
 </script>
 {% endblock head %}

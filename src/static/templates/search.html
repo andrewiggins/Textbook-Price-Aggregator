@@ -16,14 +16,18 @@ $(function () {
             output_results(data,'div#results');
         },
         beforeSend: function(jpXHR, settings) {
-            $('<div class="overlay" />').appendTo('div#content').hide();
+        	$('#results').hide();            
+        	
+        	$('<div class="overlay loader_img" />').appendTo('div#content').hide();
             $('div#content').css('min-height', '300px');
             $('.overlay').fadeIn();
         },
         complete: function(jqXHR, textStatus) {
-            $('.overlay').fadeOut('slow', function() {
-                $('.overlay').remove()
-            });
+        	$('#results').slideDown('slow', function() {
+        		$('.overlay').fadeOut('slow', function() {
+                    $('.overlay').remove()
+                });
+        	});
         }
     });
 });
@@ -46,9 +50,7 @@ function output_results(data, selector)
                 $(this).removeClass('highlight');
             }).addClass('clickable')
               .addClass('book_data')
-              .appendTo(book_container_sel)
-              .hide()
-              .slideDown();
+              .appendTo(book_container_sel);
         
         var imghtml = '<img class="bookimage" src="' + value.imageurl +'"></img>';
         var linkhtml = '<a href="' + url +'">' + value.title + '</a>';                                                   
