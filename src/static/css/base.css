@@ -92,8 +92,10 @@ hr {
 }
 
 .listing {
-    cursor: pointer;
+    cursor: default;
 }
 
-
+.clickable {
+	cursor: pointer;
+}
 
