@@ -25,6 +25,7 @@
 import server
 import parsers
 from google.appengine.ext import webapp
+from google.appengine.ext.webapp import template
 import parsers.retailers.halfdotcom as halfdotcom
 
 class BookPage(webapp.RequestHandler):
@@ -55,7 +56,13 @@ class BookPage(webapp.RequestHandler):
                 #redirect user to error page stating malformed request
                 self.response.set_status(404)
             else:        
-                self.response.out.write('BookPage of %s' % isbn)
+                path = '../static/templates/book.html'    
+                textbook_url = "../textbook/%s"%isbn
+                retailers=parsers.retailers.available_retailers()
+                listing_urls = ["../textbooklistings/%s/%s"%(retailer,isbn) for retailer in retailers]
+                template_values={"url":textbook_url,"urls":listing_urls}
+                self.response.out.write(template.render(path, template_values, True))   
+
             
     
 
