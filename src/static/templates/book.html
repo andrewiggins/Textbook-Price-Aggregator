@@ -4,9 +4,21 @@
 <script type="text/javascript">
 $(function () {
    $.ajax({
-       url:'{{url}}',
-       success: function(data) { output_textbook(data,'div#textbook'); },
-       dataType: 'json'
+       url:'{{ url }}',
+       dataType: 'json',
+       success: function(data) { 
+           output_textbook(data,'div#textbook'); 
+       },
+       beforeSend: function(jpXHR, settings) {
+           $('<div class="overlay" />').appendTo('div#content').hide();
+           $('div#content').css('min-height', '300px');
+           $('.overlay').fadeIn();
+       },
+       complete: function(jqXHR, textStatus) {
+           $('.overlay').fadeOut('slow', function() {
+               $('.overlay').remove()
+           });
+       }
    });
 });
 
@@ -20,13 +32,15 @@ function output_textbook(data, selector)
         }, function() {
             $(this).removeClass('highlight').css('background','');
         }).addClass('clickable')
-          .appendTo(selector);
+          .appendTo(selector)
+          .hide()
+          .slideDown();
 
         var imghtml = '<img class="bookimage" src="' + data.imageurl +'"></img>';
         var linkhtml = '<a href="' + data.url +'">' + data.title + '</a>';
         $(imghtml+linkhtml).appendTo(container_sel);
 
-        $('<hr />').appendTo(selector);
+        $('<hr class="clear"/>').appendTo(selector);
         $("div.clickable").click( function() {
             window.location = $(this).children('a').attr('href');
             return false;
