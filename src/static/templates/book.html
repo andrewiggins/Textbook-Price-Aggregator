@@ -1,75 +1,41 @@
 {% extends "base.html" %}
+
+{% block head %}
+<script type="text/javascript">
+$(function () {
+   $.ajax({
+       url:'{{url}}',
+       success: function(data) { output_textbook(data,'div#textbook'); },
+       dataType: 'json'
+   });
+});
+
+function output_textbook(data, selector)
+{
+        var container_id = 'textbook_info';
+        var container_sel = '#' + container_id;
+
+        $('<div id="'+container_id+'" />').hover(function() {
+            $(this).addClass('highlight').css('background','orange');
+        }, function() {
+            $(this).removeClass('highlight').css('background','');
+        }).addClass('clickable')
+          .appendTo(selector);
+
+        var imghtml = '<img class="bookimage" src="' + data.imageurl +'"></img>';
+        var linkhtml = '<a href="' + data.url +'">' + data.title + '</a>';
+        $(imghtml+linkhtml).appendTo(container_sel);
+
+        $('<hr />').appendTo(selector);
+        $("div.clickable").click( function() {
+            window.location = $(this).children('a').attr('href');
+            return false;
+        });
+}
+</script>
+{% endblock head %}
+
 {% block content %}
 <div id="textbook"></div>
 <div id="listings"></div>
-    <script type="text/javascript">
-       $(function () { $.ajax
-	   ({
-	   
-	   url:'{{url}}',
-	   success: function(data) { output_textbook(data,'div#textbook'); },
-	   dataType: 'json'
-	   
-	   }); 
-	   
-	   });       
-       
-       
-    function output_textbook(data, selector)   {
-            var url = data.url;
-			var index=0			
-			var container_id = 'textbook'+index;
-            var container_sel = '#' + container_id;
-            $('<div id="'+container_id+'" />').hover(function() {
-                $('div.header[num="'+index+'"]').addClass('highlight').css('background','orange');
-            }, function() {
-                $('div.header[num="'+index+'"]').removeClass('highlight').css('background','');
-            }).addClass('listing').appendTo(selector);
-            
-            $('<div num="'+index+'" />').addClass('header').appendTo(container_sel).addClass('clickable').attr('url',url);
-            
-            $('<img src="' + data.imageurl +'"></img><a href="' + url +'">' + data.title + '</a>').appendTo('div.header[num="'+index+'"]');
-            
-            $('<dl id="' + index.toString() + '" />').appendTo(container_sel);                                                     
-            
-            $('<hr />').appendTo(container_sel);	
-			
-			$("div.clickable").click( function() {
-				window.location = $(this).attr("url");
-				return false;
-			});
-			
-    }
-//     function output_listings(data, selector)   {
-              
-  //      $.each(data, function(index, value) {
-    //        var container_id = 'book'+index;
-      //      var container_sel = '#' + container_id;
-        //    var url = '{{url2}}' + '?url='+value.url+'&retailer='+'{{retailer}}';
-          //  $('<div id="'+container_id+'" />').hover(function() {
-            //    $('div.header[num="'+index+'"]').addClass('highlight');
-//            }, function() {
-  //              $('div.header[num="'+index+'"]').removeClass('highlight');
-    //        }).addClass('listing').appendTo(selector);
-      //      
-        //    $('<div num="'+index+'" />').addClass('header').appendTo(container_sel).addClass('clickable').attr('url',url);
-            
-          //  $('<img src="' + value.imageurl +'"></img><a href="' + url +'">' + value.title + '</a>').appendTo('div.header[num="'+index+'"]')
-            
-            //$('<dl id="' + index.toString() + '" />').appendTo(container_sel);
-                                                     
-            
-            //$('<hr />').appendTo(container_sel);
-            
-       // }); // array each
-        //$("div.clickable").click( function() {
-    //window.location = $(this).attr("url");
-    //return false;
-//});
-  //  }
-       
-    </script>
-
-
 {% endblock %}
-

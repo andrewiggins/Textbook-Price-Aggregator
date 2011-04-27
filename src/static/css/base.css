@@ -91,11 +91,10 @@ hr {
     background: yellow;
 }
 
-.listing {
-    cursor: default;
-}
-
 .clickable {
 	cursor: pointer;
 }
 
+.bookimage {
+    vertical-align: bottom;
+}

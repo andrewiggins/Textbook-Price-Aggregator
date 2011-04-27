@@ -1,12 +1,6 @@
 {% extends "base.html" %}
 
 {% block head %}
-<style type="text/css">
-.bookimage {
-    vertical-align: bottom;
-}
-</style>
-
 <script type="text/javascript">
 $(function () {
     $.getJSON('{{ url }}', function(data) {
