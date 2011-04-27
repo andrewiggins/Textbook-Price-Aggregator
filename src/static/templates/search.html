@@ -1,50 +1,54 @@
 {% extends "base.html" %}
-<link rel="stylesheet" href="/css/default.css" />
-{% block content %}
-<div id="container">
-<div id="json">
-</div>
-</div>
-    <script type="text/javascript">
-       $(function () {
-       
-       $.getJSON('{{url}}', function(data) {
-       output_json(data,'div#json');
-       });       
-       
-       });
-       
-           function output_json(data, selector)
-    {
-              
-        $.each(data, function(index, value) {
-            var container_id = 'book'+index;
-            var container_sel = '#' + container_id;
-            var url = '{{url2}}' + '?url='+value.url+'&retailer='+'{{retailer}}';
-            $('<div id="'+container_id+'" />').hover(function() {
-                $('div.header[num="'+index+'"]').addClass('highlight');
-            }, function() {
-                $('div.header[num="'+index+'"]').removeClass('highlight');
-            }).addClass('listing').appendTo(selector);
-            
-            $('<div num="'+index+'" />').addClass('header').appendTo(container_sel).addClass('clickable').attr('url',url);
-            
-            $('<img src="' + value.imageurl +'"></img><a href="' + url +'">' + value.title + '</a>').appendTo('div.header[num="'+index+'"]')
-            
-            $('<dl id="' + index.toString() + '" />').appendTo(container_sel);
-                                                     
-            
-            $('<hr />').appendTo(container_sel);
-            
-        }); // array each
-        $("div.clickable").click( function() {
-    window.location = $(this).attr("url");
-    return false;
+
+{% block head %}
+<style type="text/css">
+.bookimage {
+    vertical-align: bottom;
+}
+</style>
+
+<script type="text/javascript">
+$(function () {
+    $.getJSON('{{ url }}', function(data) {
+        output_json(data,'div#results');
+    });       
 });
-    }
-       
-    </script>
+   
+function output_json(data, selector)
+{
+    $.each(data, function(index, value) 
+    {
+        var book_container_id = 'book'+index;
+        var book_container_sel = '#' + book_container_id;
+        var url = '{{url2}}' + '?url='+value.url+'&retailer='+'{{retailer}}';
+        $('<div id="'+book_container_id+'" />').appendTo(selector);
+        
+        var book_data_id = book_container_id + '_data';
+        $('<div id="'+book_data_id+'" />').hover(function() {
+                $(this).addClass('highlight');
+            }, function() {
+                $(this).removeClass('highlight');
+            }).addClass('clickable')
+              //.attr('url',url)
+              .appendTo(book_container_sel);
+        
+        var imghtml = '<img class="bookimage" src="' + value.imageurl +'"></img>';
+        var linkhtml = '<a href="' + url +'">' + value.title + '</a>';                                                   
+        $(imghtml + linkhtml).appendTo('#' + book_data_id);
+        
+        $(book_container_sel).append('<hr/>');
+        
+    }); // array each
+    
+    $("div.clickable").click( function() {
+        window.location = $(this).children('a').attr('href');
+        return false;
+    });
+}
+   
+</script>
+{% endblock head %}
 
-
+{% block content %}
+<div id="results"></div>
 {% endblock %}
-

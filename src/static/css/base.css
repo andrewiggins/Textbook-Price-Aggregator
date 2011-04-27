@@ -75,25 +75,10 @@ hr {
   text-decoration: none;
 }
 
-#overlay {
-    background: black url(../img/loader.gif) no-repeat center;
-    opacity: .7; /* may need some more browser-specific opacity attrs */
-    width: 100%; 
-    height: 100%; /* full width and height of screen */
-    position: absolute; /* so it is not in relation to any other element */
-    top: 0; left: 0;
-    z-index: 1000; /* to make sure it is on top of every other element on the page */
-    dislay: none; /* so we can fadeIn the div */
-
-}
-
 .highlight {
     background: yellow;
 }
 
-.listing {
-    cursor: default;
+.clickable {
+  cursor: pointer;
 }
-
-
-
