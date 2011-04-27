@@ -24,28 +24,42 @@
 </style>
 
 <script type="text/javascript">
+//TODO: Trim trailing '/'
+var pathparts = window.location.pathname.split('/');
+var isbn = pathparts[pathparts.length - 1];
+var retailers;
+var textbook;
+var textbooklistings = [];
+
 $(function () {
-   $.ajax({
-       url:'{{ url }}',
-       dataType: 'json',
-       success: function(data) { 
-           output_textbook(data,'div#textbook'); 
-       },
-       beforeSend: function(jpXHR, settings) {
-    	   $('#textbook').addClass('book_data');
-           $('<div class="textbook_overlay loader_img" />').appendTo('div#textbook');
-           $('.overlay').fadeIn();
-       },
-       complete: function(jqXHR, textStatus) {
-    	   $('#textbook_info').slideDown('slow', function () { // doesn't work as expected b/c height of div is not full height of image.
-    		   $(this).addClass('book_data');
-    		   $('.loader_img').fadeOut('slow', function() {
-                   $('.loader_img').remove()
-               });
-    	   });
-       }
-   });
+   get_textbook();
+   get_retailers();
 });
+
+function get_textbook() 
+{
+    $.ajax({
+        url:'{{ url }}',
+        dataType: 'json',
+        success: function(data) {
+            textbook = data;
+            output_textbook(data,'div#textbook'); 
+        },
+        beforeSend: function(jpXHR, settings) {
+            $('#textbook').addClass('book_data');
+            $('<div class="textbook_overlay loader_img" />').appendTo('div#textbook');
+            $('.overlay').fadeIn();
+        },
+        complete: function(jqXHR, textStatus) {
+            $('#textbook_info').slideDown('slow', function () { // doesn't work as expected b/c height of div is not full height of image.
+                $(this).addClass('book_data');
+                $('.loader_img').fadeOut('slow', function() {
+                    $('.loader_img').remove()
+                });
+            });
+        }
+    });
+}
 
 function output_textbook(data, selector)
 {
@@ -70,6 +84,43 @@ function output_textbook(data, selector)
             return false;
         });
       
+}
+
+function get_retailers() 
+{
+    $.ajax({
+        url: '/retailers',
+        dataType: 'json',
+        success: function(data) {
+            retailers = data;
+            get_listings();
+        }
+    });
+}
+
+var debug;
+function get_listings() 
+{
+    $.each(retailers, function(index, retailer) {
+        $.ajax({
+            url: '/textbooklistings/' + retailer + '/' + isbn,
+            dataType: 'json',
+            success: function (data) {
+                //FIXME: concat not working
+                textbooklistings.concat(data);
+                output_listing(data);
+            }
+        });
+    });
+    
+}
+
+function output_listing (data) {
+    $.each(data, function(index, listing) {
+        $.each(listing, function(key, value) {
+            
+        });
+    });
 }
 </script>
 {% endblock head %}
