@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<div id="container">
 <div id="textbook"></div>
 <div id="listings"></div>
-</div>
     <script type="text/javascript">
        $(function () { $.ajax
 	   ({
@@ -20,24 +18,28 @@
     function output_textbook(data, selector)   {
             var url = data.url;
 			var index=0			
-			var container_id = 'book'+index;
+			var container_id = 'textbook'+index;
             var container_sel = '#' + container_id;
-			alert(url);
             $('<div id="'+container_id+'" />').hover(function() {
-                $('div.header[num="'+index+'"]').addClass('highlight');
+                $('div.header[num="'+index+'"]').addClass('highlight').css('background','orange');
             }, function() {
-                $('div.header[num="'+index+'"]').removeClass('highlight');
+                $('div.header[num="'+index+'"]').removeClass('highlight').css('background','');
             }).addClass('listing').appendTo(selector);
             
             $('<div num="'+index+'" />').addClass('header').appendTo(container_sel).addClass('clickable').attr('url',url);
             
-            $('<img src="' + data.imageurl +'"></img><a href="' + url +'">' + value.title + '</a>').appendTo('div.header[num="'+index+'"]');
+            $('<img src="' + data.imageurl +'"></img><a href="' + url +'">' + data.title + '</a>').appendTo('div.header[num="'+index+'"]');
             
             $('<dl id="' + index.toString() + '" />').appendTo(container_sel);                                                     
             
             $('<hr />').appendTo(container_sel);	
+			
+			$("div.clickable").click( function() {
+				window.location = $(this).attr("url");
+				return false;
+			});
+			
     }
-    
 //     function output_listings(data, selector)   {
               
   //      $.each(data, function(index, value) {
