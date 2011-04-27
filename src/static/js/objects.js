@@ -1,4 +1,6 @@
 /**
+ * This javascript file contains javascript methods pertaining to objects of
+ * SWAT Textbooks
  * Requires the util library: util.js
  */
 

@@ -2,31 +2,28 @@
 
 {% block head %}
 <style type="text/css">
-.book_data {
-  min-height: 150px;
+.highlight {
+    background: orange;
 }
 
-.highlight {
-  background: orange;
+#textbook {
+    position: relative;
+}
+
+.book_data {
+    min-height: 150px;
 }
 
 .textbook_overlay {
-    filter: alpha(opacity=70); /* for IE */
-    opacity: .7;
-    min-width: 760px; 
-    min-height: 150px;
-    width: 100%;
-    height: 100%;
-    position: absolute; 
-    top: 0; left: 0;
-    z-index: 1000;
+    position: relative;
 }
 </style>
 
 <script type="text/javascript">
-//TODO: Trim trailing '/'
-var pathparts = window.location.pathname.split('/');
-var isbn = pathparts[pathparts.length - 1];
+var path = window.location.pathname;
+var trimpath = (path.slice(-1) == '/') ? path.slice(0,-1) : path;
+var isbn = trimpath.split('/').slice(-1);
+
 var retailers;
 var textbook;
 var textbooklistings = [];
@@ -38,6 +35,7 @@ $(function () {
 
 function get_textbook() 
 {
+    var overlay_container = 'div#textbook';
     $.ajax({
         url:'{{ url }}',
         dataType: 'json',
@@ -46,15 +44,15 @@ function get_textbook()
             output_textbook(data,'div#textbook'); 
         },
         beforeSend: function(jpXHR, settings) {
-            $('#textbook').addClass('book_data');
-            $('<div class="textbook_overlay loader_img" />').appendTo('div#textbook');
+            $('<div class="overlay loader_img book_data" />').appendTo(overlay_container).hide();
+            $(overlay_container).addClass('book_data');
             $('.overlay').fadeIn();
         },
         complete: function(jqXHR, textStatus) {
-            $('#textbook_info').slideDown('slow', function () { // doesn't work as expected b/c height of div is not full height of image.
+            $('#textbook_info').slideDown('slow', function () { //TODO doesn't work as expected b/c height of div is not full height of image.
                 $(this).addClass('book_data');
                 $('.loader_img').fadeOut('slow', function() {
-                    $('.loader_img').remove()
+                    $(this).remove()
                 });
             });
         }
@@ -83,7 +81,6 @@ function output_textbook(data, selector)
             window.location = $(this).children('a').attr('href');
             return false;
         });
-      
 }
 
 function get_retailers() 
@@ -106,20 +103,42 @@ function get_listings()
             url: '/textbooklistings/' + retailer + '/' + isbn,
             dataType: 'json',
             success: function (data) {
-                //FIXME: concat not working
-                textbooklistings.concat(data);
-                output_listing(data);
+                textbooklistings = textbooklistings.concat(data);
+                output_listing(data, 'div#listings');
             }
         });
     });
     
 }
 
-function output_listing (data) {
+function output_listing (data, selector) {
     $.each(data, function(index, listing) {
+        var container_id = 'listing' + index
+        var header_id = container_id + '_header';
+        var data_id = container_id + '_data';
+
+        $('<div id="'+container_id+'" />').hover(function() {
+            $('#'+header_id).addClass('highlight');
+        }, function() {
+            $('#'+header_id).removeClass('highlight');
+        }).appendTo(selector)
+
+        $('<div id="'+header_id+'" />').click(function() {
+            $('#'+data_id).slideToggle();
+        }).appendTo('#'+container_id)
+        
+        $('<h4>' + listing.price + '</h4>').appendTo('#'+header_id)
+        
+        $('<dl id="'+data_id+'" />').appendTo('#'+container_id)
+                                    .slideUp();
+        
         $.each(listing, function(key, value) {
-            
+            var termhtml = '<dt>' + key + '</dt>\n';
+            var defhtml = '<dd>' + value + '</dd>\n';
+            $('dl#'+data_id).append(termhtml+defhtml);
         });
+        
+        $('<hr />').appendTo('#'+container_id);
     });
 }
 </script>

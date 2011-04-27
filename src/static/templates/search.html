@@ -9,28 +9,38 @@
 
 <script type="text/javascript">
 $(function () {
+    get_results();
+});
+
+function get_results() 
+{
+    var overlay_container = 'div#content';
     $.ajax({
         url: '{{ url }}',
         dataType: 'json',
         success: function(data) {
-            output_results(data,'div#results');
+            if (data == '')
+                $('#results').append('<h1>Try Again</h1><p>We were unable to find any matches for your search.<p>')
+            else
+                output_results(data,'div#results');
         },
         beforeSend: function(jpXHR, settings) {
-        	$('#results').hide();            
-        	
-        	$('<div class="overlay loader_img" />').appendTo('div#content').hide();
-            $('div#content').css('min-height', '300px');
+            $('#results').hide();            
+            
+            $('<div class="overlay loader_img" />').appendTo(overlay_container).hide();
+            $(overlay_container).addClass('overlay_container');
             $('.overlay').fadeIn();
         },
         complete: function(jqXHR, textStatus) {
-        	$('#results').slideDown('slow', function() {
-        		$('.overlay').fadeOut('slow', function() {
-                    $('.overlay').remove()
+            $('#results').slideDown('slow', function() {
+                $('.overlay').fadeOut('slow', function() {
+                    $(this).remove()
+                    $(overlay_container).removeClass('overlay_container');
                 });
-        	});
+            });
         }
     });
-});
+}
 
 function output_results(data, selector)
 {

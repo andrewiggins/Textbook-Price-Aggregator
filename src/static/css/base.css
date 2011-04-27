@@ -102,6 +102,11 @@ ul.tabs li #search {
     opacity: .7;
 }
 
+.overlay_container {
+  min-wdith: 760px;
+  min-height: 300px;
+}
+
 .overlay {    
     min-width: 760px; 
     min-height: 300px;
