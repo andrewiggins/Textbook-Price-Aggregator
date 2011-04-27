@@ -15,10 +15,15 @@
     {% block header %}
 	<ul class="tabs">
 	   <li id="tab-logo">
-	     <a id="logo-link" href="/" title="S.W.A.T. Textbooks">S.W.A.T. Textbooks</a> 
+	     <a id="logo-link" href="/" title="S.W.A.T. Textbooks">
+	       <img id="logo" src="/img/logo.jpg" alt="S.W.A.T. Textbooks" />
+        </a> 
 	   </li>
 	   <li id="tab-links">
-	       <a id="header-link" href="/"><h1>S.W.A.T. Textbooks</h1></a>
+	       <a id="header-link" href="/">
+	           <h1>S.W.A.T. Textbooks</h1>
+	           <p>Secretly Watching All Textbooks</p>
+           </a>
 	   </li>
 	   <li id="tab-search">
 	     <form id="search" action="/searchresults" method="get">
@@ -35,7 +40,7 @@
 	</ul>
 	{% endblock %}
   </div>
-  <hr />
+  <hr id="header-hr"/>
 	
   <div id="content">
     {% block content %}{% endblock content %}

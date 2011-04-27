@@ -3,18 +3,34 @@
 {% block head %}
 <script type="text/javascript">
 $(function () {
-    $.getJSON('{{ url }}', function(data) {
-        output_json(data,'div#results');
-    });       
+    $.ajax({
+        url: '{{ url }}',
+        dataType: 'json',
+        success: function(data) {
+            output_results(data,'div#results');
+        },
+        beforeSend: function(jpXHR, settings) {
+            $('<div class="overlay" />').appendTo('div#content').hide();
+            $('div#content').css('min-height', '300px');
+            $('.overlay').fadeIn();
+        },
+        complete: function(jqXHR, textStatus) {
+            $('.overlay').fadeOut('slow', function() {
+                $('.overlay').remove()
+            });
+        }
+    });
 });
-   
-function output_json(data, selector)
+
+function output_results(data, selector)
 {
     $.each(data, function(index, value) 
     {
         var book_container_id = 'book'+index;
         var book_container_sel = '#' + book_container_id;
-        var url = '{{url2}}' + '?url='+value.url+'&retailer='+'{{retailer}}';
+        var params = {url: value.url, retailer: '{{retailer}}' };
+        var url = '{{url2}}?' + $.param(params);
+        
         $('<div id="'+book_container_id+'" />').appendTo(selector);
         
         var book_data_id = book_container_id + '_data';
@@ -23,14 +39,15 @@ function output_json(data, selector)
             }, function() {
                 $(this).removeClass('highlight');
             }).addClass('clickable')
-              //.attr('url',url)
-              .appendTo(book_container_sel);
+              .appendTo(book_container_sel)
+              .hide()
+              .slideDown();
         
         var imghtml = '<img class="bookimage" src="' + value.imageurl +'"></img>';
         var linkhtml = '<a href="' + url +'">' + value.title + '</a>';                                                   
         $(imghtml + linkhtml).appendTo('#' + book_data_id);
         
-        $(book_container_sel).append('<hr/>');
+        $(book_container_sel).append('<hr/ class="clear">');
         
     }); // array each
     
@@ -39,7 +56,7 @@ function output_json(data, selector)
         return false;
     });
 }
-   
+
 </script>
 {% endblock head %}
 
