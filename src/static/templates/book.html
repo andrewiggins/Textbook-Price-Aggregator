@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
 {% block head %}
+<style type="text/css">
+.book_data {
+  min-height: 150px;
+}
+</style>
+
 <script type="text/javascript">
 $(function () {
    $.ajax({
@@ -32,6 +38,7 @@ function output_textbook(data, selector)
         }, function() {
             $(this).removeClass('highlight').css('background','');
         }).addClass('clickable')
+          .addClass('book_data')
           .appendTo(selector)
           .hide()
           .slideDown();

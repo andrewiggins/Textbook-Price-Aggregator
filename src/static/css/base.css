@@ -70,17 +70,6 @@ ul.tabs li #search {
   position: relative;
 }
 
-.clear {
-  clear: both;
-}
-
-#footer p, #footer a {
-  margin: 0.5em 1px;
-  text-align: center;
-  color: gray;
-  text-decoration: none;
-}
-
 .highlight {
     background: yellow;
 }
@@ -94,6 +83,17 @@ ul.tabs li #search {
     float: left;
     margin-right: .5em;
     margin-bottom: .5em;
+}
+
+.clear {
+  clear: both;
+}
+
+#footer p, #footer a {
+  margin: 0.5em 1px;
+  text-align: center;
+  color: gray;
+  text-decoration: none;
 }
 
 .overlay {
