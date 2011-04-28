@@ -80,9 +80,11 @@ ul.tabs li #search {
 
 .bookimage {
     vertical-align: bottom;
-    float: left;
     margin-right: .5em;
-    margin-bottom: .5em;
+}
+
+.top {
+  vertical-align: top;
 }
 
 .clear {

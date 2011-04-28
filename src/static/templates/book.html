@@ -17,6 +17,10 @@
 .textbook_overlay {
     position: relative;
 }
+
+.listing_header {
+    cursor: pointer;
+}
 </style>
 
 <script type="text/javascript">
@@ -50,7 +54,6 @@ function get_textbook()
         },
         complete: function(jqXHR, textStatus) {
             $('#textbook_info').slideDown('slow', function () { //TODO doesn't work as expected b/c height of div is not full height of image.
-                $(this).addClass('book_data');
                 $('.loader_img').fadeOut('slow', function() {
                     $(this).remove()
                 });
@@ -73,8 +76,9 @@ function output_textbook(data, selector)
           .hide();
 
         var imghtml = '<img class="bookimage" src="' + data.imageurl +'"></img>';
-        var linkhtml = '<a href="' + data.url +'">' + data.title + '</a>';
-        $(imghtml+linkhtml).appendTo(container_sel);
+        $('<span />').append(imghtml).appendTo(container_sel);
+        var linkhtml = '<a class="top" href="' + data.url +'">' + data.title + '</a>';
+        $('<span />').append(linkhtml).appendTo(container_sel);
 
         $('<hr class="clear"/>').appendTo(selector);
         $("div.clickable").click( function() {
@@ -121,13 +125,14 @@ function output_listing (data, selector) {
             $('#'+header_id).addClass('highlight');
         }, function() {
             $('#'+header_id).removeClass('highlight');
-        }).appendTo(selector)
+        }).appendTo(selector);
 
         $('<div id="'+header_id+'" />').click(function() {
             $('#'+data_id).slideToggle();
-        }).appendTo('#'+container_id)
+        }).addClass('listing_header')
+          .appendTo('#'+container_id);
         
-        $('<h4>' + listing.price + '</h4>').appendTo('#'+header_id)
+        $('<h4>' + listing.price + '</h4>').appendTo('#'+header_id);
         
         $('<dl id="'+data_id+'" />').appendTo('#'+container_id)
                                     .slideUp();

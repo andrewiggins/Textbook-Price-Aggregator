@@ -2,9 +2,6 @@
 
 {% block head %}
 <style type="text/css">
-.book_data {
-  min-height: 70px;
-}
 </style>
 
 <script type="text/javascript">
@@ -59,12 +56,12 @@ function output_results(data, selector)
             }, function() {
                 $(this).removeClass('highlight');
             }).addClass('clickable')
-              .addClass('book_data')
               .appendTo(book_container_sel);
         
         var imghtml = '<img class="bookimage" src="' + value.imageurl +'"></img>';
-        var linkhtml = '<a href="' + url +'">' + value.title + '</a>';                                                   
-        $(imghtml + linkhtml).appendTo('#' + book_data_id);
+        $('<span />').append(imghtml).appendTo('#' + book_data_id);
+        var linkhtml = '<a class="top" href="' + url +'">' + value.title + '</a>';
+        $('<span />').append(linkhtml).appendTo('#' + book_data_id);
         
         $(book_container_sel).append('<hr/ class="clear">');
         
