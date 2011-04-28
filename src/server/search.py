@@ -44,7 +44,7 @@ class SearchResultsPage(webapp.RequestHandler):
             else:
                 path = '../static/templates/search.html'                
                 retailer = "halfdotcom"
-                newurl = "search/%s?q=%s&type=%s"%(retailer,query,type)
+                newurl = "/search/%s?q=%s&type=%s"%(retailer,query,type)
                 url2 = "/book"
                 template_values={"url":newurl,"url2":url2,"retailer":retailer}
                 self.response.out.write(template.render(path, template_values, True))             
