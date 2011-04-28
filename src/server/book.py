@@ -38,9 +38,7 @@ class BookPage(webapp.RequestHandler):
             retailer = parsers.import_parser(retailer_name)
             isbn = retailer.lookup_isbn(url).isbn13
             
-            requrl = self.request.url
-            newurl = requrl[:requrl.find('book')] + 'book/%s' % isbn
-            self.response.out.write(newurl)
+            newurl = '/book/%s' % isbn
             self.redirect(newurl)
             return
             
