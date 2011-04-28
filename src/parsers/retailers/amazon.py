@@ -37,6 +37,8 @@ class AmazonReq:
     def lookupTitle(self, title):
         book = ecs.ItemSearch(title, SearchIndex='Books')
         return book
+    
+def lookup_listings(isbn):return []
 
 if __name__ == "__main__":
   req = AmazonReq()

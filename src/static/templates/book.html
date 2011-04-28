@@ -1,6 +1,9 @@
 {% extends "base.html" %}
-
+   
 {% block head %}
+ <script type="text/javascript" src="/js/util.js"></script>
+    <script type="text/javascript" src="/js/objects.js"></script>
+
 <style type="text/css">
 .highlight {
     background: orange;
@@ -26,7 +29,8 @@ var isbn = trimpath.split('/').slice(-1);
 
 var retailers;
 var textbook;
-var textbooklistings = [];
+var textbooklistingsdata = [];
+var done = [];
 
 $(function () {
    get_textbook();
@@ -90,6 +94,7 @@ function get_retailers()
         dataType: 'json',
         success: function(data) {
             retailers = data;
+            notdone = data
             get_listings();
         }
     });
@@ -98,20 +103,27 @@ function get_retailers()
 var debug;
 function get_listings() 
 {
+    var overlay_container = 'div#listings';
     $.each(retailers, function(index, retailer) {
         $.ajax({
             url: '/textbooklistings/' + retailer + '/' + isbn,
             dataType: 'json',
             success: function (data) {
-                textbooklistings = textbooklistings.concat(data);
-                output_listing(data, 'div#listings');
-            }
-        });
+                textbooklistingsdata = textbooklistingsdata.concat(data);
+                done.push(retailer);
+                
+                if (retailers.length == done.length)  {
+                    output_listing(data, 'div#listings');
+                }
+            },
     });
+    
+});
     
 }
 
 function output_listing (data, selector) {
+    data.sort(textbooklistings.cmp_factory(['condition', 'price']));
     $.each(data, function(index, listing) {
         var container_id = 'listing' + index
         var header_id = container_id + '_header';

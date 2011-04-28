@@ -47,7 +47,8 @@ def parse_book_page_textbook(url):
     imgURL = soup.findAll("img",{"border":"0","class":"imageborder"})[0]['src']
     info1 = soup.findAll('table',{"border":"0","cellpadding":"0","class":"pdpbg"})[0]
     title = str(info1.findAll('h1',{"class":"pdppagetitle"})[0].findAll(text=True)[0])
-    authors = [str(a.findAll(text=True)[0]) for a in info1.findAll('span',{"class":"pdplinks"})[0].findAll("a")]
+    try:authors = [str(a.findAll(text=True)[0]) for a in info1.findAll('span',{"class":"pdplinks"})[0].findAll("a")]
+    except:authors =["Unknown"]
     otherinfo = [str(a.findAll(text=True)[0]) for a in soup.findAll('td',{'style':'padding-top:10px;white-space:nowrap;'})[0].findAll('span')]
     form,isbn,isbn13,pubdate,publisher,lang = otherinfo[:5]+[otherinfo[-1]]
     return data.Textbook(url, **{'title':title,'author':','.join(authors),'publisher':publisher,'date':pubdate,'imageurl':imgURL,'language':lang,'format':form,'isbn':isbn,'isbn13':isbn13})
@@ -63,11 +64,17 @@ def parse_search_page(html):
     if numMatches == "0":return textbooks
     images=info.findAll('img',{"class":"imageborder"})
     for i,book in enumerate(bookInfo):
-        titleTag,authorTag = book.findAll("a",{"class":"ProductInfo"})[:2]
-        title = str(titleTag.find(text=True))
+        try:
+            titleTag,authorTag = book.findAll("a",{"class":"ProductInfo"})[:2]
+            author = str(authorTag.find(text=True))
+            title = str(titleTag.find(text=True))
+        except:
+            titleTag = book.findAll("a",{"class":"ProductInfo"})[0]
+            author = "Unknown"
+            title = str(titleTag.find(text=True))
         url = titleTag["href"]
         imageURL=images[i]["src"]
-        author = str(authorTag.find(text=True))
+        
         formatTag = book.find("a",{"class":"ProductFormatYear"})
         form,pubdate = formatTag.find(text=True).split(', ')
         textbooks.append(data.Textbook(url, **{'imageurl':imageURL,'title':title,'author':author,'date':pubdate,'format':form}))
@@ -102,8 +109,8 @@ if __name__=="__main__":
 #        parse_book_page_textbook(c)
 #    search(urllib2.quote("asdfasdfasd"))
 #    print time.clock()-t
-    a = search('abstract algebra')
-    print "hi"
+    a = search("n")
+    print a
     
     #tried on isbn 9780553212587, got error
     print
