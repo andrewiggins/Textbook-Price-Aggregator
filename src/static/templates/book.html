@@ -1,28 +1,20 @@
 {% extends "base.html" %}
    
 {% block head %}
- <script type="text/javascript" src="/js/util.js"></script>
-    <script type="text/javascript" src="/js/objects.js"></script>
+<script type="text/javascript" src="/js/util.js"></script>
+<script type="text/javascript" src="/js/objects.js"></script>
 
 <style type="text/css">
-.highlight {
+.highlight-orange {
     background: orange;
 }
 
-#textbook {
+#textbook, #listings {
     position: relative;
 }
 
-.book_data {
+.small_overlay_container {
     min-height: 150px;
-}
-
-.textbook_overlay {
-    position: relative;
-}
-
-.listing_header {
-    cursor: pointer;
 }
 </style>
 
@@ -33,13 +25,24 @@ var isbn = trimpath.split('/').slice(-1);
 
 var retailers;
 var textbook;
-var textbooklistingsdata = [];
+var listingsdata = [];
 var done = [];
 
+var listing_headers = ['retailer', 'condition', 'price', ''];
+
 $(function () {
-   get_textbook();
-   get_retailers();
+    $('#sort').change(function() {
+        sort_listings($(this).val());
+    }).attr('disabled', 'disabled');
+    get_textbook();
+    get_retailers();
 });
+
+function sort_listings(attrs) {
+    listingsdata.sort(textbooklistings.cmp_factory(attrs));
+    $('#tblistings tbody tr').remove();
+    output_listing_body(listingsdata, '#tblistings tbody');
+}
 
 function get_textbook() 
 {
@@ -52,14 +55,19 @@ function get_textbook()
             output_textbook(data,'div#textbook'); 
         },
         beforeSend: function(jpXHR, settings) {
-            $('<div class="overlay loader_img book_data" />').appendTo(overlay_container).hide();
-            $(overlay_container).addClass('book_data');
-            $('.overlay').fadeIn();
+            $('<div />').appendTo(overlay_container)
+                        .addClass('overlay loader_img_alpha')
+                        .addClass('small_overlay_container')
+                        .attr('id', 'textbook_overlay')
+                        .hide();
+            $(overlay_container).addClass('small_overlay_container');
+            $('#textbook_overlay').fadeIn();
         },
         complete: function(jqXHR, textStatus) {
             $('#textbook_info').slideDown('slow', function () { //TODO doesn't work as expected b/c height of div is not full height of image.
-                $('.loader_img').fadeOut('slow', function() {
-                    $(this).remove()
+                $('#textbook_overlay').fadeOut('slow', function() {
+                    $(overlay_container).removeClass('small_overlay_container');
+                    $(this).remove();
                 });
             });
         }
@@ -72,9 +80,9 @@ function output_textbook(data, selector)
         var container_sel = '#' + container_id;
 
         $('<div id="'+container_id+'" />').hover(function() {
-            $(this).addClass('highlight');
+            $(this).addClass('highlight-orange');
         }, function() {
-            $(this).removeClass('highlight');
+            $(this).removeClass('highlight-orange');
         }).addClass('clickable')
           .appendTo(selector)
           .hide();
@@ -104,64 +112,121 @@ function get_retailers()
     });
 }
 
-var debug;
 function get_listings() 
 {
-    var overlay_container = 'div#listings';
+    var overlay_container = '#listings';
+    var begun = false;
     $.each(retailers, function(index, retailer) {
         $.ajax({
             url: '/textbooklistings/' + retailer + '/' + isbn,
             dataType: 'json',
-            success: function (data) {
-                textbooklistingsdata = textbooklistingsdata.concat(data);
+            success: function (data) 
+            {
+                listingsdata = listingsdata.concat(data);
                 done.push(retailer);
                 
                 if (retailers.length == done.length)  {
-                    output_listing(data, 'div#listings');
+                    sort_listings(['condition', 'price']);
+                    output_listing_table(listingsdata);
+                    $('#sort').attr('disabled', '');
                 }
             },
+            beforeSend: function(jpXHR, settings) 
+            {
+                if (!begun) {
+                    begun = true;
+                    $('#tblistings').hide();
+                    
+                    $('<div />').appendTo(overlay_container)
+                                .addClass('overlay loader_img')
+                                .attr('id', 'listings_overlay')
+                                .hide();
+                    $(overlay_container).addClass('overlay_container');
+                    $('#listings_overlay').fadeIn();
+                }
+            },
+            complete: function(jqXHR, textStatus) 
+            {
+                if (done.length == retailers.length) 
+                {
+                    $('#tblistings').slideDown('slow', function () { //TODO doesn't slide down correctly
+                        $('#listings_overlay').fadeOut('slow', function() {
+                            $(overlay_container).removeClass('overlay_container');
+                            $(this).remove()
+                        });
+                    });
+                }
+            }
+        });
     });
-    
-});
-    
 }
 
-function output_listing (data, selector) {
-    data.sort(textbooklistings.cmp_factory(['condition', 'price']));
+function output_listing_table (data) 
+{    
+    output_listing_header('#tblistings thead');
+    output_listing_body(listingsdata, '#tblistings tbody');
+}
+
+function output_listing_header(container) 
+{
+    theader_row = $('<tr />').appendTo(container);
+    
+    $.each(listing_headers, function(index, header) {
+        $('<th />').append(header)
+                   .appendTo(theader_row);
+    });
+}
+
+function output_listing_body(data, container) {
     $.each(data, function(index, listing) {
-        var container_id = 'listing' + index
-        var header_id = container_id + '_header';
-        var data_id = container_id + '_data';
+        output_listing_row(listing, container);
+    });
+}
 
-        $('<div id="'+container_id+'" />').hover(function() {
-            $('#'+header_id).addClass('highlight');
-        }, function() {
-            $('#'+header_id).removeClass('highlight');
-        }).appendTo(selector);
+function output_listing_row(listing, container)
+{ 
+    listing_row = $('<tr />').hover(function () {
+        $(this).addClass('highlight');
+    }, function () {
+        $(this).removeClass('highlight');
+    }).click(function () {
+        window.location = $(this).find('button').val();
+    }).addClass('clickable')
+      .appendTo(container);
+    
+    $.each(listing_headers, function(index, header) {
+        td = $('<td />').appendTo(listing_row);
 
-        $('<div id="'+header_id+'" />').click(function() {
-            $('#'+data_id).slideToggle();
-        }).addClass('listing_header')
-          .appendTo('#'+container_id);
-        
-        $('<h4>' + listing.price + '</h4>').appendTo('#'+header_id);
-        
-        $('<dl id="'+data_id+'" />').appendTo('#'+container_id)
-                                    .slideUp();
-        
-        $.each(listing, function(key, value) {
-            var termhtml = '<dt>' + key + '</dt>\n';
-            var defhtml = '<dd>' + value + '</dd>\n';
-            $('dl#'+data_id).append(termhtml+defhtml);
-        });
-        
-        $('<hr />').appendTo('#'+container_id);
+        if (header == '') 
+            $('<button />').click(function () {
+                window.location = $(this).val();
+            }).attr({
+                'name': 'product_link',
+                'value': listing['url']
+            }).append('Buy Now')
+              .appendTo(td);
+        else if (header == 'price')
+            td.append(util.format_currency(listing[header], '$'));
+        else 
+            td.append(listing[header]);
     });
 }
 </script>
 {% endblock head %}
 
 {% block content %}
-<div id="textbook"></div>
-<div id="listings"></div>
+<div id="textbook"></div> //TODO: create header for book, loading gif next to it
+<div id="listings">
+    <label for="sort">Sort By:</label>
+    <select name="sort" id="sort">
+        <option value="price">Price</option>
+        <option value="condition">Condition</option>
+        <option value="retailer">Retailer</option>
+    </select> //TODO: loading gif next to this
+    <!-- <a href="">Add Sort Condition</a> //TODO -->
+    <table id="tblistings" summary="Textbook listings for the textbook (ISBN) of this page">
+        <thead></thead>
+        <tbody></tbody>
+    </table>
+</div>
 {% endblock %}

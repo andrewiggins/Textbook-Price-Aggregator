@@ -1,5 +1,37 @@
 util = {
-
+    
+    /**
+     * Formats a string or number to currency so only two decimal places are 
+     * returned, rounding the number if more decimal places are provided.
+     * @param amount the amount to format
+     * @param unit (optional, default='') string to apply to the front of the 
+     * amount as the unit symbol
+     * @return the amount formated as currency
+     */
+    format_currency: function (amount, unit) {
+        unit = (typeof(unit) == 'undefined') ? '' : unit;
+        
+        var num = parseFloat(amount);
+        if(isNaN(num)) 
+            num = 0.00;
+        
+        var minus = '';
+        if(num < 0) 
+            minus = '-';
+        
+        num = Math.abs(num);
+        num = parseInt((num + .005) * 100);
+        num = num / 100;
+        
+        s = new String(num);
+        if(s.indexOf('.') < 0) 
+            s += '.00';
+        if(s.indexOf('.') == (s.length - 2))
+            s += '0';
+        s = unit + minus + s;
+        return s;
+    },
+        
     /**
      * Returns the correct comparing function for an attribute if it exist
      * in the compare functions mapping. If it does not exist the default
