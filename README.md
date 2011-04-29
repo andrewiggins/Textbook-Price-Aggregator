@@ -1,17 +1,20 @@
 Textbook Price Aggregator
 =========================
 A project to aggregate the price of online textbook retailers on one easy website.
+This project is designed to run on Google App Engine, so to run the code locally,
+[Python] 2.5 or greater and the [Google App Engine Python SDK] must be installed.
 
-Basic Idea
-==========
+See Google App Engine Python docs on [running the code locally].
 
-1. Searches several (half.com, amazon, Barnes and Noble, coop, with room for 
-   more later) online bookstores for the desired books.
-2. Can take as input either textbook name, ISBN, or select classes from LSU 
-   (room for expansion) which will then pick the needed books
-   a. Course offerings website scraper already written.
-   b. Need a scraper for LSU Bookstore to get actual books 
-      (http://lsu.bncollege.com/webapp/wcs/stores/servlet/TBWizardView?catalogId=10001&storeId=19057&langId=-1)
-3. Sort the books based on quality and price (which will hopefully include shipping)
-4. Could augment prices by a small amount ($0.50 maybe) and have the application 
-   purchase the books from the original seller in order to monetize the service
+Usage
+=====
+
+`$python main.py` 
+
+- This will point your default web browser to our public site 
+  `http://swat-books.appspot.com`. The code in this project is the same code as 
+  on Google App Engine.
+
+[Python]: http://python.org/ "Python Website"
+[Google App Engine Python SDK]: http://code.google.com/appengine/downloads.html "Google App Engine Python SDK Download"
+[running the code locally]: http://code.google.com/appengine/docs/python/tools/devserver.html "The Google App Engine Python Development Server"

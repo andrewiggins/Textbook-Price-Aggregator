@@ -17,8 +17,14 @@ several places (in this order) for the license key:
 License: Python Software Foundation License
 """
 
-import os, urllib, string, inspect
-import hmac,hashlib,base64
+import os
+import urllib
+import urllib2
+import string
+import inspect
+import hmac
+import hashlib
+import base64
 from time import strftime, gmtime
 from xml.dom import minidom
 
@@ -204,8 +210,9 @@ def query(url):
 	"""Send the query url and return the DOM
 	
 	Exception is raised if there is errors"""
-	u = urllib.FancyURLopener(HTTP_PROXY)
-	usock = u.open(url)
+	#u = urllib.FancyURLopener(HTTP_PROXY)
+	#usock = u.open(url)
+	usock = urllib2.urlopen(url)
 	dom = minidom.parse(usock)
 	usock.close()
 
