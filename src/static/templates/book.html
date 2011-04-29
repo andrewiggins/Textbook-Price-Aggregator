@@ -32,7 +32,7 @@ function get_textbook()
     var overlay_container = '#textbook';
     var data_container = '#tbtextbook';
     $.ajax({
-        url:'{{ url }}',
+        url:'/textbook/' + isbn,
         dataType: 'json',
         success: function(data) {
             textbook = data;
