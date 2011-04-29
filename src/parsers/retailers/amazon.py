@@ -30,9 +30,6 @@ ecs.setLicenseKey('AKIAIHF4ICHMS5ME3LMQ')
 ecs.setSecretKey('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')
 ecs.setLocale('us')
 
-# condition table
-conditionTable = { "New":"Brand New", "Used":"Good"}
-
 def lookup_isbn(isbn):
     book = ecs.ItemSearch(isbn, IdType='ISBN', SearchIndex='Books', ResponseGroup='Large')
     return data.Textbook(book[0].DetailPageURL, 
@@ -49,20 +46,48 @@ def lookup_isbn(isbn):
 
 def lookup_listings(isbn):
     bookList = []
+    bookPage = "http://www.amazon.com/gp/offer-listing/%s" % (bookResults[0].ASIN)
     bookResults = ecs.ItemSearch(isbn, MerchantId='All', Condition='All', 
       SearchIndex='Books', ResponseGroup='Large')
     for i in bookResults[0].Offers.Offer:
-        bookList.append(data.TextbookListing(i.Merchant.GlancePage, 
-          **{'retailer':'Amazon', 'price':i.OfferListing.Price.FormattedPrice,
-          'condition':conditionTable[i.OfferAttributes.Condition], 'isbn':bookResults[0].ISBN,
+        bookCondition = i.OfferAttributes.SubCondition
+        if bookCondition == "mint":
+            bookCondition = "Brand New"
+        elif bookCondition == "verygood":
+            bookCondition = "Very Good"
+        elif bookCondition == "good"
+            bookCondition = "Good"
+        else
+            bookCondition = "Acceptable"
+        bookList.append(data.TextbookListing(bookPage, 
+          **{'retailer':'Amazon', 'price':i.OfferListing.Price.FormattedPrice.strip('$'),
+          'condition':bookCondition, 'isbn':bookResults[0].ISBN,
           'isbn13':bookResults[0].EAN}))
     return bookList
 
 # This will make a query given:
 # query = string as function of type
 # Type = Author, Title, or Keyword
+# Add:  Handle exceptions
 def search(query, Type='Title'):
-    pass
+    textBookList = []
+    if Type == "Author":
+        searchResult = ecs.ItemSearch(Keywords='None', Author=query, MerchantId='All',
+          Condition='All', SearchIndex='Books', ResponseGroup='OfferFull, Large')
+    elif Type == "Keyword":
+        searchResult = ecs.ItemSearch(query, MerchantId='All', Condition='All',
+          SearchIndex='Books', ResponseGroup='Large,OfferFull')
+    else:
+        searchResult = ecs.ItemSearch(Keywords='None', Title=query, MerchantId='All',
+          Condition='All', SearchIndex='Books', ResponseGroup='OfferFull, Large')
+          
+    for i in searchResult:
+        textBookList.append(data.Textbook(i.DetailPageURL, **{'imageurl':i.SmallImage.URL,
+          'title':i.Title, 'author':i.Author, 'date':i.PublicationDate, 
+          'format':i.Binding}))
+    
+    return textBookList
+    
     
 if __name__ == "__main__":
     req = AmazonReq()
