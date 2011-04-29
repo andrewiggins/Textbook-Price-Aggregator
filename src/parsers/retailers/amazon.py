@@ -22,8 +22,6 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
-import data
-import logging
 from lib import ecs
 
 # Global function calls
@@ -49,16 +47,11 @@ def lookup_listings(isbn):
     bookList = []
     bookResults = ecs.ItemSearch(isbn, MerchantId='All', Condition='All', 
       SearchIndex='Books', ResponseGroup='Large')
-    logging.info(bookResults[0].ASIN)
-    logging.info(bookResults[0].ISBN)
-    logging.info(bookResults[0].EAN)
     for i in bookResults[0].Offers.Offer:
-        logging.info(i.OfferAttributes.Condition + ' - ' + i.OfferAttributes.SubCondition)
         bookList.append(data.TextbookListing(i.Merchant.GlancePage, 
-          **{'retailer':'Amazon', 'price':i.OfferListing.Price.FormattedPrice.strip('$'),
+          **{'retailer':'Amazon', 'price':i.OfferListing.Price.FormattedPrice,
           'condition':i.OfferAttributes.Condition, 'isbn':bookResults[0].ISBN,
           'isbn13':bookResults[0].EAN}))
-    return bookList
         
 
 # This will make a query given:
