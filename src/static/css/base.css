@@ -172,14 +172,25 @@ thead {
     opacity: .7;
 }  
 
-.overlay_container {
-  min-width: 760px;
-  min-height: 300px;
-  position: relative;
+.small_overlay {
+  min-width: 760px; 
+  min-height: 150px;
+  width: 100%;
+  height: 100%;
+  position: absolute; 
+  top: 0; left: 0;
+  z-index: 1000;
 }
 
 .small_overlay_container {
     min-height: 150px;
+    position: relative;
+}
+
+.overlay_container {
+  min-width: 760px;
+  min-height: 300px;
+  position: relative;
 }
 
 .overlay {    

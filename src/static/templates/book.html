@@ -1,10 +1,6 @@
 {% extends "base.html" %}
    
 {% block head %}
-<script type="text/javascript" src="/js/util.js"></script>
-<script type="text/javascript" src="/js/objects.js"></script>
-<script type="text/javascript" src="/js/output.js"></script>
-
 <script type="text/javascript">
 var path = window.location.pathname;
 var trimpath = (path.slice(-1) == '/') ? path.slice(0,-1) : path;
@@ -45,17 +41,17 @@ function get_textbook()
         beforeSend: function(jpXHR, settings) {
             $(data_container).hide();
             $('<div />').appendTo(overlay_container)
-                        .addClass('overlay loader_img')
-                        .addClass('small_overlay_container')
+                        .addClass('small_overlay')
+                        .addClass('loader_img')
                         .attr('id', 'textbook_overlay')
                         .hide();
-            $(overlay_container).addClass('overlay_container small_overlay_container');
+            $(overlay_container).addClass('small_overlay_container');
             $('#textbook_overlay').fadeIn();
         },
         complete: function(jqXHR, textStatus) {
             $(data_container).slideDown('slow', function () { //TODO doesn't work as expected b/c height of div is not full height of image.
                 $('#textbook_overlay').fadeOut('slow', function() {
-                    $(overlay_container).removeClass('overlay_container small_overlay_container');
+                    $(overlay_container).removeClass('small_overlay_container');
                     $(this).remove();
                 });
             });
@@ -88,13 +84,6 @@ function get_listings()
             success: function (data) 
             {
                 listingsdata = listingsdata.concat(data);
-                done.push(retailer);
-                
-                if (retailers.length == done.length)  {
-                    output_listing_table();
-                    sort_listings(['condition', 'price'])
-                    $('#sort').attr('disabled', '');
-                }
             },
             beforeSend: function(jpXHR, settings) 
             {
@@ -112,8 +101,14 @@ function get_listings()
             },
             complete: function(jqXHR, textStatus) 
             {
+                done.push(retailer);
+                
                 if (done.length == retailers.length) 
                 {
+                    output_listing_table();
+                    sort_listings(['condition', 'price'])
+                    $('#sort').attr('disabled', '');
+                    
                     $(data_container).slideDown('slow', function () { //TODO doesn't slide down correctly
                         $('#listings_overlay').fadeOut('slow', function() {
                             $(overlay_container).removeClass('overlay_container');

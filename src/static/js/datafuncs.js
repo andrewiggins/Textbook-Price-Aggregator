@@ -1,9 +1,14 @@
 /**
- * This javascript file contains javascript methods pertaining to objects of
- * SWAT Textbooks
- * Requires the util library: util.js
+ * This javascript file contains javascript methods pertaining to the getting,
+ * processing, and outputing of SWAT Textbooks data.
+ * 
+ * Requires the util file: util.js
  */
 
+
+/**
+ * Requires the util file: util.js
+ */
 textbooklistings = {
 
     attrs: [],
@@ -46,4 +51,36 @@ textbooklistings = {
             return util.cmp_objs(obj1, obj2, textbooklistings.attrs, textbooklistings.cmp_mapping);
         };
     }
+};
+
+output = {
+
+    textbook: function (textbook, container, highlight) {
+        if (typeof(highlight) == 'undefined' || highlight == '')
+            highlight = 'highlight';
+        
+        $(container).click( function() {
+            window.location = $(this).find('a').attr('href');
+            return false;
+        }).addClass('clickable');
+
+        imgdiv = $('<div />').addClass('cell')
+                             .appendTo(container);
+        
+        $('<img />').addClass('bookimage top')
+                    .attr('src', textbook.imageurl)
+                    .appendTo(imgdiv);
+        
+        linkdiv = $('<div />').hover(function() {
+            $(this).addClass(highlight);
+        }, function() {
+            $(this).removeClass(highlight);
+        }).addClass('cell top')
+          .appendTo(container);        
+        
+        $('<a />').attr('href', textbook.url)
+                  .append(textbook.title)
+                  .appendTo(linkdiv);
+    }
+
 };
