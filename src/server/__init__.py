@@ -42,7 +42,7 @@ import parsers.retailers
 class HomePage(webapp.RequestHandler):
 
     def get(self):
-        path = '../static/templates/base.html'
+        path = '../static/templates/home.html'
         template_values = {}
         self.response.out.write(template.render(path, template_values, True))
 

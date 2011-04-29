@@ -1,5 +1,37 @@
 util = {
-
+    
+    /**
+     * Formats a string or number to currency so only two decimal places are 
+     * returned, rounding the number if more decimal places are provided.
+     * @param amount the amount to format
+     * @param unit (optional, default='') string to apply to the front of the 
+     * amount as the unit symbol
+     * @return the amount formated as currency
+     */
+    format_currency: function (amount, unit) {
+        unit = (typeof(unit) == 'undefined') ? '' : unit;
+        
+        var num = parseFloat(amount);
+        if(isNaN(num)) 
+            num = 0.00;
+        
+        var minus = '';
+        if(num < 0) 
+            minus = '-';
+        
+        num = Math.abs(num);
+        num = parseInt((num + .005) * 100);
+        num = num / 100;
+        
+        s = new String(num);
+        if(s.indexOf('.') < 0) 
+            s += '.00';
+        if(s.indexOf('.') == (s.length - 2))
+            s += '0';
+        s = unit + minus + s;
+        return s;
+    },
+        
     /**
      * Returns the correct comparing function for an attribute if it exist
      * in the compare functions mapping. If it does not exist the default
@@ -172,5 +204,49 @@ util = {
 	    }   
 	    
 	    return pass;
-	}
+	},
+	
+	validateISBN: function (isbn) 
+	{
+	    if(isbn.length != 10 && isbn.length != 13) {
+	        return true;
+	    }
+        
+	    var checksum = 0 
+        if(isbn.length == 10) {
+            checksum = 10 * isbn.charAt(0) + 9  * isbn.charAt(1) + 8  * isbn.charAt(2) + 7  * isbn.charAt(3) + 6* isbn.charAt(4) +  5  * isbn.charAt(5) + 4  * isbn.charAt(6) + 3  * isbn.charAt(7) + 2  * isbn.charAt(8) ;
+            if (isbn.charAt(9) == 'x' || isbn.charAt(9) == 'X') {
+                checksum += 10;
+            } else {
+                checksum += isbn.charAt(9);
+            }
+            if (checksum%11 == 0) return false;
+        } else {
+            checksum = 1 * isbn.charAt(0) +
+                       3 * isbn.charAt(1) +
+                       1 * isbn.charAt(2) +
+                       3 * isbn.charAt(3) +
+                       1 * isbn.charAt(4) +
+                       3 * isbn.charAt(5) +
+                       1 * isbn.charAt(6) +
+                       3 * isbn.charAt(7) +
+                       1 * isbn.charAt(8) +
+                       3 * isbn.charAt(9) +
+                       1 * isbn.charAt(10) +
+                       3 * isbn.charAt(11) +
+                       1 * isbn.charAt(12);
+        
+            if (checksum%10 == 0) return false;
+        }
+        
+        return true;
+	},
+	
+	validateForm: function (formName) 
+    {
+        if (document.forms[formName]["type"].value=="isbn" && util.validateISBN(document.forms[formName]["q"].value)) {
+            document.forms[formName]["q"].value="Invalid ISBN";
+            return false;        
+        }
+    }
 };

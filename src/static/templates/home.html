@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form name="mainsearch" id="mainsearch" action="/searchresults" method="get" onsubmit="return util.validateForm('mainsearch')">
+           <select name="type" class="font-resize">
+             <option value="isbn">ISBN</option>
+             <option value="Title">Title</option>
+             <option value="Author">Author</option>
+             <option value="Keyword">Keyword</option>
+           </select>
+           <input class="font-resize" type="text" name="q" />
+           <input class="font-resize" type="submit" value="Search" />
+         </form>  
+{% endblock%}

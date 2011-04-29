@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <script src=" https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="/js/util.js"></script>
   <link rel="stylesheet" href="/css/base.css" />
   <title>{% block title %}S.W.A.T. Textbooks{% endblock title %}</title>
 
@@ -26,7 +27,7 @@
            </a>
 	   </li>
 	   <li id="tab-search">
-	     <form id="search" action="/searchresults" method="get">
+	     <form name="headersearch" id="search" action="/searchresults" method="get" onsubmit="return util.validateForm('headersearch')">
 	       <select name="type">
 	         <option value="isbn">ISBN</option>
 	         <option value="Title">Title</option>
@@ -38,9 +39,9 @@
 	     </form>
 	   </li>
 	</ul>
+	<hr id="header-hr" class="clear" />
 	{% endblock %}
   </div>
-  <hr id="header-hr"/>
 	
   <div id="content">
     {% block content %}{% endblock content %}
@@ -51,8 +52,7 @@
     <hr />
     <p>
 	  Copyright © 2011 | 
-	  <a href="/contact">Contact Us</a> | 
-	  <a href="/sitemap">Sitemap</a>
+	  <a href="mailto:concerns@swat-books.appspotmail.com">Contact Us</a>
     </p>
     {% endblock %}    
   </div>
