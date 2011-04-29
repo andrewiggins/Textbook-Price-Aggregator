@@ -54,12 +54,8 @@ class BookPage(webapp.RequestHandler):
                 url = "/error/400?msg=%s" % msg
                 self.redirect(url)
             else:        
-                path = '../static/templates/book.html'    
-                textbook_url = "../textbook/%s"%isbn
-                retailers=parsers.retailers.available_retailers()
-                listing_urls = ["../textbooklistings/%s/%s"%(retailer,isbn) for retailer in retailers]
-                template_values={"url":textbook_url,"urls":listing_urls}
-                self.response.out.write(template.render(path, template_values, True))   
+                path = '../static/templates/book.html'
+                self.response.out.write(template.render(path, {}, True))   
     
 
 class TextbookLookup(webapp.RequestHandler):

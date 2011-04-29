@@ -22,8 +22,11 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
+import webbrowser
+
 def main():
-    pass
+    url = 'http://swat-books.appspot.com'
+    webbrowser.open(url)
 
 if __name__ == '__main__':
     main()
