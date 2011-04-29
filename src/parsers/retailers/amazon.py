@@ -22,12 +22,16 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
+import data
 from lib import ecs
 
 # Global function calls
 ecs.setLicenseKey('AKIAIHF4ICHMS5ME3LMQ')
 ecs.setSecretKey('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')
 ecs.setLocale('us')
+
+# condition table
+conditionTable = { "New":"Brand New", "Used":"Good"}
 
 def lookup_isbn(isbn):
     book = ecs.ItemSearch(isbn, IdType='ISBN', SearchIndex='Books', ResponseGroup='Large')
@@ -50,9 +54,9 @@ def lookup_listings(isbn):
     for i in bookResults[0].Offers.Offer:
         bookList.append(data.TextbookListing(i.Merchant.GlancePage, 
           **{'retailer':'Amazon', 'price':i.OfferListing.Price.FormattedPrice,
-          'condition':i.OfferAttributes.Condition, 'isbn':bookResults[0].ISBN,
+          'condition':conditionTable[i.OfferAttributes.Condition], 'isbn':bookResults[0].ISBN,
           'isbn13':bookResults[0].EAN}))
-        
+    return bookList
 
 # This will make a query given:
 # query = string as function of type
