@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form id="mainsearch" action="/searchresults" method="get">
+           <select name="type" id="resize">
+             <option value="isbn">ISBN</option>
+             <option value="Title">Title</option>
+             <option value="Author">Author</option>
+             <option value="Keyword">Keyword</option>
+           </select>
+           <input id="resize" type="text" name="q" />
+           <input id="resize" type="submit" value="Search" />
+         </form>  
+{% endblock%}

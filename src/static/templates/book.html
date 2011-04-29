@@ -86,8 +86,8 @@ function output_textbook(data, selector)
 
         $('<hr class="clear"/>').appendTo(selector);
         $("div.clickable").click( function() {
-            window.location = $(this).children('a').attr('href');
-           // return false;
+            window.location = $(this).find('a').attr('href');
+            return false;
         });
 }
 

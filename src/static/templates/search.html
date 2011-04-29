@@ -68,8 +68,8 @@ function output_results(data, selector)
     }); // array each
     
     $("div.clickable").click( function() {
-        window.location = $(this).children('a').attr('href');
-        //return false;
+        window.location = $(this).find('a').attr('href');
+        return false;
     });
 }
 
