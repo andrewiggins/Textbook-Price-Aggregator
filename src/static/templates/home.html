@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form id="mainsearch" action="/searchresults" method="get">
+<form name="mainsearch" id="mainsearch" action="/searchresults" method="get" onsubmit="return validateForm('mainsearch')">
            <select name="type" id="resize">
              <option value="isbn">ISBN</option>
              <option value="Title">Title</option>
