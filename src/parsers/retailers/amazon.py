@@ -53,14 +53,6 @@ def lookup_listings(isbn):
           'condition':i.OfferAttributes.Condition, 'isbn':bookResults[0].ISBN,
           'isbn13':bookResults[0].EAN}))
         
-<<<<<<< HEAD
-=======
-    def lookupTitle(self, title):
-        book = ecs.ItemSearch(title, SearchIndex='Books')
-        return book
-    
-def lookup_listings(isbn):return []
->>>>>>> 6fe62e15c0a948071a5f2ae7f9ad8656cb0e9fe3
 
 # This will make a query given:
 # query = string as function of type
