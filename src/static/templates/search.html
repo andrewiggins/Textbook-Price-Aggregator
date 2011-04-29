@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 
 {% block head %}
-<style type="text/css">
-</style>
-
+<script type="text/javascript" src="/js/output.js"></script>
 <script type="text/javascript">
 $(function () {
     get_results();
@@ -11,7 +9,8 @@ $(function () {
 
 function get_results() 
 {
-    var overlay_container = 'div#content';
+    var overlay_container = '#content';
+    var data_container = '#results';
     $.ajax({
         url: '{{ url }}',
         dataType: 'json',
@@ -19,18 +18,20 @@ function get_results()
             if (data == '')
                 $('#results').append('<h1>Try Again</h1><p>We were unable to find any matches for your search.<p>')
             else
-                output_results(data,'div#results');
+                output_results(data,'#results');
         },
         beforeSend: function(jpXHR, settings) {
-            $('#results').hide();            
-            
-            $('<div class="overlay loader_img" />').appendTo(overlay_container).hide();
+            $(data_container).hide();            
+            $('<div />').appendTo(overlay_container)
+                        .addClass('overlay loader_img')
+                        .attr('id', 'results_overlay')
+                        .hide();
             $(overlay_container).addClass('overlay_container');
-            $('.overlay').fadeIn();
+            $('#results_overlay').fadeIn();
         },
         complete: function(jqXHR, textStatus) {
-            $('#results').slideDown('slow', function() {
-                $('.overlay').fadeOut('slow', function() {
+            $(data_container).slideDown('slow', function() {
+                $('#results_overlay').fadeOut('slow', function() {
                     $(this).remove()
                     $(overlay_container).removeClass('overlay_container');
                 });
@@ -41,35 +42,18 @@ function get_results()
 
 function output_results(data, selector)
 {
-    $.each(data, function(index, value) 
+    $.each(data, function(index, textbook) 
     {
-        var book_container_id = 'book'+index;
-        var book_container_sel = '#' + book_container_id;
-        var params = {url: value.url, retailer: '{{retailer}}' };
-        var url = '{{url2}}?' + $.param(params);
+        book_div = $('<div />').attr('id', 'book'+index)
+                               .addClass('table')
+                               .appendTo(selector);
+        var params = {url: textbook.url, retailer: '{{retailer}}' };
+        textbook.url = '{{url2}}?' + $.param(params);
         
-        $('<div id="'+book_container_id+'" />').appendTo(selector);
+        output.textbook(textbook, book_div)
         
-        var book_data_id = book_container_id + '_data';
-        $('<div id="'+book_data_id+'" />').hover(function() {
-                $(this).addClass('highlight');
-            }, function() {
-                $(this).removeClass('highlight');
-            }).addClass('clickable')
-              .appendTo(book_container_sel);
+        $(selector).append('<hr/ class="clear">');
         
-        var imghtml = '<img class="bookimage" src="' + value.imageurl +'"></img>';
-        $('<span />').append(imghtml).appendTo('#' + book_data_id);
-        var linkhtml = '<a class="top" href="' + url +'">' + value.title + '</a>';
-        $('<span />').append(linkhtml).appendTo('#' + book_data_id);
-        
-        $(book_container_sel).append('<hr/ class="clear">');
-        
-    }); // array each
-    
-    $("div.clickable").click( function() {
-        window.location = $(this).find('a').attr('href');
-        return false;
     });
 }
 

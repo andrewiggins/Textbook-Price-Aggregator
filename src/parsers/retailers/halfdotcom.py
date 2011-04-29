@@ -114,3 +114,17 @@ if __name__=="__main__":
     
     #tried on isbn 9780553212587, got error
     print
+    
+'''
+With ISBN: 9780791804308
+
+Traceback (most recent call last):
+  File "C:\Program Files\Google\google_appengine\google\appengine\ext\webapp\__init__.py", line 634, in __call__
+    handler.get(*groups)
+  File "C:\Users\Andre\My Dropbox\Documents\Coding\Python\Projects\Textbook Price Aggregator\src\server\book.py", line 83, in get
+    listings = server.getjson(retailer.lookup_listings(isbn))
+  File "C:\Users\Andre\My Dropbox\Documents\Coding\Python\Projects\Textbook Price Aggregator\src\parsers\retailers\halfdotcom.py", line 91, in lookup_listings
+    return parse_book_page_listing(urllib2.urlopen("http://books.half.ebay.com/ws/web/HalfISBNSearch?isbn=%s"%urllib2.quote(s)).read())
+  File "C:\Users\Andre\My Dropbox\Documents\Coding\Python\Projects\Textbook Price Aggregator\src\parsers\retailers\halfdotcom.py", line 32, in parse_book_page_listing
+    bookData = soup.findAll('table',{"border":"0","cellpadding":"12","cellspacing":"0"})[0].findAll("table",{"width":"906","border":"0","cellpadding":"3","cellspacing":"0"})
+IndexError: list index out of range'''

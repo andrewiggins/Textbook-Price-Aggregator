@@ -81,7 +81,7 @@ ul.tabs li #search {
   clear:both;
   padding-top: 1em;
   padding-bottom: 1em;
-  position: relative;
+  /*position: relative;*/
 }
 
 /*
@@ -103,12 +103,15 @@ ul.tabs li #search {
     background: yellow;
 }
 
+.highlight-orange {
+    background: orange;
+}
+
 .clickable { 
 	cursor: pointer;
 }
 
 .bookimage {
-    vertical-align: bottom;
     margin-right: .5em;
 }
 
@@ -132,6 +135,33 @@ ul.tabs li #search {
     text-align: center;
 }
 
+/**
+ * Textbook Listing Table CSS
+ */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+thead {
+  text-transform: capitalize;
+}
+
+/**
+ * Div Grid Layout CSS
+ */
+
+.table {
+  display: table;
+  border-collapse: collapse;
+}
+
+.cell {
+  display: table-cell;
+}
+
 /*
  * Overlay & Loading Image CSS
  */
@@ -145,6 +175,11 @@ ul.tabs li #search {
 .overlay_container {
   min-width: 760px;
   min-height: 300px;
+  position: relative;
+}
+
+.small_overlay_container {
+    min-height: 150px;
 }
 
 .overlay {    
@@ -155,18 +190,4 @@ ul.tabs li #search {
     position: absolute; 
     top: 0; left: 0;
     z-index: 1000;
-}
-
-/**
- * Textbook Listing Table CSS
- */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: center;
-}
-
-thead {
-  text-transform: capitalize;
 }

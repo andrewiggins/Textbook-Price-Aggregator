@@ -3,20 +3,7 @@
 {% block head %}
 <script type="text/javascript" src="/js/util.js"></script>
 <script type="text/javascript" src="/js/objects.js"></script>
-
-<style type="text/css">
-.highlight-orange {
-    background: orange;
-}
-
-#textbook, #listings {
-    position: relative;
-}
-
-.small_overlay_container {
-    min-height: 150px;
-}
-</style>
+<script type="text/javascript" src="/js/output.js"></script>
 
 <script type="text/javascript">
 var path = window.location.pathname;
@@ -46,57 +33,34 @@ function sort_listings(attrs) {
 
 function get_textbook() 
 {
-    var overlay_container = 'div#textbook';
+    var overlay_container = '#textbook';
+    var data_container = '#tbtextbook';
     $.ajax({
         url:'{{ url }}',
         dataType: 'json',
         success: function(data) {
             textbook = data;
-            output_textbook(data,'div#textbook'); 
+            output.textbook(data, '#tbtextbook', 'highlight-orange'); 
         },
         beforeSend: function(jpXHR, settings) {
+            $(data_container).hide();
             $('<div />').appendTo(overlay_container)
                         .addClass('overlay loader_img')
                         .addClass('small_overlay_container')
                         .attr('id', 'textbook_overlay')
                         .hide();
-            $(overlay_container).addClass('small_overlay_container');
+            $(overlay_container).addClass('overlay_container small_overlay_container');
             $('#textbook_overlay').fadeIn();
         },
         complete: function(jqXHR, textStatus) {
-            $('#textbook_info').slideDown('slow', function () { //TODO doesn't work as expected b/c height of div is not full height of image.
+            $(data_container).slideDown('slow', function () { //TODO doesn't work as expected b/c height of div is not full height of image.
                 $('#textbook_overlay').fadeOut('slow', function() {
-                    $(overlay_container).removeClass('small_overlay_container');
+                    $(overlay_container).removeClass('overlay_container small_overlay_container');
                     $(this).remove();
                 });
             });
         }
     });
-}
-
-function output_textbook(data, selector)
-{
-        var container_id = 'textbook_info';
-        var container_sel = '#' + container_id;
-
-        $('<div id="'+container_id+'" />').hover(function() {
-            $(this).addClass('highlight-orange');
-        }, function() {
-            $(this).removeClass('highlight-orange');
-        }).addClass('clickable')
-          .appendTo(selector)
-          .hide();
-
-        var imghtml = '<img class="bookimage" src="' + data.imageurl +'"></img>';
-        $('<span />').append(imghtml).appendTo(container_sel);
-        var linkhtml = '<a class="top" href="' + data.url +'">' + data.title + '</a>';
-        $('<span />').append(linkhtml).appendTo(container_sel);
-
-        $('<hr class="clear"/>').appendTo(selector);
-        $("div.clickable").click( function() {
-            window.location = $(this).find('a').attr('href');
-            return false;
-        });
 }
 
 function get_retailers() 
@@ -115,6 +79,7 @@ function get_retailers()
 function get_listings() 
 {
     var overlay_container = '#listings';
+    var data_container = '#tblistings';
     var begun = false;
     $.each(retailers, function(index, retailer) {
         $.ajax({
@@ -126,7 +91,7 @@ function get_listings()
                 done.push(retailer);
                 
                 if (retailers.length == done.length)  {
-                    output_listing_table(listingsdata);
+                    output_listing_table();
                     sort_listings(['condition', 'price'])
                     $('#sort').attr('disabled', '');
                 }
@@ -135,8 +100,8 @@ function get_listings()
             {
                 if (!begun) {
                     begun = true;
-                    $('#tblistings').hide();
                     
+                    $(data_container).hide();
                     $('<div />').appendTo(overlay_container)
                                 .addClass('overlay loader_img')
                                 .attr('id', 'listings_overlay')
@@ -149,7 +114,7 @@ function get_listings()
             {
                 if (done.length == retailers.length) 
                 {
-                    $('#tblistings').slideDown('slow', function () { //TODO doesn't slide down correctly
+                    $(data_container).slideDown('slow', function () { //TODO doesn't slide down correctly
                         $('#listings_overlay').fadeOut('slow', function() {
                             $(overlay_container).removeClass('overlay_container');
                             $(this).remove()
@@ -161,7 +126,7 @@ function get_listings()
     });
 }
 
-function output_listing_table (data) 
+function output_listing_table () 
 {    
     output_listing_header('#tblistings thead');
     output_listing_body(listingsdata, '#tblistings tbody');
@@ -215,7 +180,11 @@ function output_listing_row(listing, container)
 {% endblock head %}
 
 {% block content %}
-<div id="textbook"></div> <!-- //TODO: create header for book, loading gif next to it -->
+<div id="textbook">
+    <div id="tbtextbook" class="table">
+    </div>
+    <hr class="clear"/>
+</div> <!-- //TODO: create header for book, loading gif next to it -->
 <div id="listings">
     <label for="sort">Sort By:</label>
     <select name="sort" id="sort">

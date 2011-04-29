@@ -204,5 +204,49 @@ util = {
 	    }   
 	    
 	    return pass;
-	}
+	},
+	
+	validateISBN: function (isbn) 
+	{
+	    if(isbn.length != 10 && isbn.length != 13) {
+	        return true;
+	    }
+        
+	    var checksum = 0 
+        if(isbn.length == 10) {
+            checksum = 10 * isbn.charAt(0) + 9  * isbn.charAt(1) + 8  * isbn.charAt(2) + 7  * isbn.charAt(3) + 6* isbn.charAt(4) +  5  * isbn.charAt(5) + 4  * isbn.charAt(6) + 3  * isbn.charAt(7) + 2  * isbn.charAt(8) ;
+            if (isbn.charAt(9) == 'x' || isbn.charAt(9) == 'X') {
+                checksum += 10;
+            } else {
+                checksum += isbn.charAt(9);
+            }
+            if (checksum%11 == 0) return false;
+        } else {
+            checksum = 1 * isbn.charAt(0) +
+                       3 * isbn.charAt(1) +
+                       1 * isbn.charAt(2) +
+                       3 * isbn.charAt(3) +
+                       1 * isbn.charAt(4) +
+                       3 * isbn.charAt(5) +
+                       1 * isbn.charAt(6) +
+                       3 * isbn.charAt(7) +
+                       1 * isbn.charAt(8) +
+                       3 * isbn.charAt(9) +
+                       1 * isbn.charAt(10) +
+                       3 * isbn.charAt(11) +
+                       1 * isbn.charAt(12);
+        
+            if (checksum%10 == 0) return false;
+        }
+        
+        return true;
+	},
+	
+	validateForm: function (formName) 
+    {
+        if (document.forms[formName]["type"].value=="isbn" && util.validateISBN(document.forms[formName]["q"].value)) {
+            document.forms[formName]["q"].value="Invalid ISBN";
+            return false;        
+        }
+    }
 };
