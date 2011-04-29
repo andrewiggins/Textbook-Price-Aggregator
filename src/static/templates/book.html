@@ -56,7 +56,7 @@ function get_textbook()
         },
         beforeSend: function(jpXHR, settings) {
             $('<div />').appendTo(overlay_container)
-                        .addClass('overlay loader_img_alpha')
+                        .addClass('overlay loader_img')
                         .addClass('small_overlay_container')
                         .attr('id', 'textbook_overlay')
                         .hide();
@@ -126,8 +126,8 @@ function get_listings()
                 done.push(retailer);
                 
                 if (retailers.length == done.length)  {
-                    sort_listings(['condition', 'price']);
                     output_listing_table(listingsdata);
+                    sort_listings(['condition', 'price'])
                     $('#sort').attr('disabled', '');
                 }
             },
@@ -215,14 +215,14 @@ function output_listing_row(listing, container)
 {% endblock head %}
 
 {% block content %}
-<div id="textbook"></div> //TODO: create header for book, loading gif next to it
+<div id="textbook"></div> <!-- //TODO: create header for book, loading gif next to it -->
 <div id="listings">
     <label for="sort">Sort By:</label>
     <select name="sort" id="sort">
         <option value="price">Price</option>
         <option value="condition">Condition</option>
         <option value="retailer">Retailer</option>
-    </select> //TODO: loading gif next to this
+    </select> <!-- //TODO: loading gif next to this -->
     <!-- <a href="">Add Sort Condition</a> //TODO -->
     <table id="tblistings" summary="Textbook listings for the textbook (ISBN) of this page">
         <thead></thead>
