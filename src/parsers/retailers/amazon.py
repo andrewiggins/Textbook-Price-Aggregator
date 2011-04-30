@@ -55,9 +55,9 @@ def lookup_listings(isbn):
             bookCondition = "Brand New"
         elif bookCondition == "verygood":
             bookCondition = "Very Good"
-        elif bookCondition == "good"
+        elif bookCondition == "good":
             bookCondition = "Good"
-        else
+        else:
             bookCondition = "Acceptable"
         bookList.append(data.TextbookListing(bookPage, 
           **{'retailer':'Amazon', 'price':i.OfferListing.Price.FormattedPrice.strip('$'),
