@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-------------------------------------------------------------------------------
 # Name:        amazon.py
-# Purpose:     wrapper for using AWS offered by Amazon 
+# Purpose:     wrapper for using AWS offered by Amazon
 #
 # Author(s):   Russell Jacob Marsh
 #
@@ -32,7 +32,7 @@ ecs.setLocale('us')
 
 def lookup_isbn(isbn):
     book = ecs.ItemSearch(isbn, IdType='ISBN', SearchIndex='Books', ResponseGroup='Large')
-    return data.Textbook(book[0].DetailPageURL, 
+    return data.Textbook(book[0].DetailPageURL,
       **{'title':book[0].Title,'author':book[0].Author,'publisher':book[0].Publisher,
       'date':book[0].PublicationDate,'imageurl':book[0].SmallImage.URL,
       'language':book[0].Languages.Language[0].Name,
@@ -46,14 +46,14 @@ def lookup_isbn(isbn):
 
 def lookup_listings(isbn):
     bookList = []
-    bookResults = ecs.ItemSearch(isbn, MerchantId='All', Condition='All', 
+    bookResults = ecs.ItemSearch(isbn, MerchantId='All', Condition='All',
       SearchIndex='Books', ResponseGroup='Large')
     bookPage = "http://www.amazon.com/gp/offer-listing/%s" % (bookResults[0].ASIN)
-    
+
     for i in bookResults[0].Offers.Offer:
         bookCondition = i.OfferAttributes.SubCondition
         if bookCondition == "new":
-            bookCondition == "Brand New"
+            bookCondition = "Brand New"
         elif bookCondition == "mint":
             bookCondition = "Like New"
         elif bookCondition == "verygood":
@@ -62,7 +62,7 @@ def lookup_listings(isbn):
             bookCondition = "Good"
         else:
             bookCondition = "Acceptable"
-        bookList.append(data.TextbookListing(bookPage, 
+        bookList.append(data.TextbookListing(bookPage,
           **{'retailer':'Amazon', 'price':i.OfferListing.Price.FormattedPrice.strip('$'),
           'condition':bookCondition, 'isbn':bookResults[0].ISBN,
           'isbn13':bookResults[0].EAN}))
@@ -83,15 +83,15 @@ def search(query, Type='Title'):
     else:
         searchResult = ecs.ItemSearch(Keywords='None', Title=query, MerchantId='All',
           Condition='All', SearchIndex='Books', ResponseGroup='OfferFull, Large')
-          
+
     for i in searchResult:
         textBookList.append(data.Textbook(i.DetailPageURL, **{'imageurl':i.SmallImage.URL,
-          'title':i.Title, 'author':i.Author, 'date':i.PublicationDate, 
+          'title':i.Title, 'author':i.Author, 'date':i.PublicationDate,
           'format':i.Binding}))
-    
+
     return textBookList
-    
-    
+
+
 if __name__ == "__main__":
     req = AmazonReq()
     book = req.lookupISBN("0393327795")
