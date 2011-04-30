@@ -46,13 +46,16 @@ def lookup_isbn(isbn):
 
 def lookup_listings(isbn):
     bookList = []
-    bookPage = "http://www.amazon.com/gp/offer-listing/%s" % (bookResults[0].ASIN)
     bookResults = ecs.ItemSearch(isbn, MerchantId='All', Condition='All', 
       SearchIndex='Books', ResponseGroup='Large')
+    bookPage = "http://www.amazon.com/gp/offer-listing/%s" % (bookResults[0].ASIN)
+    
     for i in bookResults[0].Offers.Offer:
         bookCondition = i.OfferAttributes.SubCondition
-        if bookCondition == "mint":
-            bookCondition = "Brand New"
+        if bookCondition == "new":
+            bookCondition == "Brand New"
+        elif bookCondition == "mint":
+            bookCondition = "Like New"
         elif bookCondition == "verygood":
             bookCondition = "Very Good"
         elif bookCondition == "good":
