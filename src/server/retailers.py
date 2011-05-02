@@ -30,5 +30,5 @@ from parsers.retailers import available_retailers
 class Retailers(webapp.RequestHandler):
     
     def get(self):
-        self.response.headers['Content-Type'] = 'text/plain'
+        self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(server.getjson(available_retailers()))

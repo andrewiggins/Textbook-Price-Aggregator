@@ -65,6 +65,6 @@ class SearchRetailer(webapp.RequestHandler):
         type = self.request.get('type')
         textbooks = server.getjson(retailer.search(query, type))
         
-        self.response.headers['Content-Type'] = 'text/plain'
+        self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(textbooks)
         

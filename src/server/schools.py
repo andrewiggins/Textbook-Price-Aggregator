@@ -22,6 +22,8 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
+import server
+import parsers
 from google.appengine.ext import webapp
 
 
@@ -36,4 +38,13 @@ class CourseLookup(webapp.RequestHandler):
     '''Handles request to /course/school for specified course lookup'''
     
     def get(self):
-        self.response.out.write("CourseLookup")
+        term = self.request.get('term')
+        dept = self.request.get('dept')
+        course = self.request.get('course')
+        
+        school_name = self.request.path.rstrip('/').split('/')[-1]
+        school = parsers.import_parser(school_name)
+        options = school.get_available_options(term, dept, course)
+        
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(server.getjson(options))

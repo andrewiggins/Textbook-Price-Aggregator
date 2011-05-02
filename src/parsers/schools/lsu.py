@@ -32,6 +32,16 @@ from lib import BeautifulSoup
 import data
 
 
+def lookup_course(c):
+    '''takes a course and returns its textbook'''
+    pass
+
+
+def lookup_listing(request_id):
+    '''takes a book's request id and returns its listing information'''
+    pass
+
+
 def get_terms():
     url = 'http://lsu.bncollege.com/webapp/wcs/stores/servlet/TBWizardView?catalogId=10001&storeId=19057&langId=-1'
     try:
@@ -50,7 +60,10 @@ def get_terms():
     return options
 
 
-def get_options(term, dept='', course='', recur_count=0):
+def get_available_options(term='', dept='', course='', recur_count=0):
+    if not term:
+        return get_terms()
+    
     url = 'http://lsu.bncollege.com/webapp/wcs/stores/servlet/TextBookProcessDropdownsCmd?campusId=17548053&termId=%s&deptId=%s&courseId=%s&sectionId=&storeId=19057&catalogId=10001&langId=-1&dojo.transport=xmlhttp&dojo.preventCache=1301120964177'
     url = url % tuple(map(urllib.quote, map(str, [term, dept, course])))
     try:
@@ -58,12 +71,13 @@ def get_options(term, dept='', course='', recur_count=0):
     except urllib2.HTTPError as httperr:
         if httperr.getcode() == 403 and recur_count < 3:
             print "err: %s \nrecur_count: %s" % (str(httperr), recur_count)
-            return get_options(term, dept, course, recur_count+1)
+            return get_available_options(term, dept, course, recur_count+1)
         else:
             print httperr.getcode()
             traceback.print_exc()
             print 'URL: %s' % url
             return {}
+
     soup = BeautifulSoup.BeautifulSoup(html)
     
     options = {}
@@ -181,17 +195,17 @@ def test_options():
     term = terms.values()[0]
     print terms
     
-    depts = get_options(term=term) 
+    depts = get_available_options(term=term) 
     dept = depts.values()[0]
     print depts
     
-    courses = get_options(term=term, dept=dept) 
+    courses = get_available_options(term=term, dept=dept) 
     course = courses.values()[0]
     print courses
     
     print term, dept, course
     
-    sections = get_options(term=term, dept=dept, course=course)
+    sections = get_available_options(term=term, dept=dept, course=course)
     print sections
     return sections
 
@@ -199,11 +213,11 @@ def test_options():
 def test_get_available_courses(term, termid):
     """Return a list of courses that have textbooks listed for that semester."""
     courses = []
-    depts = get_options(termid) 
+    depts = get_available_options(termid) 
     for dept, deptid in depts.items():
-        nums = get_options(termid, deptid)
+        nums = get_available_options(termid, deptid)
         for num, numid in nums.items():
-            sections = get_options(termid, deptid, numid)
+            sections = get_available_options(termid, deptid, numid)
             for section, sectionid in sections.items():
                 courses.append(data.Course(term, dept, num, section, sectionid))
     

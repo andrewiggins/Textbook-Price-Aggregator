@@ -64,7 +64,7 @@ class TextbookLookup(webapp.RequestHandler):
         isbn = self.request.path.rstrip('/').split('/')[-1]
         textbook = server.getjson(halfdotcom.lookup_isbn(isbn))
         
-        self.response.headers['Content-Type'] = 'text/plain'
+        self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(textbook)
     
 
@@ -78,6 +78,6 @@ class TextbookListingsLookup(webapp.RequestHandler):
         if retailer:
             listings = server.getjson(retailer.lookup_listings(isbn))
         
-        self.response.headers['Content-Type'] = 'text/plain'
+        self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(listings)
         
