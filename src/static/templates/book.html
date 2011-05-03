@@ -130,7 +130,7 @@ function get_listings()
                 if (done.length == retailers.length) 
                 {
                     output_listing_table();
-                    sort_listings(['condition', 'price'])
+                    sort_listings(['price'])
                     $('#sort').attr('disabled', '');
                     
                     $(data_container).slideDown('slow', function () { //TODO doesn't slide down correctly

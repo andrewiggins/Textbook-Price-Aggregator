@@ -23,13 +23,13 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
-
+import data
 import string
 import urllib
 import urllib2
+import logging
 import traceback
 from lib import BeautifulSoup
-import data
 
 
 def lookup_course(c):
