@@ -26,8 +26,8 @@ import data
 from lib import ecs
 
 # Global function calls
-ecs.setLicenseKey('AKIAIHF4ICHMS5ME3LMQ')
-ecs.setSecretKey('Kb66nR8hnNkVFrdwCYad8R4u0VMCyNkS0jLqKIeY')
+ecs.setLicenseKey('YOUR AMAZON LICENCE KEY')
+ecs.setSecretKey('YOUR AMAZON SECRET KEY')
 ecs.setLocale('us')
 
 def lookup_isbn(isbn):
